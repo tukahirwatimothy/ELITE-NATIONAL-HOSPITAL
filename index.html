@@ -1,11 +1,12 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elite National Hospital System</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
 
@@ -15,7 +16,12 @@
 --bg:#f4f7f6;
 }
 
-*{box-sizing:border-box;font-family:Segoe UI;margin:0;padding:0}
+*{
+box-sizing:border-box;
+font-family:Segoe UI;
+margin:0;
+padding:0
+}
 
 body{
 background:var(--bg);
@@ -129,6 +135,34 @@ font-size:28px;
 color:var(--primary);
 }
 
+/* DEPARTMENTS */
+
+.dept-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.dept{
+background:white;
+border-radius:6px;
+text-align:center;
+padding:10px;
+transition:0.3s;
+}
+
+.dept img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.dept:hover{
+transform:scale(1.05);
+}
+
 /* SECTIONS */
 
 .section{
@@ -221,6 +255,8 @@ display:none;
 <li onclick="showSection('patients')">Patients</li>
 <li onclick="showSection('doctors')">Doctors</li>
 <li onclick="showSection('appointments')">Appointments</li>
+<li onclick="showSection('medicine')">Medicine</li>
+<li onclick="showSection('prescription')">Prescriptions</li>
 </ul>
 
 </div>
@@ -252,6 +288,35 @@ display:none;
 <div class="card">
 <h3 id="appointmentCount">0</h3>
 <p>Appointments</p>
+</div>
+
+</div>
+
+<h2>Hospital Calendar</h2>
+<input type="date">
+
+<h2 style="margin-top:20px">Departments</h2>
+
+<div class="dept-grid">
+
+<div class="dept animate__animated animate__fadeIn">
+<img src="https://images.unsplash.com/photo-1580281657527-47f249e3c6b6">
+<p>Pharmacy</p>
+</div>
+
+<div class="dept animate__animated animate__fadeIn">
+<img src="https://images.unsplash.com/photo-1584516150909-c43483ee7934">
+<p>Surgery</p>
+</div>
+
+<div class="dept animate__animated animate__fadeIn">
+<img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322">
+<p>Emergency</p>
+</div>
+
+<div class="dept animate__animated animate__fadeIn">
+<img src="https://images.unsplash.com/photo-1580281780460-82d277c0e8f8">
+<p>Laboratory</p>
 </div>
 
 </div>
@@ -370,6 +435,73 @@ display:none;
 
 </div>
 
+<!-- MEDICINE -->
+
+<div id="medicine" class="section">
+
+<h2>Medicine Inventory</h2>
+
+<div class="form-group">
+<input id="mName" placeholder="Medicine Name">
+</div>
+
+<div class="form-group">
+<input id="mStock" placeholder="Stock">
+</div>
+
+<button class="btn" onclick="addMedicine()">Add Medicine</button>
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Stock</th>
+</tr>
+</thead>
+
+<tbody id="medicineTable"></tbody>
+
+</table>
+
+</div>
+
+<!-- PRESCRIPTIONS -->
+
+<div id="prescription" class="section">
+
+<h2>Prescription</h2>
+
+<div class="form-group">
+<input id="prPatient" placeholder="Patient Name">
+</div>
+
+<div class="form-group">
+<input id="prMedicine" placeholder="Medicine">
+</div>
+
+<div class="form-group">
+<input id="prDose" placeholder="Dosage">
+</div>
+
+<button class="btn" onclick="addPrescription()">Save</button>
+
+<table>
+
+<thead>
+<tr>
+<th>Patient</th>
+<th>Medicine</th>
+<th>Dosage</th>
+</tr>
+</thead>
+
+<tbody id="prescriptionTable"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 <div id="toast"></div>
@@ -378,54 +510,43 @@ display:none;
 
 /* STORAGE */
 
-let patients = JSON.parse(localStorage.getItem("patients")) || []
-let doctors = JSON.parse(localStorage.getItem("doctors")) || []
-let appointments = JSON.parse(localStorage.getItem("appointments")) || []
+let patients=JSON.parse(localStorage.getItem("patients"))||[]
+let doctors=JSON.parse(localStorage.getItem("doctors"))||[]
+let appointments=JSON.parse(localStorage.getItem("appointments"))||[]
+let medicines=JSON.parse(localStorage.getItem("medicines"))||[]
+let prescriptions=JSON.parse(localStorage.getItem("prescriptions"))||[]
 
 /* LOGIN */
 
 function login(){
-
-let u=document.getElementById("username").value
-let p=document.getElementById("password").value
-
-if(u==="admin" && p==="1234"){
-document.getElementById("loginPage").style.display="none"
-}
-else alert("Invalid login")
-
+if(username.value==="admin" && password.value==="1234"){
+loginPage.style.display="none"
+}else alert("Invalid login")
 }
 
-/* NAVIGATION */
+/* NAV */
 
 function showSection(id){
-
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
-
 document.getElementById(id).classList.add("active")
-
 }
 
 /* PATIENT */
 
 function addPatient(){
 
-let name=pName.value
-let phone=pPhone.value
-let dept=pDept.value
-
-let patient={
+let p={
 id:"P"+Date.now(),
-name,phone,dept
+name:pName.value,
+phone:pPhone.value,
+dept:pDept.value
 }
 
-patients.push(patient)
+patients.push(p)
 
 localStorage.setItem("patients",JSON.stringify(patients))
 
 renderPatients()
-
-toast("Patient added")
 
 }
 
@@ -433,19 +554,17 @@ toast("Patient added")
 
 function addDoctor(){
 
-let doc={
+let d={
 id:"D"+Date.now(),
 name:dName.value,
 spec:dSpec.value
 }
 
-doctors.push(doc)
+doctors.push(d)
 
 localStorage.setItem("doctors",JSON.stringify(doctors))
 
 renderDoctors()
-
-toast("Doctor added")
 
 }
 
@@ -465,18 +584,50 @@ localStorage.setItem("appointments",JSON.stringify(appointments))
 
 renderAppointments()
 
-toast("Appointment booked")
+}
+
+/* MEDICINE */
+
+function addMedicine(){
+
+let m={
+name:mName.value,
+stock:mStock.value
+}
+
+medicines.push(m)
+
+localStorage.setItem("medicines",JSON.stringify(medicines))
+
+renderMedicine()
 
 }
 
-/* RENDER FUNCTIONS */
+/* PRESCRIPTION */
+
+function addPrescription(){
+
+let p={
+patient:prPatient.value,
+medicine:prMedicine.value,
+dose:prDose.value
+}
+
+prescriptions.push(p)
+
+localStorage.setItem("prescriptions",JSON.stringify(prescriptions))
+
+renderPrescription()
+
+}
+
+/* RENDER */
 
 function renderPatients(){
 
 patientTable.innerHTML=""
 
 patients.forEach(p=>{
-
 patientTable.innerHTML+=`
 <tr>
 <td>${p.id}</td>
@@ -485,7 +636,6 @@ patientTable.innerHTML+=`
 <td>${p.dept}</td>
 </tr>
 `
-
 })
 
 patientCount.innerText=patients.length
@@ -497,7 +647,6 @@ function renderDoctors(){
 doctorTable.innerHTML=""
 
 doctors.forEach(d=>{
-
 doctorTable.innerHTML+=`
 <tr>
 <td>${d.id}</td>
@@ -505,7 +654,6 @@ doctorTable.innerHTML+=`
 <td>${d.spec}</td>
 </tr>
 `
-
 })
 
 doctorCount.innerText=doctors.length
@@ -517,7 +665,6 @@ function renderAppointments(){
 appointmentTable.innerHTML=""
 
 appointments.forEach(a=>{
-
 appointmentTable.innerHTML+=`
 <tr>
 <td>${a.patient}</td>
@@ -525,10 +672,40 @@ appointmentTable.innerHTML+=`
 <td>${a.date}</td>
 </tr>
 `
-
 })
 
 appointmentCount.innerText=appointments.length
+
+}
+
+function renderMedicine(){
+
+medicineTable.innerHTML=""
+
+medicines.forEach(m=>{
+medicineTable.innerHTML+=`
+<tr>
+<td>${m.name}</td>
+<td>${m.stock}</td>
+</tr>
+`
+})
+
+}
+
+function renderPrescription(){
+
+prescriptionTable.innerHTML=""
+
+prescriptions.forEach(p=>{
+prescriptionTable.innerHTML+=`
+<tr>
+<td>${p.patient}</td>
+<td>${p.medicine}</td>
+<td>${p.dose}</td>
+</tr>
+`
+})
 
 }
 
@@ -542,7 +719,6 @@ patientTable.innerHTML=""
 
 patients.filter(p=>p.name.toLowerCase().includes(q))
 .forEach(p=>{
-
 patientTable.innerHTML+=`
 <tr>
 <td>${p.id}</td>
@@ -551,33 +727,19 @@ patientTable.innerHTML+=`
 <td>${p.dept}</td>
 </tr>
 `
-
 })
 
 }
 
-/* TOAST */
-
-function toast(msg){
-
-let t=document.getElementById("toast")
-
-t.innerText=msg
-
-t.style.display="block"
-
-setTimeout(()=>t.style.display="none",3000)
-
-}
-
-/* INITIAL RENDER */
+/* INIT */
 
 renderPatients()
 renderDoctors()
 renderAppointments()
+renderMedicine()
+renderPrescription()
 
 </script>
 
 </body>
 </html>
-```
