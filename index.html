@@ -76,6 +76,14 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 .facility-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
 .facility-gallery img { width: 100%; height: 140px; border-radius: 4px; object-fit: cover; transition: transform 0.3s; cursor: pointer; }
 .facility-gallery img:hover { transform: scale(1.05); }
+
+/* CALENDAR */
+#calendar { background: white; padding: 20px; border-radius: 6px; max-width: 350px; }
+#calendar h3 { text-align:center; margin-bottom: 15px; }
+#calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap:5px; }
+#calendar-grid div { padding:8px; text-align:center; border-radius:4px; cursor:pointer; }
+#calendar-grid div.today { background: var(--primary-theme); color:white; }
+#calendar-grid div:hover { background:#cce5ff; }
 </style>
 </head>
 <body>
@@ -102,6 +110,7 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
         <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
         <li onclick="switchView('laboratory', this)"><i class="fas fa-microscope"></i> Lab Requests</li>
         <li onclick="switchView('billing', this)"><i class="fas fa-file-invoice-dollar"></i> Billing</li>
+        <li onclick="switchView('calendar', this)"><i class="fas fa-calendar-alt"></i> Calendar</li>
     </ul>
     <div style="padding:20px;">
         <button class="action-btn btn-destructive" style="width:100%;" onclick="wipeSystemData()">PURGE ALL DATA</button>
@@ -186,6 +195,12 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
     <div class="facility-gallery" id="medicine-gallery"></div>
 </div>
 
+<!-- CALENDAR SECTION -->
+<div id="calendar" class="view-section">
+    <h3>📅 Hospital Calendar</h3>
+    <div id="calendar-grid"></div>
+</div>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
 AOS.init({ duration: 800, once: true });
@@ -239,6 +254,7 @@ function refreshUserInterface(){
     document.getElementById('stat-meds').innerText=coreState.pharmacy.length;
     renderTable('pharmacy',coreState.pharmacy,['description','type','quantity'],true);
     renderMedicineGallery();
+    renderCalendar();
 }
 
 function renderTable(type,data,columns,alertStock=false){
@@ -268,13 +284,4 @@ function wipeSystemData(){
 const medicineImages=[
     'https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=400',
     'https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=400',
-    'https://images.unsplash.com/photo-1612384003835-0ccf8f4c9bdb?w=400',
-    'https://images.unsplash.com/photo-1592928308425-efaa409f8cd1?w=400',
-    'https://images.unsplash.com/photo-1597764691242-d63dcdfc4d42?w=400',
-    'https://images.unsplash.com/photo-1611162617211-f28c7f2bc0d4?w=400',
-    'https://images.unsplash.com/photo-1600181959436-9e50a1f67bb1?w=400',
-    'https://images.unsplash.com/photo-1592496001029-f1e58a4b0b43?w=400',
-    'https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=400',
-    'https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=400',
-    'https://images.unsplash.com/photo-1612384003835-0ccf8f4c9bdb?w=400',
-    'https://images.unsplash.com/photo-159292830
+    'https
