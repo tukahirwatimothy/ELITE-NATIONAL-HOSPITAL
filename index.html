@@ -1,103 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite National HMS - Pro Edition</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite National HMS - Pro Edition</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+    
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+        }
+        * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',sans-serif; }
+        body { background:var(--bg); display:flex; overflow-x:hidden; min-height: 100vh; }
 
-<style>
-:root {
-    --primary: #0056b3;
-    --secondary: #2c3e50;
-    --accent: #e74c3c;
-    --bg: #f8f9fa;
-    --glass: rgba(255,255,255,0.9);
-}
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',sans-serif; }
-body { background:var(--bg); display:flex; overflow-x:hidden; }
+        /* --- LOGIN --- */
+        #loginPage { position:fixed; width:100%; height:100%; background:linear-gradient(45deg,#1a252f,#0056b3); display:flex; align-items:center; justify-content:center; z-index:2000; top:0; left:0; }
+        .login-box { background:white; padding:40px; border-radius:12px; width:350px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.3); }
+        .login-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:6px; }
+        
+        .btn { padding:10px 20px; border:none; background:var(--primary); color:white; cursor:pointer; border-radius:4px; transition:0.3s; }
+        .btn:hover { background:#004494; transform:translateY(-2px); }
 
-/* --- LOGIN --- */
-#loginPage { position:fixed; width:100%; height:100%; background:linear-gradient(45deg,#1a252f,#0056b3); display:flex; align-items:center; justify-content:center; z-index:2000; }
-.login-box { background:white; padding:40px; border-radius:12px; width:350px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.3); }
-.login-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:6px; }
-.btn { padding:10px 20px; border:none; background:var(--primary); color:white; cursor:pointer; border-radius:4px; transition:0.3s; }
-.btn:hover { background:#004494; transform:translateY(-2px); }
+        /* --- SIDEBAR --- */
+        .sidebar { width:260px; background:var(--secondary); color:white; height:100vh; position:fixed; transition:0.3s; z-index: 100; }
+        .sidebar h2 { padding:30px 20px; text-transform:uppercase; letter-spacing:2px; font-size:1.2rem; }
+        .sidebar li { padding:15px 25px; list-style:none; cursor:pointer; transition:0.3s; border-left:4px solid transparent; }
+        .sidebar li:hover, .sidebar li.active { background:#34495e; border-left:4px solid var(--primary); }
+        .sidebar i { margin-right:10px; width:20px; }
 
-/* --- SIDEBAR --- */
-.sidebar { width:260px; background:var(--secondary); color:white; height:100vh; position:fixed; transition:0.3s; }
-.sidebar h2 { padding:30px 20px; text-transform:uppercase; letter-spacing:2px; font-size:1.2rem; }
-.sidebar li { padding:15px 25px; list-style:none; cursor:pointer; transition:0.3s; border-left:4px solid transparent; }
-.sidebar li:hover, .sidebar li.active { background:#34495e; border-left:4px solid var(--primary); }
-.sidebar i { margin-right:10px; width:20px; }
+        /* --- MAIN --- */
+        .main { margin-left:260px; padding:40px; width:calc(100% - 260px); }
+        .section { display:none; animation:fadeIn 0.5s ease-in-out; }
+        .section.active { display:block; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-/* --- MAIN --- */
-.main { margin-left:260px; padding:40px; width:100%; }
-.section { display:none; animation:fadeIn 0.5s ease-in-out; }
-.section.active { display:block; }
-@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+        /* --- CARDS --- */
+        .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:25px; margin-bottom:40px; }
+        .card { background:white; padding:30px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.05); text-align:center; }
+        .card i { font-size:2.5rem; color:var(--primary); margin-bottom:15px; }
 
-/* --- CARDS --- */
-.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:25px; margin-bottom:40px; }
-.card { background:white; padding:30px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.05); text-align:center; transition:0.4s; }
-.card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
-.card i { font-size:2.5rem; color:var(--primary); margin-bottom:15px; }
+        /* --- TABLES --- */
+        table { width:100%; border-collapse:collapse; background:white; border-radius:8px; margin-top: 20px; }
+        th, td { padding:15px; text-align:left; border-bottom:1px solid #eee; }
+        th { background:#fcfcfc; }
 
-/* --- TABLES --- */
-table { width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; }
-th, td { padding:15px; text-align:left; border-bottom:1px solid #eee; }
-th { background:#fcfcfc; color:var(--secondary); }
-tr.slide-in { animation:slideIn 0.5s ease forwards; opacity:0; cursor:pointer; }
-tr:hover { background:#f0f8ff; }
-@keyframes slideIn { from {opacity:0; transform:translateX(-20px);} to {opacity:1; transform:translateX(0);} }
+        /* --- PHARMACY --- */
+        .stock-pulse { display:inline-block; padding:4px 10px; border-radius:20px; font-weight:bold; font-size: 0.8rem; }
+        .low-stock { background:#ffdada; color:#c0392b; animation:pulse 1.5s infinite; }
+        @keyframes pulse {0%{opacity:1;}50%{opacity:0.5;}100%{opacity:1;} }
 
-/* --- PHARMACY --- */
-.stock-pulse { display:inline-block; padding:4px 10px; border-radius:20px; font-weight:bold; }
-.low-stock { background:#ffdada; color:#c0392b; animation:pulse 1.5s infinite; }
-@keyframes pulse {0%{opacity:1;}50%{opacity:0.5;}100%{opacity:1;} }
-.med-img { width:30px; height:30px; margin-right:8px; vertical-align:middle; }
+        /* --- GALLERY --- */
+        .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
+        .gallery img { width:100%; height:120px; object-fit:cover; border-radius:8px; }
 
-/* --- GALLERY --- */
-.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
-.gallery img { width:100%; height:120px; object-fit:cover; border-radius:8px; transition:0.4s; cursor:pointer; }
-.gallery img:hover { transform:scale(1.05); filter:brightness(1.1); }
-.doc-photo { width:45px; height:45px; border-radius:50%; object-fit:cover; border:2px solid var(--primary); }
+        /* --- NOTIFICATIONS --- */
+        #notifBar { background:var(--primary); color:white; padding:10px; margin-bottom:20px; border-radius:6px; overflow:hidden; }
+        #notifBar span { display:inline-block; animation:scrollNotif 15s linear infinite; }
+        @keyframes scrollNotif {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
 
-/* --- CALENDAR --- */
-#calendar { background:white; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:20px; }
-
-/* --- NOTIFICATIONS --- */
-#notifBar { background:var(--primary); color:white; padding:10px; margin-bottom:20px; border-radius:6px; overflow:hidden; white-space:nowrap; }
-#notifBar span { display:inline-block; padding-right:50px; animation:scrollNotif 15s linear infinite; }
-@keyframes scrollNotif {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
-
-/* --- MODAL --- */
-.modal { display:none; position:fixed; z-index:3000; padding-top:100px; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.6);}
-.modal-content { background:white; margin:auto; padding:20px; border-radius:8px; width:400px; position:relative; animation:fadeInModal 0.5s; }
-.close { color:#aaa; position:absolute; top:10px; right:15px; font-size:28px; font-weight:bold; cursor:pointer; }
-.close:hover { color:#000; }
-@keyframes fadeInModal { from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);} }
-</style>
+        /* --- MODAL --- */
+        .modal { display:none; position:fixed; z-index:3000; padding-top:100px; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6);}
+        .modal-content { background:white; margin:auto; padding:20px; border-radius:8px; width:400px; position:relative; }
+        .close { color:#aaa; position:absolute; top:10px; right:15px; font-size:28px; cursor:pointer; }
+    </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginPage">
-    <div class="login-box" data-aos="zoom-in">
+    <div class="login-box">
         <i class="fas fa-hospital-symbol" style="font-size:3rem; color:#0056b3; margin-bottom:20px;"></i>
         <h2>HMS Portal</h2>
         <p style="color:#666; font-size:0.9rem; margin-bottom:20px;">Elite National Hospital System</p>
         <input id="username" placeholder="Username (admin or staff)">
         <input id="password" type="password" placeholder="Password">
         <button class="btn" style="width:100%;" onclick="handleLogin()">Sign In</button>
-        <p style="margin-top:15px; font-size:0.7rem; color:#888;">Hint: admin/1234 or staff/staff2026</p>
+        <p style="margin-top:15px; font-size:0.7rem; color:#888;">Hint: admin/1234</p>
     </div>
 </div>
 
-<!-- SIDEBAR -->
 <nav class="sidebar">
     <h2><i class="fas fa-heartbeat"></i> Elite Nat.</h2>
     <ul>
@@ -105,87 +90,56 @@ tr:hover { background:#f0f8ff; }
         <li onclick="showSection('patients', this)"><i class="fas fa-user-injured"></i> Patients</li>
         <li onclick="showSection('doctors', this)"><i class="fas fa-user-md"></i> Doctors</li>
         <li onclick="showSection('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
-        <li onclick="showSection('calendar', this)"><i class="fas fa-calendar-alt"></i> Calendar</li>
     </ul>
 </nav>
 
 <div class="main">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-    <div id="notifBar"><span>⚠️ Low stock alert: Paracetamol | New appointment: John Doe | ⚠️ Low stock: Insulin</span></div>
-    <div class="cards">
-        <div class="card" data-aos="fade-up"><i class="fas fa-users"></i><h3 id="count-patients">0</h3><p>Total Patients</p></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-stethoscope"></i><h3 id="count-doctors">0</h3><p>Active Doctors</p></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-box-tissue"></i><h3 id="count-meds">0</h3><p>Meds in Stock</p></div>
+    <div id="dashboard" class="section active">
+        <div id="notifBar"><span>⚠️ Low stock alert: Paracetamol | New appointment: John Doe | ⚠️ Low stock: Insulin</span></div>
+        <div class="cards">
+            <div class="card"><i class="fas fa-users"></i><h3 id="count-patients">0</h3><p>Total Patients</p></div>
+            <div class="card"><i class="fas fa-stethoscope"></i><h3 id="count-doctors">0</h3><p>Active Doctors</p></div>
+            <div class="card"><i class="fas fa-box-tissue"></i><h3 id="count-meds">0</h3><p>Meds in Stock</p></div>
+        </div>
+        <h2 style="margin-bottom:20px;">Facility Overview</h2>
+        <div class="gallery">
+            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=400">
+            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400">
+            <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=400">
+            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=400">
+        </div>
     </div>
-    <h2 style="margin-bottom:20px;">Facility Overview</h2>
-    <div class="gallery">
-        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=400" alt="Lobby">
-        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400" alt="Lab">
-        <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=400" alt="Room">
-        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=400" alt="Surgery">
-        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=400" alt="Tech">
+
+    <div id="patients" class="section">
+        <h2>Patient Registry</h2>
+        <div style="margin: 20px 0;">
+            <input id="pName" placeholder="Full Name" style="padding:8px;">
+            <input id="pAge" type="number" placeholder="Age" style="padding:8px;">
+            <button class="btn" onclick="addPatient()">Add Record</button>
+        </div>
+        <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Status</th></tr></thead>
+            <tbody id="patientTable"></tbody>
+        </table>
+    </div>
+
+    <div id="doctors" class="section">
+        <h2>Medical Staff</h2>
+        <table>
+            <thead><tr><th>Photo</th><th>Name</th><th>Specialization</th></tr></thead>
+            <tbody id="doctorTable"></tbody>
+        </table>
+    </div>
+
+    <div id="pharmacy" class="section">
+        <h2>Pharmacy Inventory</h2>
+        <table>
+            <thead><tr><th>Medicine</th><th>Current Stock</th><th>Alert Status</th></tr></thead>
+            <tbody id="medicineTable"></tbody>
+        </table>
     </div>
 </div>
 
-<!-- PATIENTS -->
-<div id="patients" class="section">
-    <h2>Patient Registry</h2>
-    <div class="form-group">
-        <input id="pName" placeholder="Full Name">
-        <input id="pAge" type="number" placeholder="Age">
-        <input id="pPhone" placeholder="Phone Number">
-        <button class="btn" onclick="addPatient()">Add Record</button>
-    </div>
-    <table>
-        <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Phone</th><th>Status</th></tr></thead>
-        <tbody id="patientTable"></tbody>
-    </table>
-</div>
-
-<!-- DOCTORS -->
-<div id="doctors" class="section">
-    <h2>Medical Staff</h2>
-    <div class="form-group">
-        <input id="dName" placeholder="Dr. Name">
-        <select id="dSpec">
-            <option value="Cardiology">Cardiology</option>
-            <option value="Neurology">Neurology</option>
-            <option value="Pediatrics">Pediatrics</option>
-            <option value="General">General Medicine</option>
-        </select>
-        <button class="btn" onclick="addDoctor()">Add Doctor</button>
-    </div>
-    <table>
-        <thead><tr><th>Photo</th><th>Name</th><th>Specialization</th></tr></thead>
-        <tbody id="doctorTable"></tbody>
-    </table>
-</div>
-
-<!-- PHARMACY -->
-<div id="pharmacy" class="section">
-    <h2>Pharmacy Inventory</h2>
-    <div class="form-group">
-        <input id="mName" placeholder="Medicine Name">
-        <input id="mQty" type="number" placeholder="Stock Quantity">
-        <button class="btn" onclick="addMedicine()">Update Stock</button>
-    </div>
-    <table>
-        <thead><tr><th>Medicine</th><th>Current Stock</th><th>Alert Status</th></tr></thead>
-        <tbody id="medicineTable"></tbody>
-    </table>
-</div>
-
-<!-- CALENDAR -->
-<div id="calendar" class="section">
-    <h2>Appointments & Schedule</h2>
-    <div id="fcCalendar"></div>
-</div>
-
-</div>
-
-<!-- MODAL -->
 <div id="modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -194,44 +148,86 @@ tr:hover { background:#f0f8ff; }
 </div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
 <script>
-AOS.init();
+    AOS.init();
 
-// --- DB ---
-let db = {
-    patients: JSON.parse(localStorage.getItem('hms_patients'))||[],
-    doctors: JSON.parse(localStorage.getItem('hms_doctors'))||[],
-    meds: JSON.parse(localStorage.getItem('hms_meds'))||[]
-};
+    // Data Storage (Local Storage)
+    let db = {
+        patients: JSON.parse(localStorage.getItem('hms_patients')) || [
+            {id: 'P-101', name: 'John Doe', age: 45, phone: '555-0199'}
+        ],
+        doctors: JSON.parse(localStorage.getItem('hms_doctors')) || [
+            {name: 'Dr. Smith', spec: 'Cardiology', img: 'https://i.pravatar.cc/150?u=1'}
+        ],
+        meds: JSON.parse(localStorage.getItem('hms_meds')) || [
+            {name: 'Paracetamol', qty: 5, img: 'https://cdn-icons-png.flaticon.com/512/833/833314.png'}
+        ]
+    };
 
-function updateDB(){ localStorage.setItem('hms_patients',JSON.stringify(db.patients)); localStorage.setItem('hms_doctors',JSON.stringify(db.doctors)); localStorage.setItem('hms_meds',JSON.stringify(db.meds)); renderAll(); }
+    function updateDB(){ 
+        localStorage.setItem('hms_patients', JSON.stringify(db.patients)); 
+        localStorage.setItem('hms_doctors', JSON.stringify(db.doctors)); 
+        localStorage.setItem('hms_meds', JSON.stringify(db.meds)); 
+        renderAll(); 
+    }
 
-// --- AUTH ---
-function handleLogin(){ const u=document.getElementById('username').value; const p=document.getElementById('password').value; if((u==='admin'&&p==='1234')||(u==='staff'&&p==='staff2026')){document.getElementById('loginPage').style.display='none';}else{alert('Invalid Credentials');} }
+    // Auth
+    function handleLogin(){ 
+        const u = document.getElementById('username').value; 
+        const p = document.getElementById('password').value; 
+        if((u==='admin' && p==='1234') || (u==='staff' && p==='staff2026')){
+            document.getElementById('loginPage').style.display='none';
+            renderAll();
+        } else {
+            alert('Invalid Credentials');
+        } 
+    }
 
-// --- NAV ---
-function showSection(id,el){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.sidebar li').forEach(li=>li.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); }
+    // Navigation
+    function showSection(id, el){ 
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
+        document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active')); 
+        document.getElementById(id).classList.add('active'); 
+        el.classList.add('active'); 
+    }
 
-// --- PATIENT/DOCTOR/MED LOGIC ---
-function addPatient(){ const name=document.getElementById('pName').value; const age=document.getElementById('pAge').value; const phone=document.getElementById('pPhone').value; if(!name||!age)return alert("Missing Info"); db.patients.push({id:'P-'+Math.floor(Math.random()*9000),name,age,phone}); document.getElementById('pName').value=''; document.getElementById('pAge').value=''; document.getElementById('pPhone').value=''; updateDB(); }
-function addDoctor(){ const name=document.getElementById('dName').value; const spec=document.getElementById('dSpec').value; if(!name)return; db.doctors.push({name,spec,img:`https://i.pravatar.cc/150?u=${name}`}); document.getElementById('dName').value=''; updateDB(); }
-function addMedicine(){ const name=document.getElementById('mName').value; const qty=parseInt(document.getElementById('mQty').value); if(!name||isNaN(qty)) return; db.meds.push({name,qty,img:`https://cdn-icons-png.flaticon.com/512/833/833314.png`}); document.getElementById('mName').value=''; document.getElementById('mQty').value=''; updateDB(); }
+    // Logic
+    function addPatient(){ 
+        const name = document.getElementById('pName').value; 
+        const age = document.getElementById('pAge').value; 
+        if(!name || !age) return alert("Missing Info"); 
+        db.patients.push({id:'P-'+Math.floor(Math.random()*9000), name, age}); 
+        updateDB(); 
+    }
 
-// --- RENDER ---
-function renderAll(){
-    // Patients
-    document.getElementById('patientTable').innerHTML=db.patients.map(p=>`<tr class="slide-in" onclick="showModal('patient','${p.id}')"><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td><td>${p.phone}</td><td><span style="color:green">● Stable</span></td></tr>`).join('');
-    // Doctors
-    document.getElementById('doctorTable').innerHTML=db.doctors.map(d=>`<tr class="slide-in" onclick="showModal('doctor','${d.name}')"><td><img src="${d.img}" class="doc-photo"></td><td>${d.name}</td><td>${d.spec}</td></tr>`).join('');
-    // Pharmacy
-    document.getElementById('medicineTable').innerHTML=db.meds.map(m=>{ let low=m.qty<10; return `<tr class="slide-in"><td><img src="${m.img}" class="med-img">${m.name}</td><td>${m.qty}</td><td><span class="stock-pulse ${low?'low-stock':''}">${low?'⚠️ REORDER':'✅ OK'}</span></td></tr>`; }).join('');
-    // Stats
-    animateCount('count-patients',db.patients.length); animateCount('count-doctors',db.doctors.length); animateCount('count-meds',db.meds.length);
-}
+    // Rendering
+    function renderAll(){
+        // Render Patients
+        document.getElementById('patientTable').innerHTML = db.patients.map(p => `
+            <tr><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td><td>Stable</td></tr>
+        `).join('');
 
-// --- CARD NUMBER ANIMATION ---
-function animateCount(id,value){ let el=document.getElementById(id),start=0,inc=Math.ceil(value/50); let interval=setInterval(()=>{ start+=inc; if(start>=value){el.innerText=value; clearInterval(interval);} else el.innerText=start; },15); }
+        // Render Doctors
+        document.getElementById('doctorTable').innerHTML = db.doctors.map(d => `
+            <tr><td><img src="${d.img}" style="width:40px; border-radius:50%;"></td><td>${d.name}</td><td>${d.spec}</td></tr>
+        `).join('');
 
-// --- MODAL ---
-function showModal(type,id){ let body=document.getElementById('modalBody'); if(type==='patient'){ let p=db.patients.find(x=>x.id===id); body.innerHTML=`<h3>Patient Details</h3><p><strong>ID:</strong> ${p.id}</p><p><strong>Name:</strong> ${p.name}</p><p><strong>Age
+        // Render Meds
+        document.getElementById('medicineTable').innerHTML = db.meds.map(m => { 
+            let low = m.qty < 10; 
+            return `<tr><td>${m.name}</td><td>${m.qty}</td><td><span class="stock-pulse ${low?'low-stock':''}"> ${low?'⚠️ LOW':'✅ OK'}</span></td></tr>`; 
+        }).join('');
+
+        // Update Counts
+        document.getElementById('count-patients').innerText = db.patients.length;
+        document.getElementById('count-doctors').innerText = db.doctors.length;
+        document.getElementById('count-meds').innerText = db.meds.length;
+    }
+
+    function closeModal(){ document.getElementById('modal').style.display='none'; }
+
+    // Initialize display
+    window.onload = renderAll;
+</script>
+</body>
+</html>
