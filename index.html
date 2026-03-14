@@ -31,49 +31,6 @@ display:flex;
 min-height:100vh;
 }
 
-/* LOGIN */
-
-#loginPage{
-position:fixed;
-width:100%;
-height:100%;
-background:linear-gradient(45deg,#1a252f,#0056b3);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:2000;
-}
-
-.login-box{
-background:white;
-padding:40px;
-border-radius:12px;
-width:350px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-}
-
-.login-box input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ddd;
-border-radius:6px;
-}
-
-.btn{
-padding:10px 20px;
-border:none;
-background:var(--primary);
-color:white;
-border-radius:5px;
-cursor:pointer;
-}
-
-.btn:hover{
-background:#003e85;
-}
-
 /* SIDEBAR */
 
 .sidebar{
@@ -86,7 +43,6 @@ position:fixed;
 
 .sidebar h2{
 padding:25px;
-font-size:1.2rem;
 }
 
 .sidebar li{
@@ -113,20 +69,20 @@ width:calc(100% - 250px);
 .section{display:none}
 .section.active{display:block}
 
-/* NOTIFICATIONS */
+/* NOTIFICATION */
 
-.notif-bar{
+.notification{
 background:#0056b3;
 color:white;
 padding:10px;
-margin-bottom:20px;
 border-radius:6px;
+margin-bottom:20px;
 overflow:hidden;
 white-space:nowrap;
-animation:scrollNotif 18s linear infinite;
+animation:scroll 15s linear infinite;
 }
 
-@keyframes scrollNotif{
+@keyframes scroll{
 0%{transform:translateX(100%)}
 100%{transform:translateX(-100%)}
 }
@@ -172,7 +128,6 @@ border-bottom:1px solid #eee;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:15px;
-margin-top:20px;
 }
 
 .gallery img{
@@ -185,7 +140,7 @@ transition:.4s;
 }
 
 .gallery img:hover{
-transform:scale(1.08) rotate(2deg);
+transform:scale(1.1);
 box-shadow:0 10px 20px rgba(0,0,0,.2);
 }
 
@@ -218,40 +173,14 @@ cursor:pointer;
 }
 
 .low{
-color:#c0392b;
+color:red;
 font-weight:bold;
-}
-
-/* GIF */
-
-.gif-box{
-margin-top:30px;
-text-align:center;
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- LOGIN -->
-
-<div id="loginPage">
-<div class="login-box">
-
-<h2>🏥 Elite National HMS</h2>
-
-<input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
-
-<button class="btn" style="width:100%" onclick="login()">Login</button>
-
-<p style="font-size:12px;margin-top:10px">admin / 1234</p>
-
-</div>
-</div>
-
-<!-- SIDEBAR -->
 
 <nav class="sidebar">
 
@@ -268,29 +197,27 @@ text-align:center;
 
 <div class="main">
 
-<!-- DASHBOARD -->
-
 <div id="dashboard" class="section active">
 
-<div class="notif-bar">
-🚑 Emergency patient arriving | 🤒 ICU patient critical | 💊 Pharmacy low stock: Insulin | 👨‍⚕️ New doctor joined shift
+<div class="notification">
+🚑 Emergency patient arriving | 🤒 ICU patient critical | 💊 Pharmacy low stock | 👨‍⚕️ Doctor shift started
 </div>
 
 <div class="cards">
 
-<div class="card" data-aos="zoom-in">
+<div class="card" data-aos="fade-up">
 <h1>🤒</h1>
 <h2 id="pCount">0</h2>
 Patients
 </div>
 
-<div class="card" data-aos="zoom-in">
+<div class="card" data-aos="fade-up">
 <h1>👨‍⚕️</h1>
 <h2 id="dCount">0</h2>
 Doctors
 </div>
 
-<div class="card" data-aos="zoom-in">
+<div class="card" data-aos="fade-up">
 <h1>💊</h1>
 <h2 id="mCount">0</h2>
 Medicines
@@ -298,22 +225,22 @@ Medicines
 
 </div>
 
-<h2>Hospital Activity 🏥</h2>
+<h2>Hospital Gallery</h2>
 
 <div class="gallery">
 
 <img src="https://images.unsplash.com/photo-1584515933487-779824d29309" onclick="openImage(this)">
 <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289" onclick="openImage(this)">
 <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f" onclick="openImage(this)">
 <img src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f" onclick="openImage(this)">
 <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54" onclick="openImage(this)">
 
 </div>
 
-<div class="gif-box">
+<div style="text-align:center;margin-top:30px">
 
-<h3>Hospital Activity Animation</h3>
+<h3>Hospital Activity</h3>
 
 <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="200">
 
@@ -321,16 +248,14 @@ Medicines
 
 </div>
 
-<!-- PATIENTS -->
-
 <div id="patients" class="section">
 
-<h2>Patient Registry</h2>
+<h2>Patients</h2>
 
 <input id="pName" placeholder="Name">
 <input id="pAge" type="number" placeholder="Age">
 
-<button class="btn" onclick="addPatient()">Add</button>
+<button onclick="addPatient()">Add</button>
 
 <table>
 
@@ -348,16 +273,14 @@ Medicines
 
 </div>
 
-<!-- DOCTORS -->
-
 <div id="doctors" class="section">
 
-<h2>Add Doctor</h2>
+<h2>Doctors</h2>
 
 <input id="dName" placeholder="Doctor Name">
 <input id="dSpec" placeholder="Specialization">
 
-<button class="btn" onclick="addDoctor()">Add</button>
+<button onclick="addDoctor()">Add</button>
 
 <table>
 
@@ -375,16 +298,14 @@ Medicines
 
 </div>
 
-<!-- PHARMACY -->
-
 <div id="pharmacy" class="section">
 
-<h2>Add Medicine</h2>
+<h2>Pharmacy</h2>
 
 <input id="mName" placeholder="Medicine">
 <input id="mQty" type="number" placeholder="Stock">
 
-<button class="btn" onclick="addMed()">Add</button>
+<button onclick="addMed()">Add</button>
 
 <table>
 
@@ -403,8 +324,6 @@ Medicines
 
 </div>
 
-<!-- IMAGE MODAL -->
-
 <div id="imgModal" class="modal">
 <span class="close" onclick="closeImage()">&times;</span>
 <img class="modal-content" id="modalImg">
@@ -414,31 +333,13 @@ Medicines
 
 <script>
 
-AOS.init();
+AOS.init({duration:1000});
 
 let db={
 patients:[],
 doctors:[],
 meds:[]
 }
-
-/* LOGIN */
-
-function login(){
-
-let u=username.value
-let p=password.value
-
-if(u==="admin" && p==="1234"){
-loginPage.style.display="none"
-render()
-}else{
-alert("Wrong login")
-}
-
-}
-
-/* NAV */
 
 function showSection(id,el){
 
@@ -449,8 +350,6 @@ document.getElementById(id).classList.add("active")
 el.classList.add("active")
 
 }
-
-/* ADD PATIENT */
 
 function addPatient(){
 
@@ -464,8 +363,6 @@ render()
 
 }
 
-/* ADD DOCTOR */
-
 function addDoctor(){
 
 db.doctors.push({
@@ -478,8 +375,6 @@ render()
 
 }
 
-/* ADD MED */
-
 function addMed(){
 
 db.meds.push({
@@ -490,8 +385,6 @@ qty:mQty.value
 render()
 
 }
-
-/* RENDER */
 
 function render(){
 
@@ -512,7 +405,7 @@ doctorTable.innerHTML=db.doctors.map(d=>
 medTable.innerHTML=db.meds.map(m=>
 `<tr>
 <td>${m.name}</td>
-<td class="${m.qty<10?'low':''}">${m.qty<10?'⚠️ '+m.qty:m.qty}</td>
+<td class="${m.qty<10?'low':''}">${m.qty}</td>
 </tr>`).join("")
 
 pCount.innerText=db.patients.length
@@ -520,8 +413,6 @@ dCount.innerText=db.doctors.length
 mCount.innerText=db.meds.length
 
 }
-
-/* IMAGE VIEW */
 
 function openImage(img){
 
