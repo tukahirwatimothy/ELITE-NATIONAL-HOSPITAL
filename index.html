@@ -1,35 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Hospital System</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            height: 100vh; 
-            overflow: hidden; 
-        }
-        
-        /* LOGIN SCREEN */
-        #loginPage {
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10000;
-        }
-        
-        .login-container {
-            background: white;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Hospital System</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+        font-family: 'Segoe UI', sans-serif; 
+        height: 100vh; 
+        overflow: hidden; 
+        background: #f0f2f5;
+    }
+
+    /* LOGIN SCREEN */
+    #loginPage {
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+        transition: opacity 0.5s ease;
+    }
+    
+    .login-container {
+        background: white;
+        padding: 50px 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .login-container h2 {
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .login-container input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    .login-container button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: #667eea;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .login-container button:hover {
+        background: #764ba2;
+    }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginPage">
+    <div class="login-container">
+        <h2>Elite Hospital Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
+<!-- MAIN DASHBOARD (hidden initially) -->
+<div id="dashboard" style="display:none; padding: 20px;">
+    <h1>Welcome to Elite Hospital System</h1>
+    <p>This is your dashboard.</p>
+</div>
+
+<script>
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Simple demo check (replace with real auth)
+    if(username && password){
+        document.getElementById('loginPage').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }, 500);
+    } else {
+        alert('Please enter username and password.');
+    }
+}
+</script>
+
+</body>
+</html>
