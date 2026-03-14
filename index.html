@@ -53,17 +53,33 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 .metric-card i { font-size: 2.2rem; color: var(--primary-theme); margin-bottom: 15px; }
 .metric-card h3 { font-size: 2rem; color: #333; }
 
+/* IMAGE UPLOAD */
+.image-upload { 
+    border: 2px dashed #cbd5e0; border-radius: 8px; padding: 30px; 
+    text-align: center; cursor: pointer; transition: 0.3s; margin: 15px 0;
+    background: #fafbfc; min-height: 120px; display: flex; flex-direction: column; justify-content: center;
+}
+.image-upload:hover { border-color: var(--primary-theme); background: #f0f8ff; }
+.image-upload input[type="file"] { display: none; }
+.image-preview { 
+    max-width: 100px; max-height: 100px; border-radius: 8px; 
+    object-fit: cover; margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 /* DATA ENTRY & TABLES */
 .entry-form { background: white; padding: 25px; border-radius: 6px; margin-bottom: 30px; border: 1px solid #e1e8ed; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
-.entry-form input, .entry-form select { padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; flex: 1; min-width: 180px; }
+.entry-form input, .entry-form select { padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; flex: 1; min-width: 160px; }
 
-.action-btn { padding: 11px 24px; border: none; background: var(--primary-theme); color: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
+.action-btn { padding: 11px 24px; border: none; background: var(--primary-theme); color: white; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
 .action-btn:hover { background: #004494; }
 .btn-destructive { background: var(--accent-red); margin-top: 50px; }
+.btn-success { background: var(--success-green); }
+.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
 
 .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .data-table th { background: #f8fafc; padding: 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #edf2f7; }
 .data-table td { padding: 14px 16px; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
+.patient-photo, .med-photo { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
 
 /* STATUS INDICATORS */
 .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
@@ -74,6 +90,9 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 
 .facility-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
 .facility-gallery img { width: 100%; height: 140px; border-radius: 4px; object-fit: cover; }
+.medicine-slider { overflow-x: auto; padding: 20px 0; }
+.medicine-slider::-webkit-scrollbar { height: 8px; }
+.medicine-slider::-webkit-scrollbar-thumb { background: var(--primary-theme); border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -81,38 +100,40 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 <div id="authOverlay">
     <div class="auth-container" data-aos="fade-down">
         <i class="fas fa-shield-alt" style="font-size: 3.5rem; color: var(--primary-theme); margin-bottom: 15px;"></i>
-        <h2>Secure Login</h2>
-        <p style="color: #666; margin-bottom: 25px;">Elite National System Administration</p>
-        <input id="userKey" placeholder="Username">
-        <input id="passKey" type="password" placeholder="Password">
-        <button class="action-btn" style="width: 100%; margin-top: 10px;" onclick="validateAccess()">Sign In</button>
+        <h2>🔐 Secure Login</h2>
+        <p style="color: #666; margin-bottom: 25px;">Elite National Hospital System</p>
+        <input id="userKey" placeholder="👤 Username">
+        <input id="passKey" type="password" placeholder="🔑 Password">
+        <button class="action-btn" style="width: 100%; margin-top: 10px;" onclick="validateAccess()">🚀 Sign In</button>
     </div>
 </div>
 
 <nav class="nav-sidebar">
-    <header>Elite National Hospital</header>
+    <header>🏥 Elite National Hospital</header>
     <ul>
-        <li class="active" onclick="switchView('overview', this)"><i class="fas fa-chart-pie"></i> Overview</li>
-        <li onclick="switchView('patients', this)"><i class="fas fa-user-injured"></i> Patient Records</li>
+        <li class="active" onclick="switchView('overview', this)"><i class="fas fa-chart-pie"></i> Dashboard</li>
+        <li onclick="switchView('patients', this)"><i class="fas fa-user-injured"></i> Patient Registration</li>
         <li onclick="switchView('doctors', this)"><i class="fas fa-user-md"></i> Medical Staff</li>
-        <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Inventory</li>
+        <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy Inventory</li>
         <li onclick="switchView('laboratory', this)"><i class="fas fa-microscope"></i> Lab Requests</li>
         <li onclick="switchView('billing', this)"><i class="fas fa-file-invoice-dollar"></i> Financials</li>
     </ul>
     <div style="padding: 20px;">
-        <button class="action-btn btn-destructive" style="width: 100%;" onclick="wipeSystemData()">PURGE ALL DATA</button>
+        <button class="action-btn btn-destructive" style="width: 100%;" onclick="wipeSystemData()">
+            ⚠️ PURGE ALL DATA
+        </button>
     </div>
 </nav>
 
 <div class="content-area">
 
-<!-- DASHBOARD OVERVIEW -->
+<!-- 🎯 ENHANCED DASHBOARD -->
 <div id="overview" class="view-section active">
     <div class="metric-grid">
         <div class="metric-card" data-aos="fade-up">
             <i class="fas fa-users"></i>
             <h3 id="stat-patients">0</h3>
-            <p>Total Registered Patients 👨‍⚕️👩‍⚕️</p>
+            <p>Total Patients 👨‍⚕️👩‍⚕️</p>
         </div>
         <div class="metric-card" data-aos="fade-up" data-aos-delay="100">
             <i class="fas fa-stethoscope"></i>
@@ -120,68 +141,118 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
             <p>On-Call Physicians 🩺</p>
         </div>
         <div class="metric-card" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-pills"></i>
+            <h3 id="stat-low-stock">0</h3>
+            <p>Low Stock Alerts ⚠️</p>
+        </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="300">
             <i class="fas fa-flask"></i>
             <h3 id="stat-labs">0</h3>
             <p>Pending Lab Analyses 🔬</p>
         </div>
     </div>
 
-    <h2 style="margin-bottom: 15px;">🏥 Hospital Campus Gallery</h2>
-    <div class="facility-gallery">
-        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400" data-aos="zoom-in">
-        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400" data-aos="zoom-in" data-aos-delay="50">
-        <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?w=400" data-aos="zoom-in" data-aos-delay="100">
-        <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400" data-aos="zoom-in" data-aos-delay="150">
-        <img src="https://images.unsplash.com/photo-1564869731683-8bfb53e3b4f1?w=400" data-aos="zoom-in" data-aos-delay="200">
-        <img src="https://images.unsplash.com/photo-1597764691242-d63dcdfc4d42?w=400" data-aos="zoom-in" data-aos-delay="250">
-        <img src="https://images.unsplash.com/photo-1611162617211-f28c7f2bc0d4?w=400" data-aos="zoom-in" data-aos-delay="300">
-        <img src="https://images.unsplash.com/photo-1600181959436-9e50a1f67bb1?w=400" data-aos="zoom-in" data-aos-delay="350">
-        <img src="https://images.unsplash.com/photo-1592496001029-f1e58a4b0b43?w=400" data-aos="zoom-in" data-aos-delay="400">
-        <img src="https://images.unsplash.com/photo-1576765607921-1162f394e364?w=400" data-aos="zoom-in" data-aos-delay="450">
+    <!-- 👥 RECENT PATIENTS GALLERY -->
+    <h2 style="margin-bottom: 15px;">📸 Recent Patient Photos</h2>
+    <div class="facility-gallery" id="recent-patients-gallery">
+        <!-- Dynamic patient images loaded here -->
     </div>
 
-    <h2 style="margin-top: 30px;">📅 Hospital Calendar</h2>
-    <div id="hospital-calendar" style="background: white; padding: 20px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 350px;">
-        <input type="date" id="calendarInput" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc;">
-        <p style="margin-top: 10px; color: #555;">Select a date to schedule appointments or view events 📌</p>
+    <!-- 💊 MEDICINE GALLERY SLIDER -->
+    <h2 style="margin-top: 30px;">💊 Featured Medicines Gallery</h2>
+    <div class="medicine-slider" data-aos="fade-up" data-aos-delay="200">
+        <div class="facility-gallery" style="grid-template-columns: repeat(10, 140px);">
+            <img src="https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=300" title="Paracetamol">
+            <img src="https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=300" title="Antibiotics">
+            <img src="https://images.unsplash.com/photo-1612384003835-0ccf8f4c9bdb?w=300" title="Insulin">
+            <img src="https://images.unsplash.com/photo-1592928308425-efaa409f8cd1?w=300" title="Vitamins">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300" title="Pain Relief">
+            <img src="https://images.unsplash.com/photo-1586952575587-7ea30b1247e8?w=300" title="Syrup">
+            <img src="https://images.unsplash.com/photo-1629346170957-e2ef9bbc209a?w=300" title="Injection">
+            <img src="https://images.unsplash.com/photo-1576091160550-6a5bd612b6fa?w=300" title="Ointment">
+            <img src="https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=300" title="Drops">
+            <img src="https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=300" title="Capsules">
+        </div>
+    </div>
+
+    <!-- 🏥 HOSPITAL CAMPUS -->
+    <h2 style="margin-top: 30px;">🏥 Hospital Campus Gallery</h2>
+    <div class="facility-gallery">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400" data-aos="zoom-in">
+        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400" data-aos="zoom-in" data-aos-delay="100">
+        <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?w=400" data-aos="zoom-in" data-aos-delay="200">
+        <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400" data-aos="zoom-in" data-aos-delay="300">
     </div>
 </div>
 
-<!-- PHARMACY SECTION -->
+<!-- 👤 PATIENT REGISTRATION -->
+<div id="patients" class="view-section">
+    <h2>👤 Patient Registration Portal</h2>
+    <div class="entry-form">
+        <div class="image-upload" onclick="document.getElementById('patientPhoto').click()">
+            <i class="fas fa-camera" style="font-size: 2rem; color: var(--primary-theme); margin-bottom: 10px;"></i>
+            <p>📸 Patient Photo</p>
+            <img id="patientPhotoPreview" class="image-preview" style="display: none;" alt="Photo Preview">
+            <input type="file" id="patientPhoto" accept="image/*" onchange="previewImage(this, 'patientPhotoPreview')">
+        </div>
+        <input id="input-pName" placeholder="👤 Full Name">
+        <input id="input-pAge" type="number" placeholder="📅 Age" min="0" max="120">
+        <input id="input-pPhone" placeholder="📞 Phone Number">
+        <input id="input-pCondition" placeholder="🏥 Condition/Diagnosis">
+        <button class="action-btn btn-success" onclick="commitPatientEntry()">
+            ✅ Register Patient
+        </button>
+    </div>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Phone</th>
+                <th>Condition</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="render-patients"></tbody>
+    </table>
+</div>
+
+<!-- 💊 PHARMACY (Enhanced with Images) -->
 <div id="pharmacy" class="view-section">
     <h2>💊 Pharmaceutical Inventory</h2>
     <div class="entry-form">
-        <input id="input-mName" placeholder="Product Name">
-        <input id="input-mQty" type="number" placeholder="Units in Stock">
+        <div class="image-upload" onclick="document.getElementById('medicinePhoto').click()">
+            <i class="fas fa-pills" style="font-size: 2rem; color: var(--success-green);"></i>
+            <p>💊 Medicine Photo</p>
+            <img id="medicinePhotoPreview" class="image-preview" style="display: none;">
+            <input type="file" id="medicinePhoto" accept="image/*" onchange="previewImage(this, 'medicinePhotoPreview')">
+        </div>
+        <input id="input-mName" placeholder="💊 Medicine Name">
+        <input id="input-mQty" type="number" placeholder="📦 Quantity">
         <select id="input-mType">
-            <option value="Tablet">Tablet 💊</option>
-            <option value="Syrup">Syrup 🧴</option>
-            <option value="Injection">Injection 💉</option>
-            <option value="Ointment">Ointment 🧴</option>
-            <option value="Drops">Drops 👁️</option>
+            <option value="Tablet">💊 Tablet</option>
+            <option value="Syrup">🧴 Syrup</option>
+            <option value="Injection">💉 Injection</option>
+            <option value="Ointment">🩹 Ointment</option>
+            <option value="Drops">👁️ Drops</option>
         </select>
-        <button class="action-btn" onclick="commitEntry('pharmacy', ['input-mName','input-mQty','input-mType'])">➕ Add Stock</button>
+        <button class="action-btn" onclick="commitPharmacyEntry()">➕ Add Stock</button>
     </div>
     <table class="data-table">
         <thead>
             <tr>
                 <th>Medicine 💊</th>
+                <th>Photo</th>
                 <th>Type</th>
                 <th>Units 🧾</th>
                 <th>Alert ⚠️</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="render-pharmacy"></tbody>
     </table>
-
-    <h3 style="margin-top: 25px;">🏥 Medicine Gallery</h3>
-    <div class="facility-gallery">
-        <img src="https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=400" alt="Medicine 1">
-        <img src="https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=400" alt="Medicine 2">
-        <img src="https://images.unsplash.com/photo-1612384003835-0ccf8f4c9bdb?w=400" alt="Medicine 3">
-        <img src="https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=400" alt="Medicine 4">
-        <img src="https://images.unsplash.com/photo-1592928308425-efaa409f8cd1?w=400" alt="Medicine 5">
-    </div>
 </div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -192,78 +263,24 @@ let coreState = JSON.parse(localStorage.getItem('elite_hms_core')) || {
     patients: [], doctors: [], pharmacy: [], laboratory: [], billing: []
 };
 
+// 🖼️ Image Preview Function
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// 📸 Get Image Data URL
+function getImageDataUrl(fileInputId) {
+    const fileInput = document.getElementById(fileInputId);
+    return fileInput.files[0] ? URL.createObjectURL(fileInput.files[0]) : null;
+}
+
 function syncStorage() {
-    localStorage.setItem('elite_hms_core', JSON.stringify(coreState));
-    refreshUserInterface();
-}
-
-function validateAccess() {
-    const username = document.getElementById('userKey').value.trim();
-    const password = document.getElementById('passKey').value.trim();
-    if(username==='admin' && password==='elite2026'){
-        document.getElementById('authOverlay').style.display='none';
-        refreshUserInterface();
-    } else alert('Access Denied. Invalid Credentials.');
-}
-
-function switchView(sectionId, elem){
-    document.querySelectorAll('.view-section').forEach(v=>v.classList.remove('active'));
-    document.getElementById(sectionId).classList.add('active');
-    document.querySelectorAll('.nav-sidebar li').forEach(li=>li.classList.remove('active'));
-    elem.classList.add('active');
-}
-
-function commitEntry(type,inputIds){
-    const entry={};
-    inputIds.forEach(id=>{
-        const el=document.getElementById(id);
-        entry[id]=el.type==='number'?parseInt(el.value)||0:el.value.trim();
-        el.value='';
-    });
-    switch(type){
-        case 'pharmacy':
-            coreState.pharmacy.push({ description: entry['input-mName'], quantity: entry['input-mQty'], type: entry['input-mType'] }); break;
-        case 'patients': coreState.patients.push({ id:Date.now(), name:entry['input-pName'], phone:entry['input-pPhone'] }); break;
-        case 'doctors': coreState.doctors.push({ name:entry['input-dName'], specialty:entry['input-dSpec'], availability:'On-Call' }); break;
-        case 'laboratory': coreState.laboratory.push({ patient:entry['input-lName'], test:entry['input-lTest'], status:'Pending' }); break;
-        case 'billing': coreState.billing.push({ payer:entry['input-bName'], amount:entry['input-bAmt'], status:'Unpaid', workflow:'Processing' }); break;
-    }
-    syncStorage();
-}
-
-function refreshUserInterface(){
-    document.getElementById('stat-patients').innerText=coreState.patients.length;
-    document.getElementById('stat-doctors').innerText=coreState.doctors.length;
-    renderTable('pharmacy',coreState.pharmacy,['description','type','quantity'],true);
-}
-
-function renderTable(type,data,columns,alertStock=false){
-    const tbody=document.getElementById(`render-${type}`);
-    if(!tbody)return;
-    tbody.innerHTML='';
-    data.forEach(row=>{
-        const tr=document.createElement('tr');
-        columns.forEach(col=>{
-            const td=document.createElement('td');
-            td.innerText=row[col];
-            if(alertStock && col==='quantity' && row[col]<5) td.classList.add('stock-alert');
-            tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-    });
-}
-
-function wipeSystemData(){
-    if(confirm('⚠️ This will erase ALL data permanently. Continue?')){
-        coreState={ patients: [], doctors: [], pharmacy: [], laboratory: [], billing: [] };
-        syncStorage();
-    }
-}
-
-const calendarInput=document.getElementById('calendarInput');
-if(calendarInput) calendarInput.addEventListener('change',()=>alert(`📅 You selected: ${calendarInput.value}`));
-
-refreshUserInterface();
-</script>
-</body>
-</html>
