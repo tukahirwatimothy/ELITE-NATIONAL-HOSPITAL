@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
 
 <style>
-
 body{
 font-family:Segoe UI;
 margin:0;
@@ -63,6 +61,7 @@ padding:30px;
 border-radius:10px;
 text-align:center;
 box-shadow:0 5px 15px rgba(0,0,0,.05);
+position:relative;
 }
 
 .gallery{
@@ -100,6 +99,39 @@ border-bottom:1px solid #eee;
 .medium{color:orange}
 .good{color:green}
 
+/* Notification bar */
+#notifBar{
+background:#0056b3;
+color:white;
+padding:8px 15px;
+border-radius:6px;
+margin-bottom:15px;
+overflow:hidden;
+position:relative;
+}
+#notifBar span{
+display:inline-block;
+white-space:nowrap;
+animation:scrollNotif 15s linear infinite;
+}
+@keyframes scrollNotif{
+0%{transform:translateX(100%);}
+100%{transform:translateX(-100%);}
+}
+
+/* Cartoon dancing */
+#cartoon{
+position:absolute;
+bottom:10px;
+right:10px;
+width:80px;
+animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-15px);}
+}
+
 </style>
 </head>
 
@@ -121,6 +153,8 @@ border-bottom:1px solid #eee;
 <!-- DASHBOARD -->
 
 <div id="dashboard" class="section active">
+
+<div id="notifBar"><span>⚠️ Low stock: Paracetamol | ✅ Good stock: Aspirin | ⚠️ Moderate stock: Ibuprofen</span></div>
 
 <div class="cards">
 
@@ -147,20 +181,18 @@ Medicines
 <h2>Hospital Gallery</h2>
 
 <div class="gallery">
-
 <img src="https://images.unsplash.com/photo-1584515933487-779824d29309">
 <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289">
 <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
 <img src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f">
-
+<img src="https://images.unsplash.com/photo-1600180758895-0c4d6d7b6a16">
+<img src="https://images.unsplash.com/photo-1612349311655-09f48f8c5aef">
 </div>
 
 <div style="text-align:center;margin-top:30px">
-
 <h3>Patient Heart Monitor</h3>
-
 <img src="https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif" width="200">
-
+<img id="cartoon" src="https://media.giphy.com/media/3o7qE1YN7aADqWG8Py/giphy.gif">
 </div>
 
 </div>
@@ -168,189 +200,87 @@ Medicines
 <!-- PATIENTS -->
 
 <div id="patients" class="section">
-
 <h2>Add Patient</h2>
-
 <input id="pName" placeholder="Name">
 <input id="pAge" placeholder="Age">
-
 <button onclick="addPatient()">Add</button>
 
 <table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Age</th>
-</tr>
-</thead>
-
+<thead><tr><th>ID</th><th>Name</th><th>Age</th></tr></thead>
 <tbody id="patientTable"></tbody>
-
 </table>
-
 </div>
 
 <!-- DOCTORS -->
 
 <div id="doctors" class="section">
-
 <h2>Add Doctor</h2>
-
 <input id="dName" placeholder="Doctor Name">
 <input id="dSpec" placeholder="Specialization">
 <input type="file" id="dImg">
-
 <button onclick="addDoctor()">Add</button>
 
 <table>
-
-<thead>
-<tr>
-<th>Photo</th>
-<th>Name</th>
-<th>Specialization</th>
-</tr>
-</thead>
-
+<thead><tr><th>Photo</th><th>Name</th><th>Specialization</th></tr></thead>
 <tbody id="doctorTable"></tbody>
-
 </table>
-
 </div>
 
 <!-- PHARMACY -->
 
 <div id="pharmacy" class="section">
-
 <h2>Add Medicine</h2>
-
 <input id="mName" placeholder="Medicine">
 <input id="mQty" type="number" placeholder="Stock">
-
 <button onclick="addMed()">Add</button>
 
 <table>
-
-<thead>
-<tr>
-<th>Medicine</th>
-<th>Stock</th>
-<th>Status</th>
-</tr>
-</thead>
-
+<thead><tr><th>Medicine</th><th>Stock</th><th>Status</th></tr></thead>
 <tbody id="medTable"></tbody>
-
 </table>
-
 </div>
 
 </div>
 
 <script>
-
 let db={patients:[],doctors:[],meds:[]}
 
 function show(id){
-
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
-
 }
 
 function addPatient(){
-
-db.patients.push({
-id:"P"+Math.floor(Math.random()*9000),
-name:pName.value,
-age:pAge.value
-})
-
+db.patients.push({id:"P"+Math.floor(Math.random()*9000),name:pName.value,age:pAge.value})
 render()
-
 }
 
 function addDoctor(){
-
-let file=dImg.files[0]
-let url=""
-
-if(file){
-url=URL.createObjectURL(file)
-}
-
-db.doctors.push({
-name:dName.value,
-spec:dSpec.value,
-img:url
-})
-
+let file=dImg.files[0], url=""
+if(file){url=URL.createObjectURL(file)}
+db.doctors.push({name:dName.value,spec:dSpec.value,img:url})
 render()
-
 }
 
 function addMed(){
-
-db.meds.push({
-name:mName.value,
-qty:parseInt(mQty.value)
-})
-
+db.meds.push({name:mName.value,qty:parseInt(mQty.value)})
 render()
-
 }
 
 function render(){
-
-patientTable.innerHTML=db.patients.map(p=>
-`<tr>
-<td>${p.id}</td>
-<td>${p.name}</td>
-<td>${p.age}</td>
-</tr>`).join("")
-
-doctorTable.innerHTML=db.doctors.map(d=>
-`<tr>
-<td><img src="${d.img}" width="40" style="border-radius:50%"></td>
-<td>${d.name}</td>
-<td>${d.spec}</td>
-</tr>`).join("")
-
+patientTable.innerHTML=db.patients.map(p=>`<tr><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td></tr>`).join("")
+doctorTable.innerHTML=db.doctors.map(d=>`<tr><td><img src="${d.img}" width="40" style="border-radius:50%"></td><td>${d.name}</td><td>${d.spec}</td></tr>`).join("")
 medTable.innerHTML=db.meds.map(m=>{
-
-let status="LOW"
-let emoji="🔴"
-let cls="low"
-
-if(m.qty>=10 && m.qty<200){
-status="MODERATE"
-emoji="⚠️"
-cls="medium"
-}
-
-if(m.qty>=200){
-status="GOOD"
-emoji="✅"
-cls="good"
-}
-
-return `<tr>
-<td>${m.name}</td>
-<td>${m.qty}</td>
-<td class="${cls}">${emoji} ${status}</td>
-</tr>`
-
+let status="LOW",emoji="🔴",cls="low"
+if(m.qty>=10 && m.qty<200){status="MODERATE";emoji="⚠️";cls="medium"}
+if(m.qty>=200){status="GOOD";emoji="✅";cls="good"}
+return `<tr><td>${m.name}</td><td>${m.qty}</td><td class="${cls}">${emoji} ${status}</td></tr>`
 }).join("")
-
 pCount.innerText=db.patients.length
 dCount.innerText=db.doctors.length
 mCount.innerText=db.meds.length
-
 }
-
 </script>
 
 </body>
 </html>
-```
