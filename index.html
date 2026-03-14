@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +7,45 @@
 <title>Elite National Hospital System</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
 
 <style>
 
-body{font-family:Segoe UI;margin:0;background:#f4f6f9;display:flex;}
+body{
+font-family:Segoe UI;
+margin:0;
+background:#f4f6f9;
+}
+
+/* LOGIN PAGE */
+
+#loginPage{
+width:100%;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+background:#f4f6f9;
+}
+
+#loginPage input{
+padding:10px;
+margin:10px;
+width:220px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+#loginPage button{
+padding:10px 20px;
+background:#0056b3;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* SIDEBAR */
 
 .sidebar{
 width:250px;
@@ -21,25 +56,30 @@ position:fixed;
 display:none;
 }
 
-.sidebar h2{padding:25px;font-size:24px;}
+.sidebar h2{padding:25px}
 
 .sidebar li{
 list-style:none;
 padding:15px 25px;
 cursor:pointer;
-transition:0.3s;
 }
 
-.sidebar li:hover{background:#34495e;}
+.sidebar li:hover{
+background:#34495e;
+}
+
+/* MAIN SYSTEM */
 
 .main{
 margin-left:250px;
 padding:40px;
-width:100%;
+display:none;
 }
 
 .section{display:none}
 .section.active{display:block}
+
+/* DASHBOARD */
 
 .cards{
 display:grid;
@@ -54,13 +94,6 @@ padding:30px;
 border-radius:10px;
 text-align:center;
 box-shadow:0 5px 15px rgba(0,0,0,.05);
-opacity:0;
-transform:translateY(20px);
-animation:fadeInCard 0.6s forwards;
-}
-
-@keyframes fadeInCard{
-to{opacity:1;transform:translateY(0);}
 }
 
 .gallery{
@@ -74,11 +107,9 @@ width:100%;
 height:150px;
 object-fit:cover;
 border-radius:8px;
-cursor:pointer;
-transition:.4s;
 }
 
-.gallery img:hover{transform:scale(1.08);}
+/* TABLE */
 
 table{
 width:100%;
@@ -92,23 +123,22 @@ padding:12px;
 border-bottom:1px solid #eee;
 }
 
-.low{color:red}
-.medium{color:orange}
-.high{color:darkorange}
-.good{color:green}
+/* FORM */
 
-input,button{
+input{
 padding:8px;
-margin:5px 5px 15px 0;
+margin:5px;
 border-radius:5px;
 border:1px solid #ccc;
 }
 
 button{
-cursor:pointer;
+padding:8px 12px;
 background:#0056b3;
 color:white;
 border:none;
+border-radius:5px;
+cursor:pointer;
 }
 
 </style>
@@ -116,22 +146,9 @@ border:none;
 
 <body>
 
-<nav class="sidebar" id="sidebar">
-<h2>🏥 HMS</h2>
-<ul>
-<li onclick="show('dashboard')">Dashboard</li>
-<li onclick="show('patients')">Patients</li>
-<li onclick="show('registration')">Registration</li>
-<li onclick="show('doctors')">Doctors</li>
-<li onclick="show('pharmacy')">Pharmacy</li>
-<li onclick="logout()">Logout</li>
-</ul>
-</nav>
+<!-- LOGIN PAGE -->
 
-<div class="main">
-
-<!-- LOGIN -->
-<div id="login" class="section active">
+<div id="loginPage">
 
 <h2>🏥 HMS Login</h2>
 
@@ -144,27 +161,49 @@ border:none;
 
 </div>
 
+<!-- SIDEBAR -->
+
+<nav class="sidebar" id="sidebar">
+
+<h2>🏥 HMS</h2>
+
+<ul>
+
+<li onclick="show('dashboard')">Dashboard</li>
+<li onclick="show('patients')">Patients</li>
+<li onclick="show('registration')">Registration</li>
+<li onclick="show('doctors')">Doctors</li>
+<li onclick="show('pharmacy')">Pharmacy</li>
+<li onclick="logout()">Logout</li>
+
+</ul>
+
+</nav>
+
+<!-- MAIN SYSTEM -->
+
+<div class="main" id="mainSystem">
 
 <!-- DASHBOARD -->
 
-<div id="dashboard" class="section">
+<div id="dashboard" class="section active">
 
 <div class="cards">
 
 <div class="card">
-<h1 id="patientEmoji">🤒</h1>
+<h1>🤒</h1>
 <h2 id="pCount">0</h2>
 Patients
 </div>
 
 <div class="card">
-<h1 id="doctorEmoji">👨🏿‍⚕️</h1>
+<h1>👨🏿‍⚕️</h1>
 <h2 id="dCount">0</h2>
 Doctors
 </div>
 
 <div class="card">
-<h1 id="medEmoji">💊</h1>
+<h1>💊</h1>
 <h2 id="mCount">0</h2>
 Medicines
 </div>
@@ -176,19 +215,14 @@ Medicines
 <div class="gallery">
 
 <img src="https://images.pexels.com/photos/6129507/pexels-photo-6129507.jpeg">
-
 <img src="https://images.pexels.com/photos/6749775/pexels-photo-6749775.jpeg">
-
 <img src="https://images.pexels.com/photos/7089020/pexels-photo-7089020.jpeg">
-
 <img src="https://images.pexels.com/photos/8460374/pexels-photo-8460374.jpeg">
-
 <img src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg">
 
 </div>
 
 </div>
-
 
 <!-- PATIENTS -->
 
@@ -217,7 +251,6 @@ Medicines
 
 </div>
 
-
 <!-- REGISTRATION -->
 
 <div id="registration" class="section">
@@ -227,7 +260,7 @@ Medicines
 <input id="regName" placeholder="Full Name">
 <input id="regAge" type="number" placeholder="Age">
 <input id="regGender" placeholder="Gender">
-<input id="regContact" placeholder="Phone/Email">
+<input id="regContact" placeholder="Phone">
 
 <button onclick="registerPatient()">Register</button>
 
@@ -249,7 +282,6 @@ Medicines
 
 </div>
 
-
 <!-- DOCTORS -->
 
 <div id="doctors" class="section">
@@ -258,7 +290,6 @@ Medicines
 
 <input id="dName" placeholder="Doctor Name">
 <input id="dSpec" placeholder="Specialization">
-<input type="file" id="dImg">
 
 <button onclick="addDoctor()">Add</button>
 
@@ -266,7 +297,6 @@ Medicines
 
 <thead>
 <tr>
-<th>Photo</th>
 <th>Name</th>
 <th>Specialization</th>
 </tr>
@@ -277,7 +307,6 @@ Medicines
 </table>
 
 </div>
-
 
 <!-- PHARMACY -->
 
@@ -296,7 +325,6 @@ Medicines
 <tr>
 <th>Medicine</th>
 <th>Stock</th>
-<th>Status</th>
 </tr>
 </thead>
 
@@ -310,35 +338,51 @@ Medicines
 
 <script>
 
+/* NAVIGATION */
+
 function show(id){
+
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+
 document.getElementById(id).classList.add("active");
+
 }
 
-
-// LOGIN
+/* LOGIN */
 
 async function login(){
 
 if(username.value=="" || password.value==""){
+
 loginMsg.innerText="Enter login details";
+
 return;
+
 }
 
 let res = await fetch('/api/login',{
+
 method:'POST',
+
 headers:{'Content-Type':'application/json'},
+
 body:JSON.stringify({
+
 username:username.value,
+
 password:password.value
+
 })
+
 });
 
 if(res.ok){
 
+document.getElementById("loginPage").style.display="none";
+
 document.getElementById("sidebar").style.display="block";
 
-show('dashboard');
+document.getElementById("mainSystem").style.display="block";
 
 fetchAll();
 
@@ -350,149 +394,172 @@ loginMsg.innerText="Invalid username/password";
 
 }
 
+/* LOGOUT */
+
 function logout(){
+
+document.getElementById("loginPage").style.display="flex";
 
 document.getElementById("sidebar").style.display="none";
 
-show('login');
+document.getElementById("mainSystem").style.display="none";
 
 }
 
+/* PATIENTS */
 
-// PATIENTS
+let patients=[]
+let doctors=[]
+let meds=[]
 
-async function addPatient(){
+function addPatient(){
 
 if(!pName.value || !pAge.value){
-alert("Enter patient details");
-return;
+
+alert("Enter patient details")
+
+return
+
 }
 
-await fetch('/api/patients',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
+patients.push({
+
+id:patients.length+1,
+
 name:pName.value,
-age:parseInt(pAge.value)
+
+age:pAge.value
+
 })
-});
 
-fetchPatients();
+fetchPatients()
 
-pName.value="";
-pAge.value="";
+pName.value=""
+pAge.value=""
 
 }
 
-async function fetchPatients(){
+function fetchPatients(){
 
-let data=await (await fetch('/api/patients')).json();
+patientTable.innerHTML=patients.map(p=>`
 
-patientTable.innerHTML=data.map(p=>`
 <tr>
-<td>${p.id}</td>
-<td>${p.name}</td>
-<td>${p.age}</td>
-</tr>
-`).join('');
 
-pCount.innerText=data.length;
+<td>${p.id}</td>
+
+<td>${p.name}</td>
+
+<td>${p.age}</td>
+
+</tr>
+
+`).join("")
+
+pCount.innerText=patients.length
 
 }
 
+/* REGISTRATION */
 
-// DOCTORS
+function registerPatient(){
 
-async function addDoctor(){
+if(!regName.value) return
+
+regTable.innerHTML+=`
+
+<tr>
+
+<td>${regTable.rows.length+1}</td>
+
+<td>${regName.value}</td>
+
+<td>${regAge.value}</td>
+
+<td>${regGender.value}</td>
+
+<td>${regContact.value}</td>
+
+</tr>
+
+`
+
+}
+
+/* DOCTORS */
+
+function addDoctor(){
 
 if(!dName.value || !dSpec.value){
-alert("Enter doctor info");
-return;
+
+alert("Enter doctor info")
+
+return
+
 }
 
-let imgUrl="https://images.pexels.com/photos/6129507/pexels-photo-6129507.jpeg";
+doctors.push({
 
-if(dImg.files[0]){
-imgUrl=URL.createObjectURL(dImg.files[0]);
-}
-
-await fetch('/api/doctors',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
 name:dName.value,
-specialization:dSpec.value,
-photoUrl:imgUrl
+
+spec:dSpec.value
+
 })
-});
 
-fetchDoctors();
+doctorTable.innerHTML=doctors.map(d=>`
 
-}
-
-async function fetchDoctors(){
-
-let data=await (await fetch('/api/doctors')).json();
-
-doctorTable.innerHTML=data.map(d=>`
 <tr>
-<td><img src="${d.photoUrl}" width="40" style="border-radius:50%"></td>
-<td>${d.name}</td>
-<td>${d.specialization}</td>
-</tr>
-`).join('');
 
-dCount.innerText=data.length;
+<td>${d.name}</td>
+
+<td>${d.spec}</td>
+
+</tr>
+
+`).join("")
+
+dCount.innerText=doctors.length
 
 }
 
+/* MEDICINES */
 
-// MEDICINES
-
-async function addMed(){
+function addMed(){
 
 if(!mName.value || !mQty.value){
-alert("Enter medicine");
-return;
+
+alert("Enter medicine")
+
+return
+
 }
 
-await fetch('/api/medicines',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
+meds.push({
+
 name:mName.value,
-quantity:parseInt(mQty.value)
+
+qty:mQty.value
+
 })
-});
 
-fetchMeds();
-
-}
-
-async function fetchMeds(){
-
-let data=await (await fetch('/api/medicines')).json();
-
-medTable.innerHTML=data.map(m=>`
+medTable.innerHTML=meds.map(m=>`
 
 <tr>
+
 <td>${m.name}</td>
-<td>${m.quantity}</td>
-<td>${m.quantity<50?'🔴 LOW':'✅ OK'}</td>
+
+<td>${m.qty}</td>
+
 </tr>
 
-`).join('');
+`).join("")
 
-mCount.innerText=data.length;
+mCount.innerText=meds.length
 
 }
-
 
 function fetchAll(){
 
-fetchPatients();
-fetchDoctors();
-fetchMeds();
+fetchPatients()
 
 }
 
@@ -500,3 +567,4 @@ fetchMeds();
 
 </body>
 </html>
+```
