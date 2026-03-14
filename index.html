@@ -27,8 +27,8 @@ th,td{padding:12px;border-bottom:1px solid #eee;}
 #notifBar{background:#0056b3;color:white;padding:8px 15px;border-radius:6px;margin-bottom:15px;overflow:hidden;position:relative;}
 #notifBar span{display:inline-block;white-space:nowrap;animation:scrollNotif 15s linear infinite;}
 @keyframes scrollNotif{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
-#cartoon{position:absolute;bottom:10px;right:10px;width:100px;animation:float 3s ease-in-out infinite;}
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+#cartoon{position:absolute;bottom:10px;right:10px;width:120px;animation:float 4s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-12px) rotate(3deg);}}
 input,button{padding:8px;margin:5px 5px 15px 0;border-radius:5px;border:1px solid #ccc;}
 button{cursor:pointer;background:#0056b3;color:white;border:none;}
 .emoji-live{font-size:2rem;display:inline-block;animation:jump 1s infinite;}
@@ -48,7 +48,7 @@ button{cursor:pointer;background:#0056b3;color:white;border:none;}
 </ul>
 </nav>
 <div class="main">
-<!-- LOGIN -->
+<!-- LOGIN (unchanged) -->
 <div id="login" class="section active">
 <h2>🏥 HMS Login</h2>
 <input id="username" placeholder="Username">
@@ -80,23 +80,25 @@ Medicines
 
 <h2>Hospital Gallery</h2>
 <div class="gallery" id="gallery">
-  <!-- Replaced with images of Black doctors and Black/African patients / healthcare scenes -->
-  <img data-aos="zoom-in" src="https://images.pexels.com/photos/19596247/pexels-photo-19596247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Smiling Black female doctor">
-  <img data-aos="zoom-in" src="https://images.pexels.com/photos/19957220/pexels-photo-19957220.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Black doctor writing notes">
-  <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1616766098956-c81f12114571?w=800" alt="Black female doctor in hospital">
-  <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1586776976030-8d41b019f84e?w=800" alt="Black male doctor with stethoscope">
-  <img data-aos="zoom-in" src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Doctor consulting patient">
+  <!-- Reliable images of Black doctors with Black patients / healthcare settings -->
+  <img data-aos="zoom-in" src="https://c8.alamy.com/comp/2G3JPJC/portrait-of-smiling-joyful-african-lady-doctor-performing-manual-palpation-examining-stomach-abdomen-of-little-boy-and-talking-to-him-where-it-hurts-belly-pain-concept-2G3JPJC.jpg" alt="Black female doctor examining child patient">
+  <img data-aos="zoom-in" src="https://img.freepik.com/premium-photo/doctor-consulting-with-patient-both-smiling_1132842-16463.jpg" alt="Black male doctor smiling with patient">
+  <img data-aos="zoom-in" src="https://www.csoonline.com/wp-content/uploads/2025/04/564832-0-19867300-1745835789-shutterstock_2276001457.jpg" alt="Black doctor consulting elderly patient">
+  <img data-aos="zoom-in" src="https://i0.wp.com/post.healthline.com/wp-content/uploads/2021/11/Nurse-taking-black-woman-blood-pressure-header.jpg" alt="Nurse taking blood pressure of Black patient">
+  <img data-aos="zoom-in" src="https://pcna.net/wp-content/uploads/2024/02/Black-patient-black-doctor-women-woman-stethoscope-1024x683.jpg" alt="Black doctor using stethoscope on Black female patient">
 </div>
 
 <div style="text-align:center;margin-top:30px;position:relative;">
 <h3>Patient Heart Monitor</h3>
-<img src="https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif" width="200">
-<img id="cartoon" src="https://media.giphy.com/media/3o7qE1YN7aADqWG8Py/giphy.gif">
+<!-- New heartbeat animation (EKG pulse style) -->
+<img src="https://media.istockphoto.com/id/1328668136/video/heartbeat-line-heart-pulse-ecg-beat-rhytm-graph-animation-cardio-animated-video.jpg?s=640x640&k=20&c=t7fYMeSS-0EqmzO9ePni0vD8ft7LOP5Eck3cIMAiDKw=" width="300" alt="Heartbeat monitor animation">
+<!-- New hospital cartoon animation -->
+<img id="cartoon" src="https://i.pinimg.com/originals/51/d7/e7/51d7e77c36a68ee327dcb68337222b1e.gif" alt="Animated doctor checking patient">
 </div>
 </div>
 
 <!-- PATIENTS, REGISTRATION, DOCTORS, PHARMACY sections remain unchanged -->
-<!-- ... (your original code for these sections) ... -->
+<!-- ... your original code for these sections ... -->
 
 </div>
 
