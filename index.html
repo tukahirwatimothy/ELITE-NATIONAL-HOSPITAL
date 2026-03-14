@@ -127,13 +127,13 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 
 <div class="content-area">
 
-<!-- 🎯 ENHANCED DASHBOARD -->
+<!-- DASHBOARD -->
 <div id="overview" class="view-section active">
     <div class="metric-grid">
         <div class="metric-card" data-aos="fade-up">
             <i class="fas fa-users"></i>
             <h3 id="stat-patients">0</h3>
-            <p>Total Patients 👨‍⚕️👩‍⚕️</p>
+            <p>Total Patients 👨🏾‍⚕️👩🏾‍⚕️</p>
         </div>
         <div class="metric-card" data-aos="fade-up" data-aos-delay="100">
             <i class="fas fa-stethoscope"></i>
@@ -152,13 +152,9 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
         </div>
     </div>
 
-    <!-- 👥 RECENT PATIENTS GALLERY -->
     <h2 style="margin-bottom: 15px;">📸 Recent Patient Photos</h2>
-    <div class="facility-gallery" id="recent-patients-gallery">
-        <!-- Dynamic patient images loaded here -->
-    </div>
+    <div class="facility-gallery" id="recent-patients-gallery"></div>
 
-    <!-- 💊 MEDICINE GALLERY SLIDER -->
     <h2 style="margin-top: 30px;">💊 Featured Medicines Gallery</h2>
     <div class="medicine-slider" data-aos="fade-up" data-aos-delay="200">
         <div class="facility-gallery" style="grid-template-columns: repeat(10, 140px);">
@@ -175,7 +171,6 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
         </div>
     </div>
 
-    <!-- 🏥 HOSPITAL CAMPUS -->
     <h2 style="margin-top: 30px;">🏥 Hospital Campus Gallery</h2>
     <div class="facility-gallery">
         <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400" data-aos="zoom-in">
@@ -185,7 +180,7 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
     </div>
 </div>
 
-<!-- 👤 PATIENT REGISTRATION -->
+<!-- PATIENT REGISTRATION -->
 <div id="patients" class="view-section">
     <h2>👤 Patient Registration Portal</h2>
     <div class="entry-form">
@@ -199,9 +194,7 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
         <input id="input-pAge" type="number" placeholder="📅 Age" min="0" max="120">
         <input id="input-pPhone" placeholder="📞 Phone Number">
         <input id="input-pCondition" placeholder="🏥 Condition/Diagnosis">
-        <button class="action-btn btn-success" onclick="commitPatientEntry()">
-            ✅ Register Patient
-        </button>
+        <button class="action-btn btn-success" onclick="commitPatientEntry()">✅ Register Patient</button>
     </div>
     
     <table class="data-table">
@@ -219,7 +212,7 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
     </table>
 </div>
 
-<!-- 💊 PHARMACY (Enhanced with Images) -->
+<!-- PHARMACY SECTION -->
 <div id="pharmacy" class="view-section">
     <h2>💊 Pharmaceutical Inventory</h2>
     <div class="entry-form">
@@ -255,6 +248,8 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
     </table>
 </div>
 
+<!-- DOCTORS, LAB, BILLING sections will continue here -->
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
 AOS.init({ duration: 800, once: true });
@@ -263,24 +258,10 @@ let coreState = JSON.parse(localStorage.getItem('elite_hms_core')) || {
     patients: [], doctors: [], pharmacy: [], laboratory: [], billing: []
 };
 
-// 🖼️ Image Preview Function
-function previewImage(input, previewId) {
+// 🖼️ Image Preview
+function previewImage(input, previewId){
     const preview = document.getElementById(previewId);
     const file = input.files[0];
-    if (file) {
+    if(file){
         const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-    }
-}
-
-// 📸 Get Image Data URL
-function getImageDataUrl(fileInputId) {
-    const fileInput = document.getElementById(fileInputId);
-    return fileInput.files[0] ? URL.createObjectURL(fileInput.files[0]) : null;
-}
-
-function syncStorage() {
+        reader.onload = e => { preview.src = e.target.result; preview.style
