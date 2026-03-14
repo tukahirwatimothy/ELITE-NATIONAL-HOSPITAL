@@ -1,170 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Hospital System</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
-body { background:#f0f2f5; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite National Hospital System 🏥</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            font-family:'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
 
-#loginPage { width:100%; height:100vh; background:linear-gradient(135deg,#667eea,#764ba2); display:flex; justify-content:center; align-items:center; position:fixed; top:0; left:0; z-index:10000; transition: opacity 0.5s; }
-.login-container { background:white; padding:50px 40px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3); text-align:center; max-width:400px; width:100%; }
-.login-container h2 { margin-bottom:30px; color:#333; }
-.login-container input { width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #ccc; font-size:16px; }
-.login-container button { width:100%; padding:15px; border:none; border-radius:10px; background:#667eea; color:white; font-size:16px; cursor:pointer; transition:background 0.3s; }
-.login-container button:hover { background:#764ba2; }
-#loginError { color:red; margin-top:10px; display:none; }
+        /* LOGIN SCREEN */
+        #loginPage {
+            width:100vw; height:100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display:flex; align-items:center; justify-content:center;
+            position:fixed; top:0; left:0; z-index:10000;
+            transition: all 0.5s ease;
+        }
+        
+        .login-container {
+            background:rgba(255,255,255,0.95); 
+            backdrop-filter:blur(20px);
+            padding:60px 50px; border-radius:25px;
+            box-shadow:0 25px 50px rgba(0,0,0,0.3); 
+            text-align:center;
+            max-width:450px; width:90%;
+            animation: loginFloat 3s ease-in-out infinite;
+        }
 
-#dashboard { display:none; opacity:0; padding:20px; transition: opacity 0.5s ease; }
-h1 { margin-bottom:20px; color:#333; }
-.section { background:white; padding:20px; margin-bottom:20px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+        @keyframes loginFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-.doctors { display:flex; gap:20px; flex-wrap:wrap; }
-.doctor { text-align:center; width:120px; }
-.doctor img { width:100%; border-radius:50%; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
-.doctor p { margin-top:5px; }
+        .login-container h2 { 
+            margin-bottom:30px; color:#2c3e50; 
+            font-size:32px; font-weight:700;
+        }
+        .login-container input {
+            width:100%; padding:18px; margin-bottom:20px;
+            border-radius:15px; border:2px solid #e0e6ed;
+            font-size:16px; background:rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+        }
+        .login-container input:focus {
+            border-color:#667eea; box-shadow:0 0 20px rgba(102,126,234,0.3);
+            transform: scale(1.02);
+        }
+        .login-container button {
+            width:100%; padding:18px; border:none; border-radius:15px;
+            background:linear-gradient(45deg, #667eea, #764ba2);
+            color:white; font-size:18px; font-weight:600; cursor:pointer;
+            transition: all 0.3s ease; position:relative; overflow:hidden;
+        }
+        .login-container button:hover { 
+            transform: translateY(-3px); box-shadow:0 15px 30px rgba(102,126,234,0.4);
+        }
+        .login-container button:active { transform: scale(0.98); }
 
-.medicine { display:flex; gap:20px; flex-wrap:wrap; }
-.med { background:#f9f9f9; padding:10px; border-radius:10px; width:120px; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
-.med:hover { transform: scale(1.05); }
-.med img { width:80px; height:80px; margin-bottom:5px; }
+        #loginError { 
+            color:#e74c3c; margin-top:15px; font-weight:600; 
+            display:none; animation: shake 0.5s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
 
-.registration input, .registration button { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; }
-.registration button { background:#667eea; color:white; border:none; cursor:pointer; transition: background 0.3s; }
-.registration button:hover { background:#764ba2; }
+        /* MAIN SYSTEM */
+        .sidebar {
+            width:280px; height:100vh; background:linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+            position:fixed; top:0; left:0; z-index:1000;
+            display:none; overflow-y:auto;
+        }
+        .sidebar h2 {
+            padding:35px 30px; color:white; font-size:24px;
+            border-bottom:1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar ul { list-style:none; }
+        .sidebar li {
+            padding:20px 30px; color:#ecf0f1; cursor:pointer;
+            transition: all 0.3s ease; border-left:4px solid transparent;
+            font-size:16px; display:flex; align-items:center;
+        }
+        .sidebar li:hover {
+            background:rgba(255,255,255,0.1); border-left-color:#667eea;
+            transform: translateX(10px); color:white;
+        }
+        .sidebar li i { margin-right:15px; font-size:20px; }
 
-.calendar { max-width:300px; }
+        .main-content {
+            margin-left:280px; padding:40px; min-height:100vh;
+            display:none; animation: slideInRight 0.6s ease;
+        }
+        @keyframes slideInRight {
+            from { opacity:0; transform: translateX(50px); }
+            to { opacity:1; transform: translateX(0); }
+        }
 
-.stock { font-size:20px; animation: pulse 1s infinite alternate; }
-@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
-</style>
+        .section { display:none; }
+        .section.active { display:block; }
+
+        /* DASHBOARD */
+        .stats-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+            gap:30px; margin-bottom:50px;
+        }
+        .stat-card {
+            background:linear-gradient(135deg, white 0%, #f8f9ff 100%);
+            padding:40px 30px; border-radius:20px; text-align:center;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.4s ease; position:relative; overflow:hidden;
+            border-top:5px solid #667eea;
+        }
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow:0 25px 50px rgba(0,0,0,0.2);
+        }
+        .stat-card h3 { font-size:60px; margin-bottom:15px; }
+        .stat-card h2 { font-size:36px; color:#2c3e50; margin-bottom:10px; }
+        .stat-card p { color:#7f8c8d; font-size:16px; font-weight:500; }
+
+        /* GALLERY */
+        .gallery-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+            gap:25px; margin-top:50px;
+        }
+        .gallery-item {
+            background:white; border-radius:20px; overflow:hidden;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+        .gallery-item:hover { transform: translateY(-10px) scale(1.02); }
+        .gallery-item img { width:100%; height:250px; object-fit:cover; }
+        .gallery-item .gif { height:200px; background:#f0f2f5; display:flex; align-items:center; justify-content:center; }
+
+        /* FORMS & TABLES */
+        .form-section {
+            background:white; padding:40px; border-radius:20px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1); margin-bottom:30px;
+        }
+        input, select { 
+            padding:15px; margin:10px 10px 10px 0; border-radius:12px;
+            border:2px solid #e0e6ed; width:250px; font-size:16px;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus { 
+            border-color:#667eea; box-shadow:0 0 15px rgba(102,126,234,0.2);
+        }
+        button { 
+            padding:15px 30px; border:none; border-radius:12px;
+            background:linear-gradient(45deg, #27ae60, #2ecc71); color:white;
+            font-weight:600; cursor:pointer; transition: all 0.3s ease;
+            margin:10px 5px;
+        }
+        button:hover { transform: translateY(-3px); box-shadow:0 10px 25px rgba(39,174,96,0.4); }
+
+        table {
+            width:100%; border-collapse:collapse; margin-top:25px;
+            background:white; border-radius:15px; overflow:hidden;
+            box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        }
+        th {
+            background:linear-gradient(45deg, #667eea, #764ba2); color:white;
+            padding:20px; font-weight:600; text-align:left;
+        }
+        td { padding:18px 20px; border-bottom:1px solid #ecf0f1; }
+        tr:hover { background:#f8f9fa; transform: scale(1.01); }
+
+        .delete-btn {
+            background:linear-gradient(45deg, #e74c3c, #c0392b) !important;
+            padding:10px 20px !important; font-size:14px !important;
+        }
+
+        /* CALENDAR */
+        .calendar {
+            background:white; padding:30px; border-radius:20px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1); margin-top:30px;
+        }
+        .calendar-grid {
+            display:grid; grid-template-columns:repeat(7, 1fr);
+            gap:10px; margin-top:20px;
+        }
+        .calendar-day {
+            padding:20px; text-align:center; border-radius:12px;
+            background:#f8f9fa; cursor:pointer; transition:0.3s;
+            font-weight:500;
+        }
+        .calendar-day:hover { background:#667eea; color:white; transform:scale(1.1); }
+        .calendar-day.today { background:#e74c3c; color:white; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-content { margin-left:0; padding:20px; }
+            .sidebar { transform:translateX(-100%); }
+        }
+    </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN SCREEN -->
 <div id="loginPage">
-  <div class="login-container">
-    <h2>Elite Hospital Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="loginError"></p>
-  </div>
+    <div class="login-container">
+        <h2>🏥 Elite National Hospital</h2>
+        <p style="color:#666; margin-bottom:25px; font-size:16px;">Hospital Management System</p>
+        <input type="text" id="username" placeholder="👤 Admin Username">
+        <input type="password" id="password" placeholder="🔒 Password">
+        <button onclick="login()">🚀 Enter Hospital System</button>
+        <p id="loginError"></p>
+        <small style="color:#888; margin-top:15px; display:block;">Demo: admin / 1234</small>
+    </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-<h1>🏥 Elite Hospital Dashboard</h1>
-
-<!-- Doctors -->
-<div class="section">
-<h2>👩🏾‍⚕️ Doctors</h2>
-<div class="doctors">
-<div class="doctor"><img src="https://i.ibb.co/8c91gF2/black-doctor1.jpg" alt=""><p>Dr. Amani</p></div>
-<div class="doctor"><img src="https://i.ibb.co/VJqKxq2/black-doctor2.jpg" alt=""><p>Dr. Malik</p></div>
-<div class="doctor"><img src="https://i.ibb.co/6XxXkgx/black-doctor3.jpg" alt=""><p>Dr. Nia</p></div>
-<div class="doctor"><img src="https://i.ibb.co/HTQwWp7/black-doctor4.jpg" alt=""><p>Dr. Kofi</p></div>
-<div class="doctor"><img src="https://i.ibb.co/d6Xzn4p/black-doctor5.jpg" alt=""><p>Dr. Zuri</p></div>
-<div class="doctor"><img src="https://i.ibb.co/8c91gF2/black-doctor1.jpg" alt=""><p>Dr. Taye</p></div>
-<div class="doctor"><img src="https://i.ibb.co/VJqKxq2/black-doctor2.jpg" alt=""><p>Dr. Sade</p></div>
-<div class="doctor"><img src="https://i.ibb.co/6XxXkgx/black-doctor3.jpg" alt=""><p>Dr. Omari</p></div>
-<div class="doctor"><img src="https://i.ibb.co/HTQwWp7/black-doctor4.jpg" alt=""><p>Dr. Aisha</p></div>
-<div class="doctor"><img src="https://i.ibb.co/d6Xzn4p/black-doctor5.jpg" alt=""><p>Dr. Jamal</p></div>
-</div>
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+    <h2>🏥 HMS Control Panel</h2>
+    <ul>
+        <li onclick="showSection('dashboard')"><i>📊</i> Dashboard</li>
+        <li onclick="showSection('patients')"><i>👥</i> Patients</li>
+        <li onclick="showSection('doctors')"><i>👨🏿‍⚕️</i> Doctors</li>
+        <li onclick="showSection('registration')"><i>📝</i> Registration</li>
+        <li onclick="showSection('pharmacy')"><i>💊</i> Pharmacy</li>
+        <li onclick="showSection('calendar')"><i>📅</i> Calendar</li>
+        <li onclick="logout()" style="border-top:1px solid rgba(255,255,255,0.1);"><i>🚪</i> Logout</li>
+    </ul>
 </div>
 
-<!-- Medicines -->
-<div class="section">
-<h2>💊 Medicines</h2>
-<div class="medicine">
-<!-- Example: Medicine GIF + Emoji stock -->
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Paracetamol <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Ibuprofen <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Amoxicillin <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Aspirin <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Vitamin C <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antibiotic <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Cough Syrup <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Insulin <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antacid <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Hydroxy <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Paracetamol <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Ibuprofen <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Amoxicillin <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Aspirin <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Vitamin D <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antibiotic B <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Cough Syrup B <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Insulin B <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antacid B <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Hydroxy B <span class="stock">✅ Good</span></p></div>
-</div>
-</div>
+<!-- MAIN CONTENT -->
+<div id="mainContent" class="main-content">
 
-<!-- Patient Registration -->
-<div class="section">
-<h2>📝 Patient Registration</h2>
-<div class="registration">
-<input type="text" id="pname" placeholder="Patient Name">
-<input type="number" id="page" placeholder="Age">
-<input type="text" id="pgender" placeholder="Gender">
-<button onclick="registerPatient()">Register Patient</button>
-<p id="regStatus" style="color:green;"></p>
-</div>
-</div>
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="section active">
+        <h1 style="font-size:48px; color:#2c3e50; margin-bottom:40px; text-align:center;">
+            📊 Hospital Dashboard Overview
+        </h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>🤒</h3>
+                <h2 id="totalPatients">0</h2>
+                <p>Total Patients</p>
+            </div>
+            <div class="stat-card">
+                <h3>👨🏿‍⚕️</h3>
+                <h2 id="totalDoctors">0</h2>
+                <p>Doctors</p>
+            </div>
+            <div class="stat-card">
+                <h3>💊</h3>
+                <h2 id="totalMedicine">0</h2>
+                <p>Medicines in Stock</p>
+            </div>
+            <div class="stat-card">
+                <h3>📅</h3>
+                <h2 id="todayAppointments">12</h2>
+                <p>Today's Appointments</p>
+            </div>
+        </div>
 
-<!-- Calendar -->
-<div class="section">
-<h2>📅 Calendar</h2>
-<input type="date" class="calendar">
-</div>
-</div>
+        <!-- MEDICINE ANIMATIONS & BLACK DOCTOR IMAGE -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:60px;">
+            <div>
+                <h2 style="color:#2c3e50; margin-bottom:30px;">💊 Medicine Animations</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="gif" style="background:linear-gradient(45deg, #ff6b6b, #feca57);">
+                            <span style="font-size:48px; animation: pulse 2s infinite;">💊</span>
+                        </div>
+                        <div style="padding:20px;">
+                            <h4>Paracetamol</h4>
+                            <p>500mg - In Stock</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gif" style="background:linear-gradient(45deg, #48dbfb, #0abde3);">
+                            <span style="font-size:48px; animation: bounce 2s infinite;">🩹</span>
+                        </div>
+                        <div style="padding:20px;">
+                            <h4>Bandages</h4>
+                            <p>Box of 100</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 style="color:#2c3e50; margin-bottom:30px;">👨🏿‍⚕️ Our Doctors</h2>
+                <div class="gallery-item" style="height:350px;">
+                    <img src="https://images.unsplash.com/photo-1576091160399-1d65cdaa878a?w=400&h=500&fit=crop" 
+                         alt="Black Doctor" style="width:100%; height:70%; object-fit:cover;">
+                    <div style="padding:25px;">
+                        <h4>Dr. Marcus Johnson</h4>
+                        <p>🏆 Cardiologist | 15+ Years Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script>
-// LOGIN
-function login() {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const error = document.getElementById('loginError');
+    <!-- PATIENTS -->
+    <div id="patients" class="section">
+        <div class="form-section">
+            <h2 style="color:#2c3e50; margin-bottom:30px;">👥 Add New Patient</h2>
+            <input id="patientName" placeholder="Patient Full Name">
+            <input id="patientAge" type="number" placeholder="Age" min="0">
+            <input id="patientCondition" placeholder="Medical Condition">
+            <button onclick="addPatient()">➕ Add Patient</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Condition</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="patientsTable"></tbody>
+        </table>
+    </div>
 
-  if(username==='admin' && password==='1234'){
-    error.style.display='none';
-    const loginPage = document.getElementById('loginPage');
-    const dashboard = document.getElementById('dashboard');
-    loginPage.style.opacity='0';
-    setTimeout(()=>{
-      loginPage.style.display='none';
-      dashboard.style.display='block';
-      setTimeout(()=>{ dashboard.style.opacity='1'; },50);
-    },500);
-  } else {
-    error.textContent='❌ Incorrect username or password';
-    error.style.display='block';
-  }
-}
-document.getElementById('password').addEventListener('keyup', e=>{ if(e.key==='Enter') login(); });
+    <!-- DOCTORS -->
+    <div id="doctors" class="section">
+        <div class="form-section">
+            <h2 style="color:#2c3e50; margin-bottom:30px;">👨🏿‍⚕️ Add Doctor</h2>
+            <input id="doctorName" placeholder="Doctor Name">
+            <input id="doctorSpecialty" placeholder="Specialty">
+            <button onclick="addDoctor()">➕ Add Doctor</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="doctorsTable"></tbody>
+        </table>
+    </div>
 
-// PATIENT REGISTRATION
-function registerPatient(){
-  const name = document.getElementById('pname').value.trim();
-  const age = document.getElementById('page').value.trim();
-  const gender = document.getElementById('pgender').value.trim();
-  const status = document.getElementById('regStatus');
-  if(name && age && gender){
-    status.style.color='green';
-    status.textContent=`✅ Patient ${name} registered successfully!`;
-    setTimeout(()=>{ status.textContent=''; },3000);
-    document.getElementById('pname').value='';
-    document.getElementById('page').value='';
-    document.getElementById('pgender').value='';
-  } else {
-    status.style.color='red';
-    status.textContent='❌ Please fill all fields!';
-    setTimeout(()=>{ status.textContent=''; status.style.color='green'; },3000);
-  }
-}
-</script>
-</body>
-</html>
+    <!-- REGISTRATION -->
+    <div id="registration" class="section">
+        <div class="form-section">
+            <h2 style="color:#2c3e50; margin-bottom:30px;">📝 Patient Registration</h2>
+            <input id="regName" placeholder="Full Name">
+            <input id="regAge" type="number" placeholder="Age">
+            <input id="regGender" placeholder="Gender">
+            <input id="regPhone" placeholder="Phone Number">
+            <button onclick="registerPatient()">📋 Complete Registration</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody id="registrationTable"></tbody>
+        </table>
+    </div>
+
+    <!-- PHARMACY -->
+    <div id="pharmacy" class="section">
+        <div class="form-section">
+            <h2 style="color:#2c3e50; margin-bottom:30px;">💊 Pharmacy Inventory</h2>
+            <input id="medicineName" placeholder="Medicine Name">
+            <input id="medicineStock" type="number" placeholder="Stock Quantity">
+            <button onclick="addMedicine()">➕ Add to Inventory</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="pharmacyTable"></tbody>
+        </
