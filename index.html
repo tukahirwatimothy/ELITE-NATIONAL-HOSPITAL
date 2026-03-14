@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elite National Hospital System</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
 
 body{
@@ -341,54 +339,26 @@ Medicines
 /* NAVIGATION */
 
 function show(id){
-
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-
 document.getElementById(id).classList.add("active");
-
 }
 
-/* LOGIN */
+/* LOGIN SYSTEM */
 
-async function login(){
+function login(){
 
-if(username.value=="" || password.value==""){
+let user = document.getElementById("username").value;
+let pass = document.getElementById("password").value;
 
-loginMsg.innerText="Enter login details";
-
-return;
-
-}
-
-let res = await fetch('/api/login',{
-
-method:'POST',
-
-headers:{'Content-Type':'application/json'},
-
-body:JSON.stringify({
-
-username:username.value,
-
-password:password.value
-
-})
-
-});
-
-if(res.ok){
+if(user === "admin" && pass === "1234"){
 
 document.getElementById("loginPage").style.display="none";
-
 document.getElementById("sidebar").style.display="block";
-
 document.getElementById("mainSystem").style.display="block";
-
-fetchAll();
 
 }else{
 
-loginMsg.innerText="Invalid username/password";
+document.getElementById("loginMsg").innerText="Invalid username or password";
 
 }
 
@@ -399,14 +369,12 @@ loginMsg.innerText="Invalid username/password";
 function logout(){
 
 document.getElementById("loginPage").style.display="flex";
-
 document.getElementById("sidebar").style.display="none";
-
 document.getElementById("mainSystem").style.display="none";
 
 }
 
-/* PATIENTS */
+/* SYSTEM DATA */
 
 let patients=[]
 let doctors=[]
@@ -415,151 +383,68 @@ let meds=[]
 function addPatient(){
 
 if(!pName.value || !pAge.value){
-
 alert("Enter patient details")
-
 return
-
 }
 
-patients.push({
+patients.push({id:patients.length+1,name:pName.value,age:pAge.value})
 
-id:patients.length+1,
+patientTable.innerHTML=patients.map(p=>`
+<tr>
+<td>${p.id}</td>
+<td>${p.name}</td>
+<td>${p.age}</td>
+</tr>
+`).join("")
 
-name:pName.value,
-
-age:pAge.value
-
-})
-
-fetchPatients()
+pCount.innerText=patients.length
 
 pName.value=""
 pAge.value=""
 
 }
 
-function fetchPatients(){
-
-patientTable.innerHTML=patients.map(p=>`
-
-<tr>
-
-<td>${p.id}</td>
-
-<td>${p.name}</td>
-
-<td>${p.age}</td>
-
-</tr>
-
-`).join("")
-
-pCount.innerText=patients.length
-
-}
-
-/* REGISTRATION */
-
 function registerPatient(){
 
-if(!regName.value) return
-
 regTable.innerHTML+=`
-
 <tr>
-
 <td>${regTable.rows.length+1}</td>
-
 <td>${regName.value}</td>
-
 <td>${regAge.value}</td>
-
 <td>${regGender.value}</td>
-
 <td>${regContact.value}</td>
-
 </tr>
-
 `
 
 }
 
-/* DOCTORS */
-
 function addDoctor(){
 
-if(!dName.value || !dSpec.value){
-
-alert("Enter doctor info")
-
-return
-
-}
-
-doctors.push({
-
-name:dName.value,
-
-spec:dSpec.value
-
-})
+doctors.push({name:dName.value,spec:dSpec.value})
 
 doctorTable.innerHTML=doctors.map(d=>`
-
 <tr>
-
 <td>${d.name}</td>
-
 <td>${d.spec}</td>
-
 </tr>
-
 `).join("")
 
 dCount.innerText=doctors.length
 
 }
 
-/* MEDICINES */
-
 function addMed(){
 
-if(!mName.value || !mQty.value){
-
-alert("Enter medicine")
-
-return
-
-}
-
-meds.push({
-
-name:mName.value,
-
-qty:mQty.value
-
-})
+meds.push({name:mName.value,qty:mQty.value})
 
 medTable.innerHTML=meds.map(m=>`
-
 <tr>
-
 <td>${m.name}</td>
-
 <td>${m.qty}</td>
-
 </tr>
-
 `).join("")
 
 mCount.innerText=meds.length
-
-}
-
-function fetchAll(){
-
-fetchPatients()
 
 }
 
