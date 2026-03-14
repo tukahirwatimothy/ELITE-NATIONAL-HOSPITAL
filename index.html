@@ -1,523 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite National HMS - Ultra Pro</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
 
-<title>Elite National Hospital System</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0f172a;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.9);
+            --sidebar-width: 260px;
+        }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
 
-<style>
+        body { background: var(--bg); display: flex; min-height: 100vh; color: #1e293b; }
 
-:root{
---primary:#0056b3;
---dark:#2c3e50;
---bg:#f4f6f9;
-}
+        /* --- MODERN LOGIN --- */
+        #loginPage {
+            position: fixed; inset: 0;
+            background: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80') center/cover;
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI;
-}
+        .login-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); }
 
-body{
-background:var(--bg);
-display:flex;
-min-height:100vh;
-}
+        .login-box {
+            position: relative; background: var(--glass); padding: 40px; border-radius: 20px;
+            width: 400px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
 
-/* LOGIN */
+        .login-box input {
+            width: 100%; padding: 14px; margin: 12px 0; border: 1px solid #e2e8f0;
+            border-radius: 10px; outline: none; transition: 0.3s;
+        }
 
-#loginPage{
-position:fixed;
-width:100%;
-height:100%;
-background:linear-gradient(45deg,#1a252f,#0056b3);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:2000;
-}
+        .login-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-.login-box{
-background:white;
-padding:40px;
-border-radius:12px;
-width:350px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-}
+        /* --- LAYOUT & SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width); background: var(--secondary); color: white;
+            height: 100vh; position: fixed; transition: 0.3s; z-index: 100;
+        }
 
-.login-box input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ddd;
-border-radius:6px;
-}
+        .logo-area { padding: 30px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.5px; }
 
-.btn{
-padding:10px 20px;
-border:none;
-background:var(--primary);
-color:white;
-border-radius:5px;
-cursor:pointer;
-}
+        .sidebar ul { margin-top: 20px; }
+        .sidebar li {
+            padding: 16px 25px; cursor: pointer; display: flex; align-items: center;
+            gap: 15px; color: #94a3b8; transition: 0.2s;
+        }
 
-.btn:hover{
-background:#003e85;
-}
+        .sidebar li:hover, .sidebar li.active { background: rgba(255,255,255,0.05); color: white; }
+        .sidebar li.active { border-right: 4px solid var(--primary); background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1)); }
 
-/* SIDEBAR */
+        .main { margin-left: var(--sidebar-width); padding: 40px; width: 100%; transition: 0.3s; }
 
-.sidebar{
-width:250px;
-background:var(--dark);
-color:white;
-height:100vh;
-position:fixed;
-}
+        /* --- COMPONENTS --- */
+        .card {
+            background: white; border-radius: 16px; padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
 
-.sidebar h2{
-padding:25px;
-font-size:1.2rem;
-}
+        .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-stable { background: #dcfce7; color: #166534; }
+        .status-critical { background: #fee2e2; color: #991b1b; }
 
-.sidebar li{
-list-style:none;
-padding:15px 25px;
-cursor:pointer;
-border-left:4px solid transparent;
-}
+        .action-btn { 
+            padding: 6px; border: none; background: none; cursor: pointer; 
+            border-radius: 6px; transition: 0.2s; 
+        }
+        .btn-del:hover { color: var(--danger); background: #fee2e2; }
 
-.sidebar li:hover,
-.sidebar li.active{
-background:#34495e;
-border-left:4px solid var(--primary);
-}
-
-/* MAIN */
-
-.main{
-margin-left:250px;
-padding:40px;
-width:calc(100% - 250px);
-}
-
-.section{display:none}
-.section.active{display:block}
-
-/* CARDS */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-margin-bottom:30px;
-}
-
-.card{
-background:white;
-padding:30px;
-border-radius:10px;
-text-align:center;
-box-shadow:0 4px 15px rgba(0,0,0,.05);
-}
-
-.card i{
-font-size:2rem;
-color:var(--primary);
-margin-bottom:10px;
-}
-
-/* TABLE */
-
-table{
-width:100%;
-border-collapse:collapse;
-background:white;
-margin-top:20px;
-}
-
-th,td{
-padding:14px;
-border-bottom:1px solid #eee;
-}
-
-/* GALLERY */
-
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
-margin-top:20px;
-}
-
-.gallery img{
-width:100%;
-height:140px;
-object-fit:cover;
-border-radius:8px;
-cursor:pointer;
-transition:.3s;
-}
-
-.gallery img:hover{
-transform:scale(1.05);
-}
-
-/* MODAL */
-
-.modal{
-display:none;
-position:fixed;
-z-index:3000;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.7);
-}
-
-.modal-content{
-display:block;
-margin:5% auto;
-max-width:700px;
-}
-
-.close{
-position:absolute;
-top:30px;
-right:40px;
-font-size:40px;
-color:white;
-cursor:pointer;
-}
-
-/* LOW STOCK */
-
-.low{
-color:#c0392b;
-font-weight:bold;
-}
-
-</style>
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
+            position: fixed; bottom: 20px; right: 20px; background: var(--secondary);
+            color: white; padding: 12px 24px; border-radius: 8px; 
+            transform: translateY(100px); transition: 0.3s; z-index: 10000;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-
-<div id="loginPage">
-
-<div class="login-box">
-
-<h2>Elite National HMS</h2>
-
-<input id="username" placeholder="Username">
-
-<input id="password" type="password" placeholder="Password">
-
-<button class="btn" style="width:100%" onclick="login()">Sign In</button>
-
-<p style="font-size:12px;margin-top:10px">admin / 1234</p>
-
-</div>
-
-</div>
-
-<!-- SIDEBAR -->
-
-<nav class="sidebar">
-
-<h2><i class="fas fa-hospital"></i> HMS</h2>
-
-<ul>
-
-<li class="active" onclick="showSection('dashboard',this)">Dashboard</li>
-<li onclick="showSection('patients',this)">Patients</li>
-<li onclick="showSection('doctors',this)">Doctors</li>
-<li onclick="showSection('pharmacy',this)">Pharmacy</li>
-
-</ul>
-
-</nav>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<!-- DASHBOARD -->
-
-<div id="dashboard" class="section active">
-
-<div class="cards">
-
-<div class="card" data-aos="fade-up">
-<i class="fas fa-users"></i>
-<h3 id="pCount">0</h3>
-Patients
-</div>
-
-<div class="card" data-aos="fade-up">
-<i class="fas fa-user-md"></i>
-<h3 id="dCount">0</h3>
-Doctors
-</div>
-
-<div class="card" data-aos="fade-up">
-<i class="fas fa-pills"></i>
-<h3 id="mCount">0</h3>
-Medicines
-</div>
-
-</div>
-
-<h2>Hospital Gallery</h2>
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1551076805-e1869033e561" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1516549655169-df83a0774514" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118" onclick="openImage(this)">
-<img src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f" onclick="openImage(this)">
-
-</div>
-
-</div>
-
-<!-- PATIENTS -->
-
-<div id="patients" class="section">
-
-<h2>Patient Registry</h2>
-
-<input id="pName" placeholder="Name">
-<input id="pAge" type="number" placeholder="Age">
-
-<button class="btn" onclick="addPatient()">Add</button>
-
-<table>
-
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Age</th>
-</tr>
-</thead>
-
-<tbody id="patientTable"></tbody>
-
-</table>
-
-</div>
-
-<!-- DOCTORS -->
-
-<div id="doctors" class="section">
-
-<h2>Add Doctor</h2>
-
-<input id="dName" placeholder="Doctor Name">
-<input id="dSpec" placeholder="Specialization">
-
-<button class="btn" onclick="addDoctor()">Add</button>
-
-<table>
-
-<thead>
-<tr>
-<th>Photo</th>
-<th>Name</th>
-<th>Specialization</th>
-</tr>
-</thead>
-
-<tbody id="doctorTable"></tbody>
-
-</table>
-
-</div>
-
-<!-- PHARMACY -->
-
-<div id="pharmacy" class="section">
-
-<h2>Add Medicine</h2>
-
-<input id="mName" placeholder="Medicine">
-<input id="mQty" type="number" placeholder="Stock">
-
-<button class="btn" onclick="addMed()">Add</button>
-
-<table>
-
-<thead>
-<tr>
-<th>Medicine</th>
-<th>Stock</th>
-</tr>
-</thead>
-
-<tbody id="medTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<!-- IMAGE MODAL -->
-
-<div id="imgModal" class="modal">
-
-<span class="close" onclick="closeImage()">&times;</span>
-
-<img class="modal-content" id="modalImg">
-
-</div>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-<script>
-
-AOS.init();
-
-/* DATABASE */
-
-let db={
-patients:[],
-doctors:[],
-meds:[]
-}
-
-/* LOGIN */
-
-function login(){
-
-let u=document.getElementById("username").value
-let p=document.getElementById("password").value
-
-if(u==="admin" && p==="1234"){
-document.getElementById("loginPage").style.display="none"
-render()
-}else alert("Wrong login")
-
-}
-
-/* NAVIGATION */
-
-function showSection(id,el){
-
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
-document.querySelectorAll(".sidebar li").forEach(l=>l.classList.remove("active"))
-
-document.getElementById(id).classList.add("active")
-el.classList.add("active")
-
-}
-
-/* PATIENT */
-
-function addPatient(){
-
-let name=pName.value
-let age=pAge.value
-
-db.patients.push({
-id:"P"+Math.floor(Math.random()*9000),
-name,
-age
-})
-
-render()
-
-}
-
-/* DOCTOR */
-
-function addDoctor(){
-
-db.doctors.push({
-name:dName.value,
-spec:dSpec.value,
-img:"https://i.pravatar.cc/100?u="+Math.random()
-})
-
-render()
-
-}
-
-/* MEDICINE */
-
-function addMed(){
-
-db.meds.push({
-name:mName.value,
-qty:mQty.value
-})
-
-render()
-
-}
-
-/* RENDER */
-
-function render(){
-
-patientTable.innerHTML=db.patients.map(p=>
-`<tr>
-<td>${p.id}</td>
-<td>${p.name}</td>
-<td>${p.age}</td>
-</tr>`
-).join("")
-
-doctorTable.innerHTML=db.doctors.map(d=>
-`<tr>
-<td><img src="${d.img}" width="40" style="border-radius:50%"></td>
-<td>${d.name}</td>
-<td>${d.spec}</td>
-</tr>`
-).join("")
-
-medTable.innerHTML=db.meds.map(m=>
-`<tr>
-<td>${m.name}</td>
-<td class="${m.qty<10?'low':''}">${m.qty}</td>
-</tr>`
-).join("")
-
-pCount.innerText=db.patients.length
-dCount.innerText=db.doctors.length
-mCount.innerText=db.meds.length
-
-}
-
-/* IMAGE MODAL */
-
-function openImage(img){
-
-modalImg.src=img.src
-imgModal.style.display="block"
-
-}
-
-function closeImage(){
-
-imgModal.style.display="none"
-
-}
-
-</script>
-
+    <div id="toast">Action Successful!</div>
+
+    <div id="loginPage">
+        <div class="login-overlay"></div>
+        <div class="login-box" data-aos="zoom-in">
+            <div style="width: 70px; height: 70px; background: var(--primary); border-radius: 18px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-heartbeat" style="font-size:32px; color:white"></i>
+            </div>
+            <h2 style="margin-bottom: 5px;">Welcome Back</h2>
+            <p style="color:#64748b; font-size: 14px; margin-bottom: 25px;">Enter credentials to access HMS</p>
+            <input id="username" type="text" placeholder="Username" value="admin">
+            <input id="password" type="password" placeholder="Password" value="1234">
+            <button class="btn" style="width:100%; background: var(--primary); color:white; padding: 14px; border:none; border-radius:10px; cursor:pointer; font-weight:600;" onclick="handleLogin()">Sign In</button>
+        </div>
+    </div>
+
+    <nav class="sidebar">
+        <div class="logo-area"><i class="fas fa-shield-virus" style="color:var(--primary)"></i> ELITE<span style="color:var(--primary)">HMS</span></div>
+        <ul>
+            <li class="active" onclick="showSection('dashboard', this)"><i class="fas fa-grid-2"></i> Dashboard</li>
+            <li onclick="showSection('patients', this)"><i class="fas fa-user-injured"></i> Patients</li>
+            <li onclick="showSection('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
+        </ul>
+    </nav>
+
+    <div class="main">
+        <header style="display: flex; justify-content: space-between; margin-bottom: 30px; align-items: center;">
+            <h1 id="sectionTitle">Dashboard</h1>
+            <div style="display:flex; gap:15px; align-items: center;">
+                <span id="currentTime" style="color:#64748b; font-size: 14px;"></span>
+                <div style="width:40px; height:40px; border-radius:50%; background:#e2e8f0; display:grid; place-items:center;"><i class="fas fa-user"></i></div>
+            </div>
+        </header>
+
+        <div id="dashboard" class="section active">
+            <div class="cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                <div class="card" data-aos="fade-up">
+                    <p style="color:#64748b; font-size: 14px;">Total Patients</p>
+                    <h2 id="count-patients" style="font-size: 2rem;">0</h2>
+                </div>
+                </div>
+        </div>
+
+        <div id="patients" class="section" style="display:none">
+            <div class="card">
+                <div style="display:flex; justify-content: space-between; margin-bottom: 20px;">
+                    <input type="text" id="pSearch" placeholder="Filter patients..." onkeyup="searchPatients()" style="padding:10px; border-radius:8px; border:1px solid #e2e8f0; width:300px;">
+                    <button class="btn" onclick="addPatient()" style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">+ Add Patient</button>
+                </div>
+                <table style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="text-align: left; color:#64748b; border-bottom: 1px solid #f1f5f9;">
+                            <th style="padding:15px;">ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // Time display
+        setInterval(() => {
+            document.getElementById('currentTime').innerText = new Date().toLocaleString();
+        }, 1000);
+
+        let db = {
+            patients: JSON.parse(localStorage.getItem("patients")) || [
+                {id: "P-8821", name: "Sarah Jenkins", age: 29, status: "Stable"},
+                {id: "P-4432", name: "Mark Voltar", age: 52, status: "Critical"}
+            ]
+        };
+
+        function showToast(msg) {
+            const t = document.getElementById("toast");
+            t.innerText = msg;
+            t.style.transform = "translateY(0)";
+            setTimeout(() => t.style.transform = "translateY(100px)", 3000);
+        }
+
+        function handleLogin() {
+            document.getElementById("loginPage").style.transform = "translateY(-100%)";
+            renderAll();
+            showToast("Authenticated as Administrator");
+        }
+
+        function showSection(id, el) {
+            document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+            document.querySelectorAll(".sidebar li").forEach(li => li.classList.remove("active"));
+            
+            document.getElementById(id).style.display = "block";
+            el.classList.add("active");
+            document.getElementById("sectionTitle").innerText = id.charAt(0).toUpperCase() + id.slice(1);
+        }
+
+        function renderAll() {
+            const table = document.getElementById("patientTable");
+            table.innerHTML = db.patients.map((p, index) => `
+                <tr style="border-bottom: 1px solid #f8fafc; transition: 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                    <td style="padding:15px; font-weight:600;">${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.age}</td>
+                    <td><span class="status-pill status-${p.status.toLowerCase()}">${p.status}</span></td>
+                    <td>
+                        <button class="action-btn btn-del" onclick="deletePatient(${index})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join("");
+
+            document.getElementById("count-patients").innerText = db.patients.length;
+            localStorage.setItem("patients", JSON.stringify(db.patients));
+        }
+
+        function deletePatient(index) {
+            if(confirm("Confirm discharge/deletion of patient?")) {
+                db.patients.splice(index, 1);
+                renderAll();
+                showToast("Patient record removed");
+            }
+        }
+
+        function addPatient() {
+            const name = prompt("Enter Patient Name:");
+            if(!name) return;
+            const age = prompt("Enter Age:");
+            
+            db.patients.unshift({
+                id: "P-" + Math.floor(1000 + Math.random() * 9000),
+                name: name,
+                age: age,
+                status: "Stable"
+            });
+            renderAll();
+            showToast("New patient registered");
+        }
+
+        function searchPatients() {
+            const val = document.getElementById("pSearch").value.toLowerCase();
+            const rows = document.getElementById("patientTable").getElementsByTagName("tr");
+            for(let row of rows) {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none";
+            }
+        }
+    </script>
 </body>
 </html>
