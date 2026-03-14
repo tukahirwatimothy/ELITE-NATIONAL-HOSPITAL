@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Elite National HMS - Pro Edition</title>
+<title>Elite National Hospital System</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
@@ -13,7 +13,7 @@
 
 :root{
 --primary:#0056b3;
---secondary:#2c3e50;
+--dark:#2c3e50;
 --bg:#f4f6f9;
 }
 
@@ -28,15 +28,12 @@ body{
 background:var(--bg);
 display:flex;
 min-height:100vh;
-overflow-x:hidden;
 }
 
 /* LOGIN */
 
 #loginPage{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:linear-gradient(45deg,#1a252f,#0056b3);
@@ -52,7 +49,7 @@ padding:40px;
 border-radius:12px;
 width:350px;
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
+box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
 .login-box input{
@@ -68,20 +65,19 @@ padding:10px 20px;
 border:none;
 background:var(--primary);
 color:white;
+border-radius:5px;
 cursor:pointer;
-border-radius:4px;
-transition:.3s;
 }
 
 .btn:hover{
-background:#003f88;
+background:#003e85;
 }
 
 /* SIDEBAR */
 
 .sidebar{
-width:260px;
-background:var(--secondary);
+width:250px;
+background:var(--dark);
 color:white;
 height:100vh;
 position:fixed;
@@ -97,7 +93,6 @@ list-style:none;
 padding:15px 25px;
 cursor:pointer;
 border-left:4px solid transparent;
-transition:.3s;
 }
 
 .sidebar li:hover,
@@ -106,33 +101,24 @@ background:#34495e;
 border-left:4px solid var(--primary);
 }
 
-.sidebar i{
-margin-right:10px;
-}
-
 /* MAIN */
 
 .main{
-margin-left:260px;
+margin-left:250px;
 padding:40px;
-width:calc(100% - 260px);
+width:calc(100% - 250px);
 }
 
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
+.section{display:none}
+.section.active{display:block}
 
 /* CARDS */
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:25px;
-margin-bottom:40px;
+margin-bottom:30px;
 }
 
 .card{
@@ -140,7 +126,7 @@ background:white;
 padding:30px;
 border-radius:10px;
 text-align:center;
-box-shadow:0 4px 15px rgba(0,0,0,0.05);
+box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
 .card i{
@@ -156,18 +142,11 @@ width:100%;
 border-collapse:collapse;
 background:white;
 margin-top:20px;
-border-radius:8px;
-overflow:hidden;
 }
 
 th,td{
-padding:15px;
+padding:14px;
 border-bottom:1px solid #eee;
-text-align:left;
-}
-
-th{
-background:#fafafa;
 }
 
 /* GALLERY */
@@ -176,33 +155,55 @@ background:#fafafa;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:15px;
+margin-top:20px;
 }
 
 .gallery img{
 width:100%;
-height:120px;
+height:140px;
 object-fit:cover;
 border-radius:8px;
+cursor:pointer;
+transition:.3s;
 }
 
-/* PHARMACY ALERT */
-
-.stock-pulse{
-padding:5px 10px;
-border-radius:20px;
-font-size:12px;
+.gallery img:hover{
+transform:scale(1.05);
 }
 
-.low-stock{
-background:#ffdada;
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+z-index:3000;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.7);
+}
+
+.modal-content{
+display:block;
+margin:5% auto;
+max-width:700px;
+}
+
+.close{
+position:absolute;
+top:30px;
+right:40px;
+font-size:40px;
+color:white;
+cursor:pointer;
+}
+
+/* LOW STOCK */
+
+.low{
 color:#c0392b;
-animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:1}
-50%{opacity:.5}
-100%{opacity:1}
+font-weight:bold;
 }
 
 </style>
@@ -216,17 +217,13 @@ animation:pulse 1.5s infinite;
 
 <div class="login-box">
 
-<i class="fas fa-hospital" style="font-size:40px;color:#0056b3"></i>
-
-<h2>HMS Portal</h2>
-
-<p style="margin-bottom:15px;color:#777">Elite National Hospital System</p>
+<h2>Elite National HMS</h2>
 
 <input id="username" placeholder="Username">
 
 <input id="password" type="password" placeholder="Password">
 
-<button class="btn" style="width:100%" onclick="handleLogin()">Sign In</button>
+<button class="btn" style="width:100%" onclick="login()">Sign In</button>
 
 <p style="font-size:12px;margin-top:10px">admin / 1234</p>
 
@@ -238,25 +235,14 @@ animation:pulse 1.5s infinite;
 
 <nav class="sidebar">
 
-<h2><i class="fas fa-heartbeat"></i> Elite HMS</h2>
+<h2><i class="fas fa-hospital"></i> HMS</h2>
 
 <ul>
 
-<li class="active" onclick="showSection('dashboard',this)">
-<i class="fas fa-th-large"></i> Dashboard
-</li>
-
-<li onclick="showSection('patients',this)">
-<i class="fas fa-user-injured"></i> Patients
-</li>
-
-<li onclick="showSection('doctors',this)">
-<i class="fas fa-user-md"></i> Doctors
-</li>
-
-<li onclick="showSection('pharmacy',this)">
-<i class="fas fa-pills"></i> Pharmacy
-</li>
+<li class="active" onclick="showSection('dashboard',this)">Dashboard</li>
+<li onclick="showSection('patients',this)">Patients</li>
+<li onclick="showSection('doctors',this)">Doctors</li>
+<li onclick="showSection('pharmacy',this)">Pharmacy</li>
 
 </ul>
 
@@ -274,20 +260,20 @@ animation:pulse 1.5s infinite;
 
 <div class="card" data-aos="fade-up">
 <i class="fas fa-users"></i>
-<h3 id="count-patients">0</h3>
-<p>Total Patients</p>
+<h3 id="pCount">0</h3>
+Patients
 </div>
 
 <div class="card" data-aos="fade-up">
 <i class="fas fa-user-md"></i>
-<h3 id="count-doctors">0</h3>
-<p>Doctors</p>
+<h3 id="dCount">0</h3>
+Doctors
 </div>
 
 <div class="card" data-aos="fade-up">
 <i class="fas fa-pills"></i>
-<h3 id="count-meds">0</h3>
-<p>Medicines</p>
+<h3 id="mCount">0</h3>
+Medicines
 </div>
 
 </div>
@@ -296,13 +282,12 @@ animation:pulse 1.5s infinite;
 
 <div class="gallery">
 
-<img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d">
-
-<img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842">
-
-<img src="https://images.unsplash.com/photo-1516549655169-df83a0774514">
-
-<img src="https://images.unsplash.com/photo-1551076805-e1869033e561">
+<img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1551076805-e1869033e561" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1516549655169-df83a0774514" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118" onclick="openImage(this)">
+<img src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f" onclick="openImage(this)">
 
 </div>
 
@@ -314,15 +299,10 @@ animation:pulse 1.5s infinite;
 
 <h2>Patient Registry</h2>
 
-<div style="margin:20px 0">
+<input id="pName" placeholder="Name">
+<input id="pAge" type="number" placeholder="Age">
 
-<input id="pName" placeholder="Full Name" style="padding:8px">
-
-<input id="pAge" type="number" placeholder="Age" style="padding:8px">
-
-<button class="btn" onclick="addPatient()">Add Patient</button>
-
-</div>
+<button class="btn" onclick="addPatient()">Add</button>
 
 <table>
 
@@ -331,7 +311,6 @@ animation:pulse 1.5s infinite;
 <th>ID</th>
 <th>Name</th>
 <th>Age</th>
-<th>Status</th>
 </tr>
 </thead>
 
@@ -345,7 +324,12 @@ animation:pulse 1.5s infinite;
 
 <div id="doctors" class="section">
 
-<h2>Medical Staff</h2>
+<h2>Add Doctor</h2>
+
+<input id="dName" placeholder="Doctor Name">
+<input id="dSpec" placeholder="Specialization">
+
+<button class="btn" onclick="addDoctor()">Add</button>
 
 <table>
 
@@ -367,7 +351,12 @@ animation:pulse 1.5s infinite;
 
 <div id="pharmacy" class="section">
 
-<h2>Pharmacy Inventory</h2>
+<h2>Add Medicine</h2>
+
+<input id="mName" placeholder="Medicine">
+<input id="mQty" type="number" placeholder="Stock">
+
+<button class="btn" onclick="addMed()">Add</button>
 
 <table>
 
@@ -375,15 +364,24 @@ animation:pulse 1.5s infinite;
 <tr>
 <th>Medicine</th>
 <th>Stock</th>
-<th>Status</th>
 </tr>
 </thead>
 
-<tbody id="medicineTable"></tbody>
+<tbody id="medTable"></tbody>
 
 </table>
 
 </div>
+
+</div>
+
+<!-- IMAGE MODAL -->
+
+<div id="imgModal" class="modal">
+
+<span class="close" onclick="closeImage()">&times;</span>
+
+<img class="modal-content" id="modalImg">
 
 </div>
 
@@ -396,143 +394,126 @@ AOS.init();
 /* DATABASE */
 
 let db={
-
-patients:JSON.parse(localStorage.getItem("patients"))||[
-{id:"P101",name:"John Doe",age:45}
-],
-
-doctors:JSON.parse(localStorage.getItem("doctors"))||[
-{name:"Dr Smith",spec:"Cardiology",img:"https://i.pravatar.cc/100?img=5"}
-],
-
-meds:JSON.parse(localStorage.getItem("meds"))||[
-{name:"Paracetamol",qty:5,img:"https://cdn-icons-png.flaticon.com/512/833/833314.png"}
-]
-
-}
-
-/* SAVE */
-
-function saveDB(){
-
-localStorage.setItem("patients",JSON.stringify(db.patients))
-localStorage.setItem("doctors",JSON.stringify(db.doctors))
-localStorage.setItem("meds",JSON.stringify(db.meds))
-
-renderAll()
-
+patients:[],
+doctors:[],
+meds:[]
 }
 
 /* LOGIN */
 
-function handleLogin(){
+function login(){
 
 let u=document.getElementById("username").value
 let p=document.getElementById("password").value
 
-if((u==="admin"&&p==="1234")||(u==="staff"&&p==="staff2026")){
-
+if(u==="admin" && p==="1234"){
 document.getElementById("loginPage").style.display="none"
-renderAll()
-
-}else{
-
-alert("Invalid Login")
+render()
+}else alert("Wrong login")
 
 }
 
-}
-
-/* NAV */
+/* NAVIGATION */
 
 function showSection(id,el){
 
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
-document.querySelectorAll(".sidebar li").forEach(li=>li.classList.remove("active"))
+document.querySelectorAll(".sidebar li").forEach(l=>l.classList.remove("active"))
 
 document.getElementById(id).classList.add("active")
 el.classList.add("active")
 
 }
 
-/* ADD PATIENT */
+/* PATIENT */
 
 function addPatient(){
 
-let name=document.getElementById("pName").value
-let age=document.getElementById("pAge").value
-
-if(!name||!age) return alert("Enter patient info")
+let name=pName.value
+let age=pAge.value
 
 db.patients.push({
-
 id:"P"+Math.floor(Math.random()*9000),
 name,
 age
-
 })
 
-document.getElementById("pName").value=""
-document.getElementById("pAge").value=""
+render()
 
-saveDB()
+}
+
+/* DOCTOR */
+
+function addDoctor(){
+
+db.doctors.push({
+name:dName.value,
+spec:dSpec.value,
+img:"https://i.pravatar.cc/100?u="+Math.random()
+})
+
+render()
+
+}
+
+/* MEDICINE */
+
+function addMed(){
+
+db.meds.push({
+name:mName.value,
+qty:mQty.value
+})
+
+render()
 
 }
 
 /* RENDER */
 
-function renderAll(){
+function render(){
 
-document.getElementById("patientTable").innerHTML=
-
-db.patients.map(p=>`
-<tr>
+patientTable.innerHTML=db.patients.map(p=>
+`<tr>
 <td>${p.id}</td>
 <td>${p.name}</td>
 <td>${p.age}</td>
-<td>Stable</td>
-</tr>
-`).join("")
+</tr>`
+).join("")
 
-
-document.getElementById("doctorTable").innerHTML=
-
-db.doctors.map(d=>`
-<tr>
+doctorTable.innerHTML=db.doctors.map(d=>
+`<tr>
 <td><img src="${d.img}" width="40" style="border-radius:50%"></td>
 <td>${d.name}</td>
 <td>${d.spec}</td>
-</tr>
-`).join("")
+</tr>`
+).join("")
 
+medTable.innerHTML=db.meds.map(m=>
+`<tr>
+<td>${m.name}</td>
+<td class="${m.qty<10?'low':''}">${m.qty}</td>
+</tr>`
+).join("")
 
-document.getElementById("medicineTable").innerHTML=
+pCount.innerText=db.patients.length
+dCount.innerText=db.doctors.length
+mCount.innerText=db.meds.length
 
-db.meds.map(m=>{
+}
 
-let low=m.qty<10
+/* IMAGE MODAL */
 
-return`
-<tr>
-<td>
-<img src="${m.img}" width="30" style="vertical-align:middle;margin-right:5px">
-${m.name}
-</td>
-<td>${m.qty}</td>
-<td>
-<span class="stock-pulse ${low?"low-stock":""}">
-${low?"LOW":"OK"}
-</span>
-</td>
-</tr>
-`
+function openImage(img){
 
-}).join("")
+modalImg.src=img.src
+imgModal.style.display="block"
 
+}
 
-document.getElementById("count-patients").innerText=db.patients.length
-document.getElementById("count-doctors").innerText=db.doctors.length
-document.getElementById("count-meds").innerText=db.meds.length
+function closeImage(){
+
+imgModal.style.display="none"
 
 }
 
