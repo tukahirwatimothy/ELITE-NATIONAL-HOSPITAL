@@ -15,8 +15,6 @@ body{
     background:#f4f6f9;
     display:flex;
 }
-
-/* Sidebar */
 .sidebar{
     width:250px;
     background:#2c3e50;
@@ -24,128 +22,29 @@ body{
     height:100vh;
     position:fixed;
 }
-.sidebar h2{
-    padding:25px;
-    font-size:24px;
-}
-.sidebar li{
-    list-style:none;
-    padding:15px 25px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.sidebar li:hover{
-    background:#34495e;
-}
-
-/* Main content */
-.main{
-    margin-left:250px;
-    padding:40px;
-    width:100%;
-}
-.section{display:none}
-.section.active{display:block}
-
-/* Cards */
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-bottom:30px;
-}
-.card{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,.05);
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeInCard 0.6s forwards;
-}
-@keyframes fadeInCard{
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* Gallery */
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
-}
-.gallery img{
-    width:100%;
-    height:150px;
-    object-fit:cover;
-    border-radius:8px;
-    cursor:pointer;
-    transition:.4s;
-}
-.gallery img:hover{
-    transform:scale(1.08);
-}
-
-/* Tables */
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-    background:white;
-}
-th,td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-}
-.low{color:red}
-.medium{color:orange}
-.good{color:green}
-
-/* Notification bar */
-#notifBar{
-    background:#0056b3;
-    color:white;
-    padding:8px 15px;
-    border-radius:6px;
-    margin-bottom:15px;
-    overflow:hidden;
-    position:relative;
-}
-#notifBar span{
-    display:inline-block;
-    white-space:nowrap;
-    animation:scrollNotif 15s linear infinite;
-}
-@keyframes scrollNotif{
-    0%{transform:translateX(100%);}
-    100%{transform:translateX(-100%);}
-}
-
-/* Floating hospital GIF */
-#cartoon{
-    position:absolute;
-    bottom:10px;
-    right:10px;
-    width:100px;
-    animation:float 3s ease-in-out infinite;
-}
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-}
-
-input,button{
-    padding:8px;
-    margin:5px 5px 15px 0;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-button{
-    cursor:pointer;
-    background:#0056b3;
-    color:white;
-    border:none;
-}
+.sidebar h2{padding:25px;font-size:24px;}
+.sidebar li{list-style:none;padding:15px 25px;cursor:pointer;transition:0.3s;}
+.sidebar li:hover{background:#34495e;}
+.main{margin-left:250px;padding:40px;width:100%;}
+.section{display:none}.section.active{display:block;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:30px;}
+.card{background:white;padding:30px;border-radius:10px;text-align:center;box-shadow:0 5px 15px rgba(0,0,0,.05);opacity:0;transform:translateY(20px);animation:fadeInCard 0.6s forwards;}
+@keyframes fadeInCard{to{opacity:1; transform:translateY(0);}}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;}
+.gallery img{width:100%;height:150px;object-fit:cover;border-radius:8px;cursor:pointer;transition:.4s;}
+.gallery img:hover{transform:scale(1.08);}
+table{width:100%;border-collapse:collapse;margin-top:20px;background:white;}
+th,td{padding:12px;border-bottom:1px solid #eee;}
+.low{color:red}.medium{color:orange}.high{color:darkorange}.good{color:green;}
+#notifBar{background:#0056b3;color:white;padding:8px 15px;border-radius:6px;margin-bottom:15px;overflow:hidden;position:relative;}
+#notifBar span{display:inline-block;white-space:nowrap;animation:scrollNotif 15s linear infinite;}
+@keyframes scrollNotif{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+#cartoon{position:absolute;bottom:10px;right:10px;width:100px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+input,button{padding:8px;margin:5px 5px 15px 0;border-radius:5px;border:1px solid #ccc;}
+button{cursor:pointer;background:#0056b3;color:white;border:none;}
+.emoji-live{font-size:2rem;display:inline-block;animation:jump 1s infinite;}
+@keyframes jump{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 </style>
 </head>
 <body>
@@ -164,7 +63,7 @@ button{
 
 <div class="main">
 
-<!-- LOGIN PAGE -->
+<!-- LOGIN -->
 <div id="login" class="section active">
   <h2>🏥 HMS Login</h2>
   <input id="username" placeholder="Username">
@@ -175,34 +74,31 @@ button{
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="section">
-<div id="notifBar"><span>⚠️ Low stock: Paracetamol | ✅ Good stock: Aspirin | ⚠️ Moderate stock: Ibuprofen</span></div>
+<div id="notifBar"><span>⚠️ Low stock: Paracetamol | ⚠️ Moderate: Ibuprofen | ✅ Good: Aspirin</span></div>
 
 <div class="cards">
     <div class="card">
-        <h1>🤒</h1>
+        <h1 class="emoji-live">🤒</h1>
         <h2 id="pCount">0</h2>
         Patients
     </div>
     <div class="card">
-        <h1>👨‍⚕️</h1>
+        <h1 class="emoji-live">👨🏿‍⚕️</h1>
         <h2 id="dCount">0</h2>
         Doctors
     </div>
     <div class="card">
-        <h1>💊</h1>
+        <h1 class="emoji-live">💊</h1>
         <h2 id="mCount">0</h2>
         Medicines
     </div>
 </div>
 
 <h2>Hospital Gallery</h2>
-<div class="gallery">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1600180758895-0c4d6d7b6a16">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1612349311655-09f48f8c5aef">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
-    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289">
+<div class="gallery" id="gallery">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&fit=crop&w=400&h=250">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1607746882044-0e9e0db47604?crop=entropy&fit=crop&w=400&h=250">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1607746882041-5fa2d2f1cce6?crop=entropy&fit=crop&w=400&h=250">
 </div>
 
 <div style="text-align:center;margin-top:30px; position:relative;">
@@ -218,7 +114,6 @@ button{
 <input id="pName" placeholder="Name">
 <input id="pAge" placeholder="Age">
 <button onclick="addPatient()">Add</button>
-
 <table>
 <thead><tr><th>ID</th><th>Name</th><th>Age</th></tr></thead>
 <tbody id="patientTable"></tbody>
@@ -233,7 +128,6 @@ button{
 <input id="regGender" placeholder="Gender">
 <input id="regContact" placeholder="Phone/Email">
 <button onclick="registerPatient()">Register</button>
-
 <table>
 <thead>
 <tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th></tr>
@@ -249,7 +143,6 @@ button{
 <input id="dSpec" placeholder="Specialization">
 <input type="file" id="dImg">
 <button onclick="addDoctor()">Add</button>
-
 <table>
 <thead><tr><th>Photo</th><th>Name</th><th>Specialization</th></tr></thead>
 <tbody id="doctorTable"></tbody>
@@ -262,7 +155,6 @@ button{
 <input id="mName" placeholder="Medicine">
 <input id="mQty" type="number" placeholder="Stock">
 <button onclick="addMed()">Add</button>
-
 <table>
 <thead><tr><th>Medicine</th><th>Stock</th><th>Status</th></tr></thead>
 <tbody id="medTable"></tbody>
@@ -278,26 +170,22 @@ AOS.init({duration:800});
 function show(id){
     document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
-    document.querySelectorAll('.card').forEach(c=>{
-        c.style.opacity=0;
-        c.style.transform='translateY(20px)';
-        setTimeout(()=>c.style.animation='fadeInCard 0.6s forwards',50);
-    });
 }
 
 // LOGIN
 async function login(){
-    let u=username.value;
-    let p=password.value;
     let res = await fetch('/api/login',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({username:u,password:p})
+        body:JSON.stringify({username:username.value,password:password.value})
     });
-    if(res.ok){ show('dashboard'); loginMsg.innerText=""; username.value=""; password.value=""; fetchPatients(); fetchDoctors(); fetchMeds(); }
-    else loginMsg.innerText="Invalid username or password!";
+    if(res.ok){ show('dashboard'); username.value=""; password.value=""; fetchAll(); loginMsg.innerText=""; }
+    else loginMsg.innerText="Invalid username/password";
 }
 function logout(){ show('login'); }
+
+// FETCH ALL DATA
+function fetchAll(){ fetchPatients(); fetchRegisteredPatients(); fetchDoctors(); fetchMeds(); }
 
 // PATIENTS
 async function addPatient(){
@@ -306,8 +194,7 @@ async function addPatient(){
     fetchPatients(); pName.value=""; pAge.value="";
 }
 async function fetchPatients(){
-    let res=await fetch('/api/patients');
-    let data=await res.json();
+    let data=await (await fetch('/api/patients')).json();
     patientTable.innerHTML=data.map(p=>`<tr><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td></tr>`).join('');
     pCount.innerText=data.length;
 }
@@ -316,44 +203,40 @@ async function fetchPatients(){
 async function registerPatient(){
     if(!regName.value||!regAge.value||!regGender.value||!regContact.value) return;
     await fetch('/api/patients',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:regName.value,age:parseInt(regAge.value),gender:regGender.value,contact:regContact.value})});
-    fetchPatients();
-    regName.value=""; regAge.value=""; regGender.value=""; regContact.value="";
-    fetchRegisteredPatients();
+    fetchRegisteredPatients(); regName.value=""; regAge.value=""; regGender.value=""; regContact.value="";
 }
 async function fetchRegisteredPatients(){
-    let res=await fetch('/api/patients');
-    let data=await res.json();
+    let data=await (await fetch('/api/patients')).json();
     regTable.innerHTML=data.map(p=>`<tr><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td><td>${p.gender||'-'}</td><td>${p.contact||'-'}</td></tr>`).join('');
 }
 
 // DOCTORS
 async function addDoctor(){
     if(!dName.value||!dSpec.value) return;
-    let imgUrl = "https://via.placeholder.com/40";
-    if(dImg.files[0]) imgUrl = URL.createObjectURL(dImg.files[0]);
+    let imgUrl="https://via.placeholder.com/40";
+    if(dImg.files[0]) imgUrl=URL.createObjectURL(dImg.files[0]);
     await fetch('/api/doctors',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:dName.value,specialization:dSpec.value,photoUrl:imgUrl})});
     fetchDoctors(); dName.value=""; dSpec.value=""; dImg.value="";
 }
 async function fetchDoctors(){
-    let res=await fetch('/api/doctors');
-    let data=await res.json();
+    let data=await (await fetch('/api/doctors')).json();
     doctorTable.innerHTML=data.map(d=>`<tr><td><img src="${d.photoUrl}" width="40" style="border-radius:50%"></td><td>${d.name}</td><td>${d.specialization}</td></tr>`).join('');
     dCount.innerText=data.length;
 }
 
-// MEDICINES
+// MEDICINES with live status
 async function addMed(){
     if(!mName.value||!mQty.value) return;
     await fetch('/api/medicines',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:mName.value,quantity:parseInt(mQty.value)})});
     fetchMeds(); mName.value=""; mQty.value="";
 }
 async function fetchMeds(){
-    let res=await fetch('/api/medicines');
-    let data=await res.json();
+    let data=await (await fetch('/api/medicines')).json();
     medTable.innerHTML=data.map(m=>{
         let status="LOW",emoji="🔴",cls="low";
-        if(m.quantity>=50 && m.quantity<200){status="MODERATE";emoji="⚠️";cls="medium";}
-        if(m.quantity>=200){status="GOOD";emoji="✅";cls="good";}
+        if(m.quantity>=50 && m.quantity<100){status="MODERATE";emoji="⚠️";cls="medium";}
+        else if(m.quantity>=100 && m.quantity<400){status="HIGH";emoji="⬆️";cls="high";}
+        else if(m.quantity>=400){status="GOOD";emoji="✅";cls="good";}
         return `<tr><td>${m.name}</td><td>${m.quantity}</td><td class="${cls}">${emoji} ${status}</td></tr>`;
     }).join('');
     mCount.innerText=data.length;
