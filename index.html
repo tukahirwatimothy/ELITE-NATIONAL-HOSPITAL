@@ -16,6 +16,8 @@ body{
     background:#f4f6f9;
     display:flex;
 }
+
+/* Sidebar */
 .sidebar{
     width:250px;
     background:#2c3e50;
@@ -25,15 +27,19 @@ body{
 }
 .sidebar h2{
     padding:25px;
+    font-size:24px;
 }
 .sidebar li{
     list-style:none;
     padding:15px 25px;
     cursor:pointer;
+    transition:0.3s;
 }
 .sidebar li:hover{
     background:#34495e;
 }
+
+/* Main content */
 .main{
     margin-left:250px;
     padding:40px;
@@ -82,7 +88,7 @@ body{
     transform:scale(1.08);
 }
 
-/* Table */
+/* Tables */
 table{
     width:100%;
     border-collapse:collapse;
@@ -117,7 +123,7 @@ th,td{
     100%{transform:translateX(-100%);}
 }
 
-/* Floating cartoon (hospital GIF) */
+/* Floating hospital GIF */
 #cartoon{
     position:absolute;
     bottom:10px;
@@ -133,13 +139,17 @@ th,td{
 input,button{
     padding:8px;
     margin:5px 5px 15px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
 }
 button{
     cursor:pointer;
+    background:#0056b3;
+    color:white;
+    border:none;
 }
 </style>
 </head>
-
 <body>
 
 <nav class="sidebar">
@@ -179,7 +189,6 @@ button{
 
 <h2>Hospital Gallery</h2>
 <div class="gallery">
-    <!-- African doctors & hospital images -->
     <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6">
     <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1600180758895-0c4d6d7b6a16">
     <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1612349311655-09f48f8c5aef">
@@ -191,7 +200,7 @@ button{
 <div style="text-align:center;margin-top:30px; position:relative;">
 <h3>Patient Heart Monitor</h3>
 <img src="https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif" width="200">
-<img id="cartoon" src="/mnt/data/a_screenshot_showcases_a_hospital_management_syste.png">
+<img id="cartoon" src="/mnt/data/a_screenshot_of_a_hospital_management_system_hms.png">
 </div>
 </div>
 
@@ -246,7 +255,6 @@ let db={patients:[],doctors:[],meds:[]}
 function show(id){
     document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
     document.getElementById(id).classList.add("active")
-    // Trigger card animation
     document.querySelectorAll('.card').forEach(c=>{
         c.style.animation = 'fadeInCard 0.6s forwards';
     });
