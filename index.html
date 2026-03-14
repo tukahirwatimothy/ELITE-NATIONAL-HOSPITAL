@@ -4,91 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elite Hospital System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Segoe UI', sans-serif; height:100vh; background:#f0f2f5; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+body { background:#f0f2f5; }
 
-    /* LOGIN SCREEN */
-    #loginPage {
-        width:100%; height:100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display:flex; align-items:center; justify-content:center;
-        position:fixed; top:0; left:0;
-        z-index:10000; transition: opacity 0.5s ease;
-    }
-    
-    .login-container {
-        background:white; padding:50px 40px; border-radius:20px;
-        box-shadow:0 20px 40px rgba(0,0,0,0.3); text-align:center;
-        max-width:400px; width:100%;
-    }
+#loginPage { width:100%; height:100vh; background:linear-gradient(135deg,#667eea,#764ba2); display:flex; justify-content:center; align-items:center; position:fixed; top:0; left:0; z-index:10000; transition: opacity 0.5s; }
+.login-container { background:white; padding:50px 40px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3); text-align:center; max-width:400px; width:100%; }
+.login-container h2 { margin-bottom:30px; color:#333; }
+.login-container input { width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #ccc; font-size:16px; }
+.login-container button { width:100%; padding:15px; border:none; border-radius:10px; background:#667eea; color:white; font-size:16px; cursor:pointer; transition:background 0.3s; }
+.login-container button:hover { background:#764ba2; }
+#loginError { color:red; margin-top:10px; display:none; }
 
-    .login-container h2 { margin-bottom:30px; color:#333; }
-    .login-container input {
-        width:100%; padding:15px; margin-bottom:20px;
-        border-radius:10px; border:1px solid #ccc; font-size:16px;
-    }
-    .login-container button {
-        width:100%; padding:15px; border:none; border-radius:10px;
-        background:#667eea; color:white; font-size:16px; cursor:pointer;
-        transition: background 0.3s ease;
-    }
-    .login-container button:hover { background:#764ba2; }
+#dashboard { display:none; opacity:0; padding:20px; transition: opacity 0.5s ease; }
+h1 { margin-bottom:20px; color:#333; }
+.section { background:white; padding:20px; margin-bottom:20px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
 
-    #loginError { color:red; margin-top:10px; display:none; }
+.doctors { display:flex; gap:20px; flex-wrap:wrap; }
+.doctor { text-align:center; width:120px; }
+.doctor img { width:100%; border-radius:50%; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+.doctor p { margin-top:5px; }
 
-    /* DASHBOARD */
-    #dashboard {
-        display:none; padding:20px; opacity:0; transition:opacity 0.5s ease;
-    }
+.medicine { display:flex; gap:20px; flex-wrap:wrap; }
+.med { background:#f9f9f9; padding:10px; border-radius:10px; width:120px; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+.med:hover { transform: scale(1.05); }
+.med img { width:80px; height:80px; margin-bottom:5px; }
+
+.registration input, .registration button { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; }
+.registration button { background:#667eea; color:white; border:none; cursor:pointer; transition: background 0.3s; }
+.registration button:hover { background:#764ba2; }
+
+.calendar { max-width:300px; }
+
+.stock { font-size:20px; animation: pulse 1s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="loginPage">
-    <div class="login-container">
-        <h2>Elite Hospital Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p id="loginError"></p>
-    </div>
+  <div class="login-container">
+    <h2>Elite Hospital Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="loginError"></p>
+  </div>
 </div>
 
+<!-- DASHBOARD -->
 <div id="dashboard">
-    <h1>Welcome to Elite Hospital System</h1>
-    <p>You are now logged in!</p>
+<h1>🏥 Elite Hospital Dashboard</h1>
+
+<!-- Doctors -->
+<div class="section">
+<h2>👩🏾‍⚕️ Doctors</h2>
+<div class="doctors">
+<div class="doctor"><img src="https://i.ibb.co/8c91gF2/black-doctor1.jpg" alt=""><p>Dr. Amani</p></div>
+<div class="doctor"><img src="https://i.ibb.co/VJqKxq2/black-doctor2.jpg" alt=""><p>Dr. Malik</p></div>
+<div class="doctor"><img src="https://i.ibb.co/6XxXkgx/black-doctor3.jpg" alt=""><p>Dr. Nia</p></div>
+<div class="doctor"><img src="https://i.ibb.co/HTQwWp7/black-doctor4.jpg" alt=""><p>Dr. Kofi</p></div>
+<div class="doctor"><img src="https://i.ibb.co/d6Xzn4p/black-doctor5.jpg" alt=""><p>Dr. Zuri</p></div>
+<div class="doctor"><img src="https://i.ibb.co/8c91gF2/black-doctor1.jpg" alt=""><p>Dr. Taye</p></div>
+<div class="doctor"><img src="https://i.ibb.co/VJqKxq2/black-doctor2.jpg" alt=""><p>Dr. Sade</p></div>
+<div class="doctor"><img src="https://i.ibb.co/6XxXkgx/black-doctor3.jpg" alt=""><p>Dr. Omari</p></div>
+<div class="doctor"><img src="https://i.ibb.co/HTQwWp7/black-doctor4.jpg" alt=""><p>Dr. Aisha</p></div>
+<div class="doctor"><img src="https://i.ibb.co/d6Xzn4p/black-doctor5.jpg" alt=""><p>Dr. Jamal</p></div>
+</div>
+</div>
+
+<!-- Medicines -->
+<div class="section">
+<h2>💊 Medicines</h2>
+<div class="medicine">
+<!-- Example: Medicine GIF + Emoji stock -->
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Paracetamol <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Ibuprofen <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Amoxicillin <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Aspirin <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Vitamin C <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antibiotic <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Cough Syrup <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Insulin <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antacid <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Hydroxy <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Paracetamol <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Ibuprofen <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Amoxicillin <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Aspirin <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Vitamin D <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antibiotic B <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Cough Syrup B <span class="stock">✅ Good</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Insulin B <span class="stock">⚠️ Low</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Antacid B <span class="stock">⚡ High</span></p></div>
+<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif" alt=""><p>Hydroxy B <span class="stock">✅ Good</span></p></div>
+</div>
+</div>
+
+<!-- Patient Registration -->
+<div class="section">
+<h2>📝 Patient Registration</h2>
+<div class="registration">
+<input type="text" id="pname" placeholder="Patient Name">
+<input type="number" id="page" placeholder="Age">
+<input type="text" id="pgender" placeholder="Gender">
+<button onclick="registerPatient()">Register Patient</button>
+<p id="regStatus" style="color:green;"></p>
+</div>
+</div>
+
+<!-- Calendar -->
+<div class="section">
+<h2>📅 Calendar</h2>
+<input type="date" class="calendar">
+</div>
 </div>
 
 <script>
+// LOGIN
 function login() {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const error = document.getElementById('loginError');
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const error = document.getElementById('loginError');
 
-    // Demo credentials
-    if(username === 'admin' && password === '1234') {
-        error.style.display = 'none';
-        const loginPage = document.getElementById('loginPage');
-        const dashboard = document.getElementById('dashboard');
-
-        loginPage.style.opacity = '0';
-        setTimeout(() => {
-            loginPage.style.display = 'none';
-            dashboard.style.display = 'block';
-            setTimeout(()=>{ dashboard.style.opacity = '1'; }, 50);
-        }, 500);
-    } else {
-        error.textContent = 'Incorrect username or password';
-        error.style.display = 'block';
-    }
+  if(username==='admin' && password==='1234'){
+    error.style.display='none';
+    const loginPage = document.getElementById('loginPage');
+    const dashboard = document.getElementById('dashboard');
+    loginPage.style.opacity='0';
+    setTimeout(()=>{
+      loginPage.style.display='none';
+      dashboard.style.display='block';
+      setTimeout(()=>{ dashboard.style.opacity='1'; },50);
+    },500);
+  } else {
+    error.textContent='❌ Incorrect username or password';
+    error.style.display='block';
+  }
 }
+document.getElementById('password').addEventListener('keyup', e=>{ if(e.key==='Enter') login(); });
 
-// Enter key support
-document.getElementById('password').addEventListener('keyup', function(e){
-    if(e.key === 'Enter') login();
-});
+// PATIENT REGISTRATION
+function registerPatient(){
+  const name = document.getElementById('pname').value.trim();
+  const age = document.getElementById('page').value.trim();
+  const gender = document.getElementById('pgender').value.trim();
+  const status = document.getElementById('regStatus');
+  if(name && age && gender){
+    status.style.color='green';
+    status.textContent=`✅ Patient ${name} registered successfully!`;
+    setTimeout(()=>{ status.textContent=''; },3000);
+    document.getElementById('pname').value='';
+    document.getElementById('page').value='';
+    document.getElementById('pgender').value='';
+  } else {
+    status.style.color='red';
+    status.textContent='❌ Please fill all fields!';
+    setTimeout(()=>{ status.textContent=''; status.style.color='green'; },3000);
+  }
+}
 </script>
-
 </body>
 </html>
