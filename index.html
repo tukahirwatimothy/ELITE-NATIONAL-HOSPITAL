@@ -3,150 +3,375 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Hospital System</title>
+<title>Elite National Hospital System</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
-body { background:#f0f2f5; }
-
-#loginPage {
-  width:100%; height:100vh; background:linear-gradient(135deg,#667eea,#764ba2);
-  display:flex; justify-content:center; align-items:center; position:fixed; top:0; left:0;
-  z-index:10000; transition:opacity 0.5s;
+body{
+    font-family:Segoe UI;
+    margin:0;
+    background:#f4f6f9;
+    display:flex;
 }
-.login-container {
-  background:white; padding:50px 40px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3); text-align:center;
-  max-width:400px; width:100%;
+
+/* Sidebar */
+.sidebar{
+    width:250px;
+    background:#2c3e50;
+    color:white;
+    height:100vh;
+    position:fixed;
 }
-.login-container h2 { margin-bottom:30px; color:#333; }
-.login-container input { width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #ccc; font-size:16px; }
-.login-container button { width:100%; padding:15px; border:none; border-radius:10px; background:#667eea; color:white; font-size:16px; cursor:pointer; transition:background 0.3s; }
-.login-container button:hover { background:#764ba2; }
-#loginError { color:red; margin-top:10px; display:none; }
+.sidebar h2{
+    padding:25px;
+    font-size:24px;
+}
+.sidebar li{
+    list-style:none;
+    padding:15px 25px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.sidebar li:hover{
+    background:#34495e;
+}
 
-#dashboard { display:none; padding:20px; opacity:0; transition:opacity 0.5s ease; }
-h1 { margin-bottom:20px; color:#333; }
-.section { background:white; padding:20px; margin-bottom:20px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+/* Main content */
+.main{
+    margin-left:250px;
+    padding:40px;
+    width:100%;
+}
+.section{display:none}
+.section.active{display:block}
 
-.doctors { display:flex; gap:15px; flex-wrap:wrap; }
-.doctor { text-align:center; width:100px; }
-.doctor img { width:100%; border-radius:50%; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
-.doctor p { margin-top:5px; font-size:14px; }
+/* Cards */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+.card{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeInCard 0.6s forwards;
+}
+@keyframes fadeInCard{
+    to{opacity:1; transform:translateY(0);}
+}
 
-.medicine { display:flex; gap:15px; flex-wrap:wrap; }
-.med { background:#f9f9f9; padding:10px; border-radius:10px; width:100px; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.1); transition:transform 0.3s; }
-.med:hover { transform:scale(1.05); }
-.med img { width:70px; height:70px; margin-bottom:5px; }
-.stock { font-size:16px; animation:pulse 1s infinite alternate; }
-@keyframes pulse { from{transform:scale(1);} to{transform:scale(1.2);} }
+/* Gallery */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
+.gallery img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.4s;
+}
+.gallery img:hover{
+    transform:scale(1.08);
+}
 
-.registration input, .registration button { width:100%; padding:8px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; }
-.registration button { background:#667eea; color:white; border:none; cursor:pointer; transition:background 0.3s; }
-.registration button:hover { background:#764ba2; }
+/* Tables */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+}
+th,td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+.low{color:red}
+.medium{color:orange}
+.good{color:green}
 
-.calendar { max-width:300px; }
+/* Notification bar */
+#notifBar{
+    background:#0056b3;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+    margin-bottom:15px;
+    overflow:hidden;
+    position:relative;
+}
+#notifBar span{
+    display:inline-block;
+    white-space:nowrap;
+    animation:scrollNotif 15s linear infinite;
+}
+@keyframes scrollNotif{
+    0%{transform:translateX(100%);}
+    100%{transform:translateX(-100%);}
+}
+
+/* Floating hospital GIF */
+#cartoon{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    width:100px;
+    animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+input,button{
+    padding:8px;
+    margin:5px 5px 15px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+button{
+    cursor:pointer;
+    background:#0056b3;
+    color:white;
+    border:none;
+}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage">
-  <div class="login-container">
-    <h2>Elite Hospital Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="loginError"></p>
-  </div>
+<nav class="sidebar">
+<h2>🏥 HMS</h2>
+<ul>
+<li onclick="show('dashboard')">Dashboard</li>
+<li onclick="show('patients')">Patients</li>
+<li onclick="show('registration')">Registration</li>
+<li onclick="show('doctors')">Doctors</li>
+<li onclick="show('pharmacy')">Pharmacy</li>
+<li onclick="logout()">Logout</li>
+</ul>
+</nav>
+
+<div class="main">
+
+<!-- LOGIN PAGE -->
+<div id="login" class="section active">
+  <h2>🏥 HMS Login</h2>
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p id="loginMsg" style="color:red;"></p>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard">
-<h1>🏥 Elite Hospital Dashboard</h1>
+<div id="dashboard" class="section">
+<div id="notifBar"><span>⚠️ Low stock: Paracetamol | ✅ Good stock: Aspirin | ⚠️ Moderate stock: Ibuprofen</span></div>
 
-<!-- Doctors -->
-<div class="section">
-<h2>👩🏾‍⚕️ Doctors</h2>
-<div class="doctors">
-  <div class="doctor"><img src="https://i.ibb.co/8c91gF2/black-doctor1.jpg"><p>Dr. Amani</p></div>
-  <div class="doctor"><img src="https://i.ibb.co/VJqKxq2/black-doctor2.jpg"><p>Dr. Malik</p></div>
-  <div class="doctor"><img src="https://i.ibb.co/6XxXkgx/black-doctor3.jpg"><p>Dr. Nia</p></div>
-  <div class="doctor"><img src="https://i.ibb.co/HTQwWp7/black-doctor4.jpg"><p>Dr. Kofi</p></div>
-  <div class="doctor"><img src="https://i.ibb.co/d6Xzn4p/black-doctor5.jpg"><p>Dr. Zuri</p></div>
-</div>
-</div>
-
-<!-- Medicines -->
-<div class="section">
-<h2>💊 Medicines</h2>
-<div class="medicine">
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Paracetamol <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Ibuprofen <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Amoxicillin <span class="stock">⚠️ Low</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Aspirin <span class="stock">⚡ High</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Vitamin C <span class="stock">✅ Good</span></p></div>
-<div class="med"><img src="https://i.gifer.com/embedded/download/7vX.gif"><p>Insulin <span class="stock">⚠️ Low</span></p></div>
-</div>
+<div class="cards">
+    <div class="card">
+        <h1>🤒</h1>
+        <h2 id="pCount">0</h2>
+        Patients
+    </div>
+    <div class="card">
+        <h1>👨‍⚕️</h1>
+        <h2 id="dCount">0</h2>
+        Doctors
+    </div>
+    <div class="card">
+        <h1>💊</h1>
+        <h2 id="mCount">0</h2>
+        Medicines
+    </div>
 </div>
 
-<!-- Patient Registration -->
-<div class="section">
-<h2>📝 Patient Registration</h2>
-<div class="registration">
-<input type="text" id="pname" placeholder="Patient Name">
-<input type="number" id="page" placeholder="Age">
-<input type="text" id="pgender" placeholder="Gender">
-<button onclick="registerPatient()">Register Patient</button>
-<p id="regStatus" style="color:green;"></p>
+<h2>Hospital Gallery</h2>
+<div class="gallery">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1600180758895-0c4d6d7b6a16">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1612349311655-09f48f8c5aef">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1580281657527-47a7d4d1b55f">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
+    <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289">
+</div>
+
+<div style="text-align:center;margin-top:30px; position:relative;">
+<h3>Patient Heart Monitor</h3>
+<img src="https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif" width="200">
+<img id="cartoon" src="https://media.giphy.com/media/3o7qE1YN7aADqWG8Py/giphy.gif">
 </div>
 </div>
 
-<!-- Calendar -->
-<div class="section">
-<h2>📅 Calendar</h2>
-<input type="date" class="calendar">
-</div>
+<!-- PATIENTS -->
+<div id="patients" class="section">
+<h2>Add Patient</h2>
+<input id="pName" placeholder="Name">
+<input id="pAge" placeholder="Age">
+<button onclick="addPatient()">Add</button>
+
+<table>
+<thead><tr><th>ID</th><th>Name</th><th>Age</th></tr></thead>
+<tbody id="patientTable"></tbody>
+</table>
 </div>
 
+<!-- REGISTRATION -->
+<div id="registration" class="section">
+<h2>Patient Registration</h2>
+<input id="regName" placeholder="Full Name">
+<input id="regAge" type="number" placeholder="Age">
+<input id="regGender" placeholder="Gender">
+<input id="regContact" placeholder="Phone/Email">
+<button onclick="registerPatient()">Register</button>
+
+<table>
+<thead>
+<tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th></tr>
+</thead>
+<tbody id="regTable"></tbody>
+</table>
+</div>
+
+<!-- DOCTORS -->
+<div id="doctors" class="section">
+<h2>Add Doctor</h2>
+<input id="dName" placeholder="Doctor Name">
+<input id="dSpec" placeholder="Specialization">
+<input type="file" id="dImg">
+<button onclick="addDoctor()">Add</button>
+
+<table>
+<thead><tr><th>Photo</th><th>Name</th><th>Specialization</th></tr></thead>
+<tbody id="doctorTable"></tbody>
+</table>
+</div>
+
+<!-- PHARMACY -->
+<div id="pharmacy" class="section">
+<h2>Add Medicine</h2>
+<input id="mName" placeholder="Medicine">
+<input id="mQty" type="number" placeholder="Stock">
+<button onclick="addMed()">Add</button>
+
+<table>
+<thead><tr><th>Medicine</th><th>Stock</th><th>Status</th></tr></thead>
+<tbody id="medTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-function login() {
-  const username=document.getElementById('username').value.trim();
-  const password=document.getElementById('password').value.trim();
-  const error=document.getElementById('loginError');
-  if(username==='admin' && password==='1234'){
-    error.style.display='none';
-    const loginPage=document.getElementById('loginPage');
-    const dashboard=document.getElementById('dashboard');
-    loginPage.style.opacity='0';
-    setTimeout(()=>{
-      loginPage.style.display='none';
-      dashboard.style.display='block';
-      setTimeout(()=>{ dashboard.style.opacity='1'; },50);
-    },500);
-  } else {
-    error.textContent='❌ Incorrect username or password';
-    error.style.display='block';
-  }
-}
-document.getElementById('password').addEventListener('keyup', e=>{ if(e.key==='Enter') login(); });
+AOS.init({duration:800});
 
+// DATABASE
+let db={patients:[],doctors:[],meds:[]};
+let regPatients=[];
+
+// LOGIN USERS
+let users=[{username:"admin",password:"1234"}];
+
+function show(id){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll('.card').forEach(c=>{
+        c.style.opacity=0;
+        c.style.transform='translateY(20px)';
+        setTimeout(()=>c.style.animation='fadeInCard 0.6s forwards',50);
+    });
+}
+
+// LOGIN & LOGOUT
+function login(){
+    let u=username.value;
+    let p=password.value;
+    let found=users.find(x=>x.username===u && x.password===p);
+    if(found){
+        show('dashboard');
+        loginMsg.innerText="";
+        username.value=""; password.value="";
+    } else {
+        loginMsg.innerText="Invalid username or password!";
+    }
+}
+function logout(){
+    show('login');
+}
+
+// ADD PATIENT
+function addPatient(){
+    if(pName.value && pAge.value){
+        db.patients.push({id:"P"+Date.now(),name:pName.value,age:pAge.value})
+        render()
+        pName.value=""; pAge.value="";
+    }
+}
+
+// REGISTER PATIENT
 function registerPatient(){
-  const name=document.getElementById('pname').value.trim();
-  const age=document.getElementById('page').value.trim();
-  const gender=document.getElementById('pgender').value.trim();
-  const status=document.getElementById('regStatus');
-  if(name && age && gender){
-    status.style.color='green';
-    status.textContent=`✅ Patient ${name} registered successfully!`;
-    setTimeout(()=>{ status.textContent=''; },3000);
-    document.getElementById('pname').value='';
-    document.getElementById('page').value='';
-    document.getElementById('pgender').value='';
-  } else {
-    status.style.color='red';
-    status.textContent='❌ Please fill all fields!';
-    setTimeout(()=>{ status.textContent=''; status.style.color='green'; },3000);
-  }
+    if(regName.value && regAge.value && regGender.value && regContact.value){
+        let id="R"+Date.now();
+        regPatients.push({
+            id:id,
+            name:regName.value,
+            age:regAge.value,
+            gender:regGender.value,
+            contact:regContact.value
+        });
+        regTable.innerHTML = regPatients.map(p=>`
+          <tr>
+            <td>${p.id}</td><td>${p.name}</td><td>${p.age}</td>
+            <td>${p.gender}</td><td>${p.contact}</td>
+          </tr>
+        `).join("");
+        regName.value=""; regAge.value=""; regGender.value=""; regContact.value="";
+    }
+}
+
+// ADD DOCTOR
+function addDoctor(){
+    let file=dImg.files[0], url="https://via.placeholder.com/40";
+    if(file){url=URL.createObjectURL(file)}
+    if(dName.value && dSpec.value){
+        db.doctors.push({name:dName.value,spec:dSpec.value,img:url})
+        render()
+        dName.value=""; dSpec.value=""; dImg.value="";
+    }
+}
+
+// ADD MEDICINE
+function addMed(){
+    if(mName.value && mQty.value){
+        db.meds.push({name:mName.value,qty:parseInt(mQty.value)})
+        render()
+        mName.value=""; mQty.value="";
+    }
+}
+
+// RENDER TABLES
+function render(){
+    patientTable.innerHTML=db.patients.map(p=>`<tr><td>${p.id}</td><td>${p.name}</td><td>${p.age}</td></tr>`).join("");
+    doctorTable.innerHTML=db.doctors.map(d=>`<tr><td><img src="${d.img}" width="40" style="border-radius:50%"></td><td>${d.name}</td><td>${d.spec}</td></tr>`).join("");
+    medTable.innerHTML=db.meds.map(m=>{
+        let status="LOW",emoji="🔴",cls="low";
+        if(m.qty>=50 && m.qty<200){status="MODERATE";emoji="⚠️";cls="medium";}
+        if(m.qty>=200){status="GOOD";emoji="✅";cls="good";}
+        return `<tr><td>${m.name}</td><td>${m.qty}</td><td class="${cls}">${emoji} ${status}</td></tr>`;
+    }).join("");
+    pCount.innerText=db.patients.length;
+    dCount.innerText=db.doctors.length;
+    mCount.innerText=db.meds.length;
 }
 </script>
 
