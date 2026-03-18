@@ -10,196 +10,261 @@
 
 <style>
 :root {
-    --primary-theme: #0056b3;
-    --sidebar-dark: #1c2833;
-    --accent-red: #c0392b;
-    --success-green: #27ae60;
-    --warning-orange: #f39c12;
-    --bg-light: #f4f7f6;
-    --text-main: #2c3e50;
+    --primary-theme: #0056b3;
+    --sidebar-dark: #1c2833;
+    --accent-red: #c0392b;
+    --success-green: #27ae60;
+    --warning-orange: #f39c12;
+    --bg-light: #f4f7f6;
+    --text-main: #2c3e50;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-body { background: var(--bg-light); display: flex; min-height: 100vh; color: var(--text-main); overflow-x: hidden; }
+body { background: var(--bg-light); display: flex; min-height: 100vh; color: var(--text-main); }
 
-/* AUTHENTICATION OVERLAY - FIXED VISIBILITY */
+/* AUTHENTICATION OVERLAY */
 #authOverlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1c2833 0%, #0056b3 100%);
-    display: flex; align-items: center; justify-content: center; z-index: 10000;
+    position: fixed; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #1c2833 0%, #0056b3 100%);
+    display: flex; align-items: center; justify-content: center; z-index: 9999;
 }
-.auth-container { 
-    background: white; padding: 45px; border-radius: 12px; 
-    width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+.auth-container { 
+    background: white; padding: 45px; border-radius: 8px; 
+    width: 400px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
-.auth-container input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; }
+.auth-container input { width: 100%; padding: 12px; margin: 12px 0; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
 
-/* NAVIGATION */
+/* NAVIGATION BAR */
 .nav-sidebar { width: 260px; background: var(--sidebar-dark); color: white; height: 100vh; position: fixed; z-index: 100; }
-.nav-sidebar header { padding: 30px 20px; font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid #2d3e50; text-align: center; color: #fff; }
-.nav-sidebar ul { list-style: none; margin-top: 20px; }
-.nav-sidebar li { padding: 18px 25px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; }
-.nav-sidebar li:hover, .nav-sidebar li.active { background: #2d3e50; border-left: 5px solid var(--primary-theme); }
-.nav-sidebar i { margin-right: 15px; width: 20px; text-align: center; }
+.nav-sidebar header { padding: 30px 20px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid #2d3e50; text-align: center; }
+.nav-sidebar ul { margin-top: 15px; }
+.nav-sidebar li { padding: 16px 25px; list-style: none; cursor: pointer; transition: 0.2s; display: flex; align-items: center; font-size: 0.95rem; }
+.nav-sidebar li:hover, .nav-sidebar li.active { background: #2d3e50; border-left: 5px solid var(--primary-theme); color: #fff; }
+.nav-sidebar i { margin-right: 12px; font-size: 1.1rem; width: 25px; }
 
-/* CONTENT */
+/* VIEWPORT */
 .content-area { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
-.view-section { display: none; }
-.view-section.active { display: block; animation: fadeIn 0.5s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.view-section { display: none; animation: viewFade 0.3s ease-in; }
+.view-section.active { display: block; }
+@keyframes viewFade { from { opacity: 0; } to { opacity: 1; } }
 
-/* DASHBOARD ELEMENTS */
-.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-bottom: 40px; }
-.metric-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
-.metric-card i { font-size: 2.5rem; color: var(--primary-theme); margin-bottom: 15px; }
-.metric-card h3 { font-size: 2rem; margin-bottom: 5px; }
+/* DASHBOARD METRICS */
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 40px; }
+.metric-card { background: white; padding: 35px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); text-align: center; }
+.metric-card i { font-size: 2.2rem; color: var(--primary-theme); margin-bottom: 15px; }
+.metric-card h3 { font-size: 2rem; color: #333; }
 
-.facility-gallery { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: thin; }
-.img-slot { flex: 0 0 200px; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; }
-.img-slot img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; }
-.img-caption { font-size: 0.8rem; font-weight: bold; margin-top: 10px; text-align: center; color: var(--sidebar-dark); }
+/* IMAGE UPLOAD */
+.image-upload { 
+    border: 2px dashed #cbd5e0; border-radius: 8px; padding: 30px; 
+    text-align: center; cursor: pointer; transition: 0.3s; margin: 15px 0;
+    background: #fafbfc;
+}
+.image-upload:hover { border-color: var(--primary-theme); background: #f0f8ff; }
+.image-upload input[type="file"] { display: none; }
+.image-preview { 
+    max-width: 120px; max-height: 120px; border-radius: 8px; 
+    object-fit: cover; margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
 
-/* TABLES & FORMS */
-.data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 20px; }
-.data-table th { background: #f8f9fa; padding: 15px; text-align: left; }
-.data-table td { padding: 15px; border-top: 1px solid #eee; }
-.entry-form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
-.entry-form input, .entry-form select { padding: 10px; border: 1px solid #ddd; border-radius: 5px; flex: 1; min-width: 150px; }
+/* DATA ENTRY & TABLES */
+.entry-form { background: white; padding: 25px; border-radius: 6px; margin-bottom: 30px; border: 1px solid #e1e8ed; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+.entry-form input, .entry-form select { padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; flex: 1; min-width: 180px; }
 
-.action-btn { padding: 12px 25px; border: none; background: var(--primary-theme); color: white; border-radius: 6px; cursor: pointer; font-weight: 600; }
-.btn-danger { background: var(--accent-red); }
-.badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
-.bg-success { background: #e6f4ea; color: #1e7e34; }
-.bg-danger { background: #fce8e6; color: #d93025; }
-.patient-photo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+.action-btn { padding: 11px 24px; border: none; background: var(--primary-theme); color: white; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+.action-btn:hover { background: #004494; }
+.btn-destructive { background: var(--accent-red); margin-top: 50px; }
+.btn-success { background: var(--success-green); }
+.btn-warning { background: var(--warning-orange); }
+.btn-small { padding: 5px 10px; font-size: 0.8rem; }
+
+.data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.data-table th { background: #f8fafc; padding: 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #edf2f7; }
+.data-table td { padding: 14px 16px; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
+.patient-photo, .doctor-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+
+/* STATUS INDICATORS */
+.badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+.badge-success { background: #def7ec; color: #03543f; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
+.stock-alert { color: var(--accent-red); font-weight: bold; animation: alertPulse 2s infinite; }
+@keyframes alertPulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+.facility-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
+.facility-gallery img { width: 100%; height: 140px; border-radius: 4px; object-fit: cover; }
+.medicine-slider { overflow-x: auto; padding: 20px 0; scrollbar-width: thin; }
+.medicine-slider::-webkit-scrollbar { height: 8px; }
+.medicine-slider::-webkit-scrollbar-thumb { background: var(--primary-theme); border-radius: 4px; }
+
+/* CALENDAR */
+.calendar { margin-top: 30px; background: white; padding: 20px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+.calendar header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.calendar header button { background: var(--primary-theme); border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+.calendar table { width: 100%; border-collapse: collapse; }
+.calendar th, .calendar td { width: 14.28%; padding: 10px; text-align: center; border: 1px solid #eee; }
+.calendar td { height: 80px; vertical-align: top; cursor: pointer; transition: 0.2s; }
+.calendar td:hover { background: #f0f8ff; }
+.calendar td.event { background: #d1e7dd; border-radius: 4px; position: relative; }
+.calendar td.event::after { content: "📌"; position: absolute; top: 5px; right: 5px; font-size: 0.8rem; }
+
+/* SEARCH BAR */
+.search-container { margin-bottom: 25px; }
+.search-input { width: 100%; max-width: 400px; padding: 12px 20px; border: 2px solid #e1e8ed; border-radius: 25px; font-size: 14px; }
+.search-input:focus { outline: none; border-color: var(--primary-theme); box-shadow: 0 0 0 3px rgba(0,86,179,0.1); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .nav-sidebar { transform: translateX(-100%); }
+    .content-area { margin-left: 0; width: 100%; }
+    .entry-form { flex-direction: column; }
+    .entry-form input, .entry-form select { min-width: 100%; }
+}
 </style>
 </head>
 <body>
 
 <div id="authOverlay">
-    <div class="auth-container" data-aos="zoom-in">
-        <i class="fas fa-hospital-symbol" style="font-size: 4rem; color: var(--primary-theme); margin-bottom: 20px;"></i>
-        <h2 style="margin-bottom: 5px;">Enterprise Portal</h2>
-        <p style="color: #888; margin-bottom: 30px;">Elite National Hospital System</p>
-        <input type="text" id="userKey" placeholder="Username (admin)">
-        <input type="password" id="passKey" placeholder="Password (elite2026)">
-        <button class="action-btn" style="width: 100%; margin-top: 15px;" onclick="validateAccess()">Sign In</button>
-    </div>
+    <div class="auth-container" data-aos="fade-down">
+        <i class="fas fa-shield-alt" style="font-size: 3.5rem; color: var(--primary-theme); margin-bottom: 15px;"></i>
+        <h2>🔐 Secure Login</h2>
+        <p style="color: #666; margin-bottom: 25px;">Elite National Hospital System</p>
+        <input id="userKey" placeholder="👤 Username">
+        <input id="passKey" type="password" placeholder="🔑 Password">
+        <button class="action-btn" style="width: 100%; margin-top: 10px;" onclick="validateAccess()">Sign In</button>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">admin / elite2026</p>
+    </div>
 </div>
 
 <nav class="nav-sidebar">
-    <header>🏥 ELITE NATIONAL</header>
-    <ul>
-        <li class="active" onclick="switchView('overview', this)"><i class="fas fa-th-large"></i> Dashboard</li>
-        <li onclick="switchView('patients', this)"><i class="fas fa-user-friends"></i> Patients</li>
-        <li onclick="switchView('doctors', this)"><i class="fas fa-user-md"></i> Staff</li>
-        <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
-    </ul>
-    <div style="padding: 20px; position: absolute; bottom: 0; width: 100%;">
-        <button class="action-btn btn-danger" style="width: 100%; font-size: 0.8rem;" onclick="wipeData()">⚠️ PURGE SYSTEM</button>
-    </div>
+    <header>🏥 Elite National Hospital</header>
+    <ul>
+        <li class="active" onclick="switchView('overview', this)"><i class="fas fa-chart-pie"></i> Dashboard</li>
+        <li onclick="switchView('patients', this)"><i class="fas fa-user-injured"></i> Patients</li>
+        <li onclick="switchView('doctors', this)"><i class="fas fa-user-md"></i> Doctors</li>
+        <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
+        <li onclick="switchView('laboratory', this)"><i class="fas fa-microscope"></i> Laboratory</li>
+        <li onclick="switchView('billing', this)"><i class="fas fa-file-invoice-dollar"></i> Billing</li>
+    </ul>
+    <div style="padding: 20px; border-top: 1px solid #2d3e50;">
+        <button class="action-btn btn-success" style="width: 100%; margin-bottom: 10px;" onclick="exportData()">
+            💾 Export Data
+        </button>
+        <label class="action-btn" style="width: 100%; background: var(--warning-orange); cursor: pointer;" 
+               for="importFile" id="importBtn">📥 Import Data</label>
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+        <button class="action-btn btn-destructive" style="width: 100%; margin-top: 10px;" onclick="wipeSystemData()">
+            ⚠️ PURGE ALL DATA
+        </button>
+    </div>
 </nav>
 
 <div class="content-area">
 
-    <div id="overview" class="view-section active">
-        <h1 style="margin-bottom: 30px;">Hospital Insights</h1>
-        <div class="metric-grid">
-            <div class="metric-card"><i class="fas fa-procedures"></i><h3 id="stat-patients">0</h3><p>Total Patients</p></div>
-            <div class="metric-card"><i class="fas fa-stethoscope"></i><h3 id="stat-doctors">0</h3><p>Active Staff</p></div>
-            <div class="metric-card"><i class="fas fa-vial"></i><h3>24</h3><p>Pending Labs</p></div>
-            <div class="metric-card"><i class="fas fa-wallet"></i><h3>$28,450</h3><p>Revenue (MTD)</p></div>
-        </div>
+<!-- DASHBOARD -->
+<div id="overview" class="view-section active">
+    <h1>📊 Dashboard Overview</h1>
+    <div class="metric-grid">
+        <div class="metric-card" data-aos="fade-up">
+            <i class="fas fa-users"></i>
+            <h3 id="stat-patients">0</h3>
+            <p>Total Patients 📈</p>
+        </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="100">
+            <i class="fas fa-user-md"></i>
+            <h3 id="stat-doctors">0</h3>
+            <p>Active Doctors 👨‍⚕️</p>
+        </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-pills"></i>
+            <h3 id="stat-low-stock">0</h3>
+            <p>Low Stock Alerts ⚠️</p>
+        </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="300">
+            <i class="fas fa-flask"></i>
+            <h3 id="stat-labs">0</h3>
+            <p>Pending Labs 🔬</p>
+        </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="400">
+            <i class="fas fa-dollar-sign"></i>
+            <h3 id="stat-revenue">$0</h3>
+            <p>Total Revenue 💰</p>
+        </div>
+    </div>
 
-        <h2 style="margin-bottom: 15px;">Hospital Gallery</h2>
-        <input type="file" id="imageUploader" accept="image/*" style="display: none;">
-        <div class="facility-gallery">
-            <div class="img-slot" onclick="openUploader(0)"><img id="slot-0" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_0"><div class="img-caption">Dr. Consultation</div></div>
-            <div class="img-slot" onclick="openUploader(1)"><img id="slot-1" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_1"><div class="img-caption">Pediatrics</div></div>
-            <div class="img-slot" onclick="openUploader(2)"><img id="slot-2" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_2"><div class="img-caption">Surgical Wing</div></div>
-            <div class="img-slot" onclick="openUploader(3)"><img id="slot-3" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_3"><div class="img-caption">Patient Care</div></div>
-            <div class="img-slot" onclick="openUploader(4)"><img id="slot-4" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_4"><div class="img-caption">Diagnostic Lab</div></div>
-            <div class="img-slot" onclick="openUploader(5)"><img id="slot-5" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_5"><div class="img-caption">Emergency Dept</div></div>
-            <div class="img-slot" onclick="openUploader(6)"><img id="slot-6" src="http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_6"><div class="img-caption">Senior Care</div></div>
-        </div>
-    </div>
+    <h2>💊 Featured Medicines</h2>
+    <div class="medicine-slider" data-aos="fade-up">
+        <div class="facility-gallery" style="grid-template-columns: repeat(8, 160px);">
+            <img src="https://images.unsplash.com/photo-1588776814546-1f203f6c21c8?w=300">
+            <img src="https://images.unsplash.com/photo-1613474787583-8ee90e51f3e7?w=300">
+            <img src="https://images.unsplash.com/photo-1612384003835-0ccf8f4c9bdb?w=300">
+            <img src="https://images.unsplash.com/photo-1592928308425-efaa409f8cd1?w=300">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300">
+            <img src="https://images.unsplash.com/photo-1586952575587-7ea30b1247e8?w=300">
+            <img src="https://images.unsplash.com/photo-1629346170957-e2ef9bbc209a?w=300">
+            <img src="https://images.unsplash.com/photo-1576091160550-6a5bd612b6fa?w=300">
+        </div>
+    </div>
 
-    <div id="patients" class="view-section">
-        <h1>Patient Management</h1>
-        <div class="entry-form">
-            <input id="pName" placeholder="Full Name">
-            <input id="pAge" type="number" placeholder="Age">
-            <input id="pPhone" placeholder="Contact Number">
-            <select id="pGender"><option>Male</option><option>Female</option><option>Other</option></select>
-            <button class="action-btn" onclick="addPatient()">Add Patient</button>
-        </div>
-        <table class="data-table">
-            <thead><tr><th>ID</th><th>Patient</th><th>Age</th><th>Contact</th><th>Gender</th><th>Action</th></tr></thead>
-            <tbody id="pTableBody"></tbody>
-        </table>
-    </div>
-
-    <div id="doctors" class="view-section">
-        <h1>Staff Directory</h1>
-        <div class="entry-form">
-            <input id="dName" placeholder="Dr. Name">
-            <input id="dSpec" placeholder="Specialty (e.g. Cardiology)">
-            <select id="dStatus"><option>Available</option><option>In Surgery</option><option>On Leave</option></select>
-            <button class="action-btn" onclick="addDoctor()">Register Staff</button>
-        </div>
-        <table class="data-table">
-            <thead><tr><th>Staff Name</th><th>Specialty</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody id="dTableBody"></tbody>
-        </table>
-    </div>
-
-    <div id="pharmacy" class="view-section">
-        <h1>Pharmacy Inventory</h1>
-        <div class="entry-form">
-            <input id="mName" placeholder="Medication Name">
-            <input id="mStock" type="number" placeholder="Stock Count">
-            <button class="action-btn" onclick="addStock()">Update Inventory</button>
-        </div>
-        <table class="data-table">
-            <thead><tr><th>Medicine</th><th>In Stock</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody id="mTableBody"></tbody>
-        </table>
-    </div>
-
+    <div class="calendar" id="dashboard-calendar" data-aos="fade-up" data-aos-delay="200">
+        <header>
+            <button onclick="prevMonth()">«</button>
+            <h3 id="calendar-month"></h3>
+            <button onclick="nextMonth()">»</button>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+                    <th>Thu</th><th>Fri</th><th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body"></tbody>
+        </table>
+    </div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
+<!-- PATIENTS -->
+<div id="patients" class="view-section">
+    <h1>👥 Patient Management</h1>
+    <div class="search-container">
+        <input type="text" class="search-input" id="patient-search" placeholder="🔍 Search patients..." onkeyup="filterTable('patients-table', this.value)">
+    </div>
+    <form class="entry-form">
+        <input id="patient-name" placeholder="Full Name *">
+        <input id="patient-age" type="number" placeholder="Age" min="0" max="120">
+        <input id="patient-phone" placeholder="Phone *">
+        <select id="patient-gender">
+            <option value="">Select Gender</option>
+            <option>Male</option><option>Female</option><option>Other</option>
+        </select>
+        <input id="patient-email" type="email" placeholder="Email">
+        <input id="patient-photo" type="file" accept="image/*" onchange="previewImage(this,'patient-preview')">
+        <button type="button" class="action-btn" onclick="addPatient()">➕ Add Patient</button>
+    </form>
+    <img id="patient-preview" class="image-preview" style="display:none;">
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Photo</th><th>Name</th><th>Age</th><th>Phone</th>
+                <th>Gender</th><th>Email</th><th>Date Added</th><th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="patients-table"></tbody>
+    </table>
+</div>
 
-    // SYSTEM STATE
-    let db = JSON.parse(localStorage.getItem('elite_hms_data')) || {
-        patients: [],
-        doctors: [],
-        pharmacy: []
-    };
-
-    const patientAvatars = [
-        "http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_0",
-        "http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_3",
-        "http://googleusercontent.com/image_collection/image_retrieval/3499821148046085582_6"
-    ];
-
-    // AUTH LOGIC
-    function validateAccess() {
-        const user = document.getElementById('userKey').value;
-        const pass = document.getElementById('passKey').value;
-        
-        if(user === 'admin' && pass === 'elite2026') {
-            document.getElementById('authOverlay').style.display = 'none';
-            renderAll();
-        } else {
-            alert("🔒 Access Denied. Check credentials.");
-        }
-    }
-
-    // NAVIGATION
-    function switchView(viewId, element) {
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.nav-sidebar li').forEach(l => l.classList.remove('active'));
-        document.getElementById(viewId).classList
+<!-- DOCTORS -->
+<div id="doctors" class="view-section">
+    <h1>👨‍⚕️ Doctor Management</h1>
+    <div class="search-container">
+        <input type="text" class="search-input" id="doctor-search" placeholder="🔍 Search doctors..." onkeyup="filterTable('doctors-table', this.value)">
+    </div>
+    <form class="entry-form">
+        <input id="doctor-name" placeholder="Full Name *">
+        <input id="doctor-specialty" placeholder="Specialty *">
+        <input id="doctor-phone" placeholder="Phone *">
+        <select id="doctor-status">
+            <option value="Available">Available</option>
+            <
