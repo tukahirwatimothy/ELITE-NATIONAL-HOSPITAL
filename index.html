@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elite National Hospital Management System</title>
+  <title>Elite National Hospital Management System • Uganda</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
@@ -14,7 +14,6 @@
       --light: #f3f4f6;
       --dark: #111827;
       --danger: #ef4444;
-      --warning: #f59e0b;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -23,10 +22,7 @@
       background: var(--light);
       color: var(--dark);
       min-height: 100vh;
-      animation: fadeIn 1.2s ease-out;
     }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .hidden { display: none !important; }
 
@@ -48,7 +44,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       width: 100%;
       max-width: 420px;
-      animation: fadeIn 1s ease;
     }
 
     .login-box h2 {
@@ -57,9 +52,15 @@
       color: var(--primary);
     }
 
-    .form-group { margin-bottom: 1.4rem; }
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
 
-    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
 
     input, select {
       width: 100%;
@@ -67,7 +68,6 @@
       border: 1px solid #d1d5db;
       border-radius: 6px;
       font-size: 1rem;
-      transition: border 0.3s, box-shadow 0.3s;
     }
 
     input:focus, select:focus {
@@ -85,17 +85,10 @@
       border-radius: 6px;
       font-size: 1.05rem;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.2s;
     }
 
-    button:hover { background: var(--primary-dark); transform: scale(1.02); }
-
-    #login-error {
-      color: var(--danger);
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
+    button:hover { background: var(--primary-dark); }
 
     /* Main Layout */
     #app {
@@ -116,7 +109,10 @@
       border-bottom: 1px solid #374151;
     }
 
-    #sidebar ul { list-style: none; margin-top: 1.5rem; }
+    #sidebar ul {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
 
     #sidebar li a {
       display: flex;
@@ -124,16 +120,20 @@
       padding: 0.9rem 1.8rem;
       color: #d1d5db;
       text-decoration: none;
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
 
-    #sidebar li a:hover, #sidebar li a.active {
+    #sidebar li a:hover,
+    #sidebar li a.active {
       background: #374151;
       color: white;
-      transform: translateX(8px);
     }
 
-    #sidebar i { margin-right: 12px; width: 20px; text-align: center; }
+    #sidebar i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
 
     #main-content {
       padding: 2rem;
@@ -147,7 +147,10 @@
       margin-bottom: 2rem;
     }
 
-    header h1 { font-size: 1.8rem; color: var(--primary-dark); }
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary-dark);
+    }
 
     .card {
       background: white;
@@ -155,44 +158,30 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       padding: 1.6rem;
       margin-bottom: 1.8rem;
-      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-
-    .card h2 { margin-bottom: 1.2rem; color: var(--primary); font-size: 1.4rem; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.2rem;
-      margin-top: 1.5rem;
+    .card h2 {
+      margin-bottom: 1.2rem;
+      color: var(--primary);
+      font-size: 1.4rem;
     }
 
-    .stat-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      transition: transform 0.3s;
-    }
-
-    .stat-card:hover { transform: scale(1.05); }
-
-    .stat-card img {
+    table {
       width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 0.8rem;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-    th, td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
-
-    th { background: #f3f4f6; font-weight: 600; }
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
 
     .btn {
       padding: 0.6rem 1.2rem;
@@ -200,22 +189,19 @@
       cursor: pointer;
       font-size: 0.95rem;
       border: none;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
     .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); transform: scale(1.05); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-danger  { background: var(--danger); color: white; }
+    .btn-danger:hover  { background: #dc2626; }
 
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-danger:hover { background: #dc2626; }
-
-    .low-stock { color: var(--danger); font-weight: bold; }
-    .warning { color: var(--warning); }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-
-    .calendar-container { margin-top: 1.5rem; text-align: center; }
-    .calendar-container input { font-size: 1.1rem; padding: 0.8rem; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
 
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
@@ -230,16 +216,17 @@
   <!-- Login Screen -->
   <div id="login-page">
     <div class="login-box">
-      <h2>Elite National Hospital Management System</h2>
+      <h2>Elite National Hospital</h2>
+      <p style="text-align:center; margin-bottom:1.5rem; color:#4b5563;">Mulago National Referral • Uganda</p>
 
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required autocomplete="off"/>
+          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required/>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="password" placeholder="••••••••" required autocomplete="off"/>
+          <input type="password" id="password" placeholder="••••••••" required/>
         </div>
         <div class="form-group">
           <label>Role</label>
@@ -252,13 +239,13 @@
           </select>
         </div>
         <button type="submit">Login</button>
-        <div id="login-error"></div>
       </form>
     </div>
   </div>
 
-  <!-- Main App -->
+  <!-- Main App (hidden initially) -->
   <div id="app" class="hidden">
+
     <!-- Sidebar -->
     <aside id="sidebar">
       <h3>ENHMS</h3>
@@ -266,7 +253,6 @@
         <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <li class="role-admin role-reception"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
         <li class="role-doctor role-admin"><a href="#appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-        <li class="role-admin role-reception"><a href="#pharmacy"><i class="fas fa-prescription-bottle-alt"></i> Pharmacy</a></li>
         <li class="role-admin role-reception"><a href="#billing"><i class="fas fa-money-bill-wave"></i> Billing</a></li>
         <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
@@ -288,54 +274,135 @@
 
         <div class="card">
           <h2>Quick Stats</h2>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor in hospital">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-top:1.5rem;">
+            <div style="background:#ecfdf5; padding:1.2rem; border-radius:8px; text-align:center;">
               <h3 style="color:var(--secondary);">248</h3>
               <p>Patients Today</p>
             </div>
-            <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor consulting">
+            <div style="background:#eff6ff; padding:1.2rem; border-radius:8px; text-align:center;">
               <h3 style="color:var(--primary);">37</h3>
               <p>Appointments</p>
             </div>
-            <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Patient care">
+            <div style="background:#fef2f2; padding:1.2rem; border-radius:8px; text-align:center;">
               <h3 style="color:var(--danger);">UGX 4.8M</h3>
               <p>Revenue Today</p>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="card calendar-container">
-          <h2>Active Calendar</h2>
-          <p>Selected Date: <span id="selected-date">Select a date</span></p>
-          <input type="date" id="calendar-input">
+      <!-- Patients -->
+      <section id="patients" class="page hidden">
+        <div class="card">
+          <h2>Patient Management</h2>
+          <button class="btn btn-primary" onclick="showForm('patient-form')">+ Add New Patient</button>
+
+          <form id="patient-form" class="hidden" style="margin:1.5rem 0;">
+            <div class="form-row">
+              <div>
+                <label>Full Name</label>
+                <input type="text" id="p-name" required/>
+              </div>
+              <div>
+                <label>National ID</label>
+                <input type="text" id="p-nid" placeholder="CM87XXXXXXX" required/>
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:1rem;">
+              <div>
+                <label>Phone</label>
+                <input type="tel" id="p-phone"/>
+              </div>
+              <div>
+                <label>Blood Group</label>
+                <select id="p-blood">
+                  <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                  <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Save Patient</button>
+          </form>
+
+          <table id="patient-table">
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>National ID</th><th>Phone</th><th>Blood</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </section>
 
-      <!-- Patients section (shortened for brevity - copy from previous version if needed) -->
-      <section id="patients" class="page hidden">
-        <!-- ... your patient management code here ... -->
+      <!-- Appointments -->
+      <section id="appointments" class="page hidden">
+        <div class="card">
+          <h2>Appointments</h2>
+          <button class="btn btn-primary" onclick="showForm('appt-form')">+ New Appointment</button>
+
+          <form id="appt-form" class="hidden" style="margin:1.5rem 0;">
+            <div class="form-row">
+              <div>
+                <label>Patient Name</label>
+                <input type="text" id="appt-patient" required/>
+              </div>
+              <div>
+                <label>Doctor</label>
+                <select id="appt-doctor" required>
+                  <option>Dr. Nakato Irene</option>
+                  <option>Dr. Ssekandi John</option>
+                  <option>Dr. Ouma Peter</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:1rem;">
+              <div>
+                <label>Date</label>
+                <input type="date" id="appt-date" required/>
+              </div>
+              <div>
+                <label>Time</label>
+                <input type="time" id="appt-time" required/>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Schedule</button>
+          </form>
+
+          <table id="appt-table">
+            <thead>
+              <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- Appointments, Pharmacy, Billing sections - copy from previous full version -->
-      <!-- For space reasons omitted here, but keep them as in the last complete code I sent -->
-
+      <!-- Billing (simple view) -->
+      <section id="billing" class="page hidden">
+        <div class="card">
+          <h2>Billing Overview</h2>
+          <table>
+            <thead>
+              <tr><th>Patient</th><th>Service</th><th>Amount (UGX)</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Achieng Akello</td><td>Consultation + Lab</td><td>285,000</td><td>Paid</td></tr>
+              <tr><td>Kato Muwanga</td><td>Surgery</td><td>2,450,000</td><td>Pending</td></tr>
+              <tr><td>Nalubega Sarah</td><td>Pharmacy</td><td>148,500</td><td>Insurance</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </div>
 
   <script>
-    // ────────────────────────────────────────────────
-    // LOGIN LOGIC - IMPROVED VERSION
-    // ────────────────────────────────────────────────
-
+    // Fake authentication & role control
     const loginForm   = document.getElementById('login-form');
     const loginPage   = document.getElementById('login-page');
     const app         = document.getElementById('app');
-    const errorDiv    = document.getElementById('login-error');
     const userNameEl  = document.getElementById('user-name');
     const userRoleEl  = document.getElementById('user-role');
+    const pageTitle   = document.getElementById('page-title');
 
     let currentUser = null;
 
@@ -346,59 +413,167 @@
       reception: { pass: 'rec2025',  role: 'reception',name: 'Reception Jane' }
     };
 
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', e => {
       e.preventDefault();
+      const username = document.getElementById('username').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const role     = document.getElementById('role').value;
 
-      const usernameInput = document.getElementById('username').value.trim().toLowerCase();
-      const passwordInput = document.getElementById('password').value;
-      const selectedRole  = document.getElementById('role').value;
-
-      errorDiv.textContent = ''; // clear previous error
-
-      if (!usernameInput || !passwordInput || !selectedRole) {
-        errorDiv.textContent = 'Please fill all fields';
-        return;
-      }
-
-      const user = validUsers[usernameInput];
-
-      if (user && user.pass === passwordInput && user.role === selectedRole) {
-        currentUser = user;
-        userNameEl.textContent = user.name;
-        userRoleEl.textContent = user.role.toUpperCase();
+      if (validUsers[username] && validUsers[username].pass === password && validUsers[username].role === role) {
+        currentUser = validUsers[username];
+        userNameEl.textContent = currentUser.name;
+        userRoleEl.textContent = currentUser.role.toUpperCase();
 
         // Show role-based menu items
-        document.querySelectorAll('[class*="role-"]').forEach(el => {
+        document.querySelectorAll('.role-admin, .role-doctor, .role-nurse, .role-reception').forEach(el => {
           el.classList.add('hidden');
         });
-        document.querySelectorAll(`.role-${selectedRole}`).forEach(el => {
-          el.classList.remove('hidden');
-        });
+        document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
 
         loginPage.classList.add('hidden');
         app.classList.remove('hidden');
-
-        // Optional: load data for sections
-        // loadData();   // uncomment if you have this function
+        loadData();
       } else {
-        errorDiv.textContent = 'Invalid username, password, or role combination';
+        alert('Invalid credentials or role!');
       }
     });
 
     // Logout
-    document.getElementById('logout')?.addEventListener('click', function(e) {
+    document.getElementById('logout').addEventListener('click', e => {
       e.preventDefault();
       if (confirm('Logout?')) {
         currentUser = null;
         app.classList.add('hidden');
         loginPage.classList.remove('hidden');
         loginForm.reset();
-        errorDiv.textContent = '';
       }
     });
 
-    // For testing: auto-focus username field
-    document.getElementById('username')?.focus();
+    // Navigation
+    document.querySelectorAll('#sidebar a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (link.id === 'logout') return;
+        e.preventDefault();
+        const target = link.getAttribute('href').substring(1);
+
+        document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+        document.getElementById(target).classList.remove('hidden');
+
+        document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+
+        pageTitle.textContent = link.textContent.trim();
+      });
+    });
+
+    // Show / hide forms
+    function showForm(formId) {
+      const form = document.getElementById(formId);
+      form.classList.toggle('hidden');
+    }
+
+    // LocalStorage Helpers
+    function getData(key) {
+      return JSON.parse(localStorage.getItem(key)) || [];
+    }
+
+    function saveData(key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    // Load & Render Patients
+    function loadPatients() {
+      const patients = getData('patients');
+      const tbody = document.querySelector('#patient-table tbody');
+      tbody.innerHTML = '';
+
+      patients.forEach((p, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${p.name}</td>
+          <td>${p.nid}</td>
+          <td>${p.phone || '-'}</td>
+          <td>${p.blood}</td>
+          <td><button class="btn btn-danger btn-sm" onclick="deletePatient(${i})">Delete</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('patient-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const patients = getData('patients');
+      patients.push({
+        name:  document.getElementById('p-name').value,
+        nid:   document.getElementById('p-nid').value,
+        phone: document.getElementById('p-phone').value,
+        blood: document.getElementById('p-blood').value
+      });
+      saveData('patients', patients);
+      loadPatients();
+      e.target.reset();
+      showForm('patient-form');
+    });
+
+    function deletePatient(index) {
+      if (!confirm('Delete patient?')) return;
+      let patients = getData('patients');
+      patients.splice(index, 1);
+      saveData('patients', patients);
+      loadPatients();
+    }
+
+    // Appointments
+    function loadAppointments() {
+      const appts = getData('appointments');
+      const tbody = document.querySelector('#appt-table tbody');
+      tbody.innerHTML = '';
+
+      appts.forEach(a => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${a.date}</td>
+          <td>${a.time}</td>
+          <td>${a.patient}</td>
+          <td>${a.doctor}</td>
+          <td>Scheduled</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('appt-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const appts = getData('appointments');
+      appts.push({
+        patient: document.getElementById('appt-patient').value,
+        doctor:  document.getElementById('appt-doctor').value,
+        date:    document.getElementById('appt-date').value,
+        time:    document.getElementById('appt-time').value
+      });
+      saveData('appointments', appts);
+      loadAppointments();
+      e.target.reset();
+      showForm('appt-form');
+    });
+
+    function loadData() {
+      loadPatients();
+      loadAppointments();
+    }
+
+    // Initial load (for demo)
+    if (localStorage.getItem('patients') === null) {
+      saveData('patients', [
+        {name:"Achieng Akello", nid:"UG-19850315-001", phone:"0700123456", blood:"O+"},
+        {name:"Kato Muwanga",   nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
+      ]);
+      saveData('appointments', [
+        {patient:"Achieng Akello", doctor:"Dr. Nakato Irene", date:"2026-03-20", time:"09:30"},
+        {patient:"Kato Muwanga",   doctor:"Dr. Ouma Peter",   date:"2026-03-21", time:"14:00"}
+      ]);
+    }
   </script>
 </body>
 </html>
