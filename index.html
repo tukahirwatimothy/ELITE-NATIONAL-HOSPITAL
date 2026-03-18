@@ -14,6 +14,7 @@
     --sidebar-dark: #1c2833;
     --accent-red: #c0392b;
     --success-green: #27ae60;
+    --warning-orange: #f39c12;
     --bg-light: #f4f7f6;
     --text-main: #2c3e50;
 }
@@ -70,20 +71,23 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 .entry-form { background: white; padding: 25px; border-radius: 6px; margin-bottom: 30px; border: 1px solid #e1e8ed; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
 .entry-form input, .entry-form select { padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; flex: 1; min-width: 180px; }
 
-.action-btn { padding: 11px 24px; border: none; background: var(--primary-theme); color: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
+.action-btn { padding: 11px 24px; border: none; background: var(--primary-theme); color: white; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
 .action-btn:hover { background: #004494; }
 .btn-destructive { background: var(--accent-red); margin-top: 50px; }
 .btn-success { background: var(--success-green); }
+.btn-warning { background: var(--warning-orange); }
+.btn-small { padding: 5px 10px; font-size: 0.8rem; }
 
 .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .data-table th { background: #f8fafc; padding: 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #edf2f7; }
 .data-table td { padding: 14px 16px; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
-.patient-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.patient-photo, .doctor-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
 
 /* STATUS INDICATORS */
 .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
 .badge-success { background: #def7ec; color: #03543f; }
 .badge-warning { background: #fef3c7; color: #92400e; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
 .stock-alert { color: var(--accent-red); font-weight: bold; animation: alertPulse 2s infinite; }
 @keyframes alertPulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
@@ -99,9 +103,23 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 .calendar header button { background: var(--primary-theme); border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
 .calendar table { width: 100%; border-collapse: collapse; }
 .calendar th, .calendar td { width: 14.28%; padding: 10px; text-align: center; border: 1px solid #eee; }
-.calendar td { height: 80px; vertical-align: top; cursor: pointer; }
+.calendar td { height: 80px; vertical-align: top; cursor: pointer; transition: 0.2s; }
+.calendar td:hover { background: #f0f8ff; }
 .calendar td.event { background: #d1e7dd; border-radius: 4px; position: relative; }
 .calendar td.event::after { content: "📌"; position: absolute; top: 5px; right: 5px; font-size: 0.8rem; }
+
+/* SEARCH BAR */
+.search-container { margin-bottom: 25px; }
+.search-input { width: 100%; max-width: 400px; padding: 12px 20px; border: 2px solid #e1e8ed; border-radius: 25px; font-size: 14px; }
+.search-input:focus { outline: none; border-color: var(--primary-theme); box-shadow: 0 0 0 3px rgba(0,86,179,0.1); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .nav-sidebar { transform: translateX(-100%); }
+    .content-area { margin-left: 0; width: 100%; }
+    .entry-form { flex-direction: column; }
+    .entry-form input, .entry-form select { min-width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -109,26 +127,35 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 <div id="authOverlay">
     <div class="auth-container" data-aos="fade-down">
         <i class="fas fa-shield-alt" style="font-size: 3.5rem; color: var(--primary-theme); margin-bottom: 15px;"></i>
-        <h2>Secure Login</h2>
-        <p style="color: #666; margin-bottom: 25px;">Elite National System Administration</p>
-        <input id="userKey" placeholder="Username">
-        <input id="passKey" type="password" placeholder="Password">
+        <h2>🔐 Secure Login</h2>
+        <p style="color: #666; margin-bottom: 25px;">Elite National Hospital System</p>
+        <input id="userKey" placeholder="👤 Username">
+        <input id="passKey" type="password" placeholder="🔑 Password">
         <button class="action-btn" style="width: 100%; margin-top: 10px;" onclick="validateAccess()">Sign In</button>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">admin / elite2026</p>
     </div>
 </div>
 
 <nav class="nav-sidebar">
-    <header>Elite National Hospital</header>
+    <header>🏥 Elite National Hospital</header>
     <ul>
         <li class="active" onclick="switchView('overview', this)"><i class="fas fa-chart-pie"></i> Dashboard</li>
-        <li onclick="switchView('patients', this)"><i class="fas fa-user-injured"></i> Patient Registration</li>
-        <li onclick="switchView('doctors', this)"><i class="fas fa-user-md"></i> Medical Staff</li>
+        <li onclick="switchView('patients', this)"><i class="fas fa-user-injured"></i> Patients</li>
+        <li onclick="switchView('doctors', this)"><i class="fas fa-user-md"></i> Doctors</li>
         <li onclick="switchView('pharmacy', this)"><i class="fas fa-pills"></i> Pharmacy</li>
-        <li onclick="switchView('laboratory', this)"><i class="fas fa-microscope"></i> Lab Requests</li>
-        <li onclick="switchView('billing', this)"><i class="fas fa-file-invoice-dollar"></i> Financials</li>
+        <li onclick="switchView('laboratory', this)"><i class="fas fa-microscope"></i> Laboratory</li>
+        <li onclick="switchView('billing', this)"><i class="fas fa-file-invoice-dollar"></i> Billing</li>
     </ul>
-    <div style="padding: 20px;">
-        <button class="action-btn btn-destructive" style="width: 100%;" onclick="wipeSystemData()">⚠️ PURGE ALL DATA</button>
+    <div style="padding: 20px; border-top: 1px solid #2d3e50;">
+        <button class="action-btn btn-success" style="width: 100%; margin-bottom: 10px;" onclick="exportData()">
+            💾 Export Data
+        </button>
+        <label class="action-btn" style="width: 100%; background: var(--warning-orange); cursor: pointer;" 
+               for="importFile" id="importBtn">📥 Import Data</label>
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+        <button class="action-btn btn-destructive" style="width: 100%; margin-top: 10px;" onclick="wipeSystemData()">
+            ⚠️ PURGE ALL DATA
+        </button>
     </div>
 </nav>
 
@@ -136,16 +163,17 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
 
 <!-- DASHBOARD -->
 <div id="overview" class="view-section active">
+    <h1>📊 Dashboard Overview</h1>
     <div class="metric-grid">
         <div class="metric-card" data-aos="fade-up">
             <i class="fas fa-users"></i>
             <h3 id="stat-patients">0</h3>
-            <p>Total Patients 📊</p>
+            <p>Total Patients 📈</p>
         </div>
         <div class="metric-card" data-aos="fade-up" data-aos-delay="100">
-            <i class="fas fa-stethoscope"></i>
+            <i class="fas fa-user-md"></i>
             <h3 id="stat-doctors">0</h3>
-            <p>Doctors On-Call 👨‍⚕️</p>
+            <p>Active Doctors 👨‍⚕️</p>
         </div>
         <div class="metric-card" data-aos="fade-up" data-aos-delay="200">
             <i class="fas fa-pills"></i>
@@ -157,9 +185,13 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
             <h3 id="stat-labs">0</h3>
             <p>Pending Labs 🔬</p>
         </div>
+        <div class="metric-card" data-aos="fade-up" data-aos-delay="400">
+            <i class="fas fa-dollar-sign"></i>
+            <h3 id="stat-revenue">$0</h3>
+            <p>Total Revenue 💰</p>
+        </div>
     </div>
 
-    <!-- MEDICINES SLIDER -->
     <h2>💊 Featured Medicines</h2>
     <div class="medicine-slider" data-aos="fade-up">
         <div class="facility-gallery" style="grid-template-columns: repeat(8, 160px);">
@@ -174,8 +206,7 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
         </div>
     </div>
 
-    <!-- CALENDAR -->
-    <div class="calendar" id="dashboard-calendar">
+    <div class="calendar" id="dashboard-calendar" data-aos="fade-up" data-aos-delay="200">
         <header>
             <button onclick="prevMonth()">«</button>
             <h3 id="calendar-month"></h3>
@@ -193,71 +224,47 @@ body { background: var(--bg-light); display: flex; min-height: 100vh; color: var
     </div>
 </div>
 
-<!-- PATIENTS, PHARMACY, ETC SECTIONS OMITTED FOR BREVITY -->
+<!-- PATIENTS -->
+<div id="patients" class="view-section">
+    <h1>👥 Patient Management</h1>
+    <div class="search-container">
+        <input type="text" class="search-input" id="patient-search" placeholder="🔍 Search patients..." onkeyup="filterTable('patients-table', this.value)">
+    </div>
+    <form class="entry-form">
+        <input id="patient-name" placeholder="Full Name *">
+        <input id="patient-age" type="number" placeholder="Age" min="0" max="120">
+        <input id="patient-phone" placeholder="Phone *">
+        <select id="patient-gender">
+            <option value="">Select Gender</option>
+            <option>Male</option><option>Female</option><option>Other</option>
+        </select>
+        <input id="patient-email" type="email" placeholder="Email">
+        <input id="patient-photo" type="file" accept="image/*" onchange="previewImage(this,'patient-preview')">
+        <button type="button" class="action-btn" onclick="addPatient()">➕ Add Patient</button>
+    </form>
+    <img id="patient-preview" class="image-preview" style="display:none;">
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Photo</th><th>Name</th><th>Age</th><th>Phone</th>
+                <th>Gender</th><th>Email</th><th>Date Added</th><th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="patients-table"></tbody>
+    </table>
+</div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-AOS.init({ duration: 800, once: true });
-
-let coreState = JSON.parse(localStorage.getItem('elite_hms_core')) || {
-    patients: [], doctors: [], pharmacy: [], laboratory: [], billing: []
-};
-
-// Image preview
-function previewImage(input, previewId){
-    const preview=document.getElementById(previewId);
-    const reader=new FileReader();
-    reader.onload=function(e){preview.src=e.target.result; preview.style.display='block';}
-    reader.readAsDataURL(input.files[0]);
-}
-
-function getImageDataUrl(fileInputId){
-    const input=document.getElementById(fileInputId);
-    return input.files[0]? URL.createObjectURL(input.files[0]): null;
-}
-
-// Storage sync
-function syncStorage(){localStorage.setItem('elite_hms_core',JSON.stringify(coreState)); refreshUserInterface();}
-function validateAccess(){
-    const u=document.getElementById('userKey').value.trim();
-    const p=document.getElementById('passKey').value.trim();
-    if(u==='admin'&&p==='elite2026'){document.getElementById('authOverlay').style.display='none'; refreshUserInterface();}
-    else alert('❌ Access Denied. Invalid Credentials.');
-}
-function switchView(id,el){
-    document.querySelectorAll('.view-section').forEach(v=>v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.nav-sidebar li').forEach(li=>li.classList.remove('active'));
-    el.classList.add('active');
-}
-function wipeSystemData(){if(confirm('⚠️ This will erase ALL data permanently. Continue?')){coreState={patients:[],doctors:[],pharmacy:[],laboratory:[],billing:[]};syncStorage();}}
-
-// ------------------- CALENDAR -------------------
-let calDate=new Date();
-function renderCalendar(){
-    const body=document.getElementById('calendar-body');
-    const month=document.getElementById('calendar-month');
-    const year=calDate.getFullYear();
-    const monthNum=calDate.getMonth();
-    const firstDay=new Date(year,monthNum,1).getDay();
-    const daysInMonth=new Date(year,monthNum+1,0).getDate();
-    month.innerText=calDate.toLocaleString('default',{month:'long'})+' '+year;
-
-    body.innerHTML='';
-    let row=document.createElement('tr');
-    for(let i=0;i<firstDay;i++){const td=document.createElement('td');row.appendChild(td);}
-    for(let d=1;d<=daysInMonth;d++){
-        if(row.children.length===7){body.appendChild(row); row=document.createElement('tr');}
-        const td=document.createElement('td'); td.innerText=d;
-        if(Math.random()<0.1) td.classList.add('event'); // Random sample events
-        row.appendChild(td);
-    }
-    while(row.children.length<7){const td=document.createElement('td'); row.appendChild(td);}
-    body.appendChild(row);
-}
-function prevMonth(){calDate.setMonth(calDate.getMonth()-1); renderCalendar();}
-function nextMonth(){calDate.setMonth(calDate.getMonth()+1); renderCalendar();}
-renderCalendar();
-</script>
-</body>
-</html>
+<!-- DOCTORS -->
+<div id="doctors" class="view-section">
+    <h1>👨‍⚕️ Doctor Management</h1>
+    <div class="search-container">
+        <input type="text" class="search-input" id="doctor-search" placeholder="🔍 Search doctors..." onkeyup="filterTable('doctors-table', this.value)">
+    </div>
+    <form class="entry-form">
+        <input id="doctor-name" placeholder="Full Name *">
+        <input id="doctor-specialty" placeholder="Specialty *">
+        <input id="doctor-phone" placeholder="Phone *">
+        <select id="doctor-status">
+            <option value="Available">Available</option>
+            <
