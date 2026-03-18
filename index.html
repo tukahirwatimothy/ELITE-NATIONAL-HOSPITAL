@@ -14,8 +14,8 @@
       --light: #f3f4f6;
       --dark: #111827;
       --danger: #ef4444;
+      --success: #10b981;
     }
-
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -23,9 +23,7 @@
       color: var(--dark);
       min-height: 100vh;
     }
-
     .hidden { display: none !important; }
-
     /* Login Page */
     #login-page {
       display: flex;
@@ -35,7 +33,6 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
     }
-
     .login-box {
       background: white;
       color: var(--dark);
@@ -45,23 +42,19 @@
       width: 100%;
       max-width: 420px;
     }
-
     .login-box h2 {
       text-align: center;
       margin-bottom: 1.8rem;
       color: var(--primary);
     }
-
     .form-group {
       margin-bottom: 1.4rem;
     }
-
     label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
     }
-
     input, select {
       width: 100%;
       padding: 0.75rem;
@@ -69,13 +62,11 @@
       border-radius: 6px;
       font-size: 1rem;
     }
-
     input:focus, select:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(30,64,175,0.15);
     }
-
     button {
       width: 100%;
       padding: 0.9rem;
@@ -87,33 +78,27 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-
     button:hover { background: var(--primary-dark); }
-
     /* Main Layout */
     #app {
       display: grid;
       grid-template-columns: 260px 1fr;
       min-height: 100vh;
     }
-
     #sidebar {
       background: var(--dark);
       color: white;
       padding: 1.5rem 0;
     }
-
     #sidebar h3 {
       padding: 0 1.8rem 1.2rem;
       font-size: 1.4rem;
       border-bottom: 1px solid #374151;
     }
-
     #sidebar ul {
       list-style: none;
       margin-top: 1.5rem;
     }
-
     #sidebar li a {
       display: flex;
       align-items: center;
@@ -122,36 +107,30 @@
       text-decoration: none;
       transition: all 0.2s;
     }
-
     #sidebar li a:hover,
     #sidebar li a.active {
       background: #374151;
       color: white;
     }
-
     #sidebar i {
       margin-right: 12px;
       width: 20px;
       text-align: center;
     }
-
     #main-content {
       padding: 2rem;
       background: var(--light);
     }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
     }
-
     header h1 {
       font-size: 1.8rem;
       color: var(--primary-dark);
     }
-
     .card {
       background: white;
       border-radius: 10px;
@@ -159,30 +138,25 @@
       padding: 1.6rem;
       margin-bottom: 1.8rem;
     }
-
     .card h2 {
       margin-bottom: 1.2rem;
       color: var(--primary);
       font-size: 1.4rem;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
     }
-
     th, td {
       padding: 0.9rem 1rem;
       text-align: left;
       border-bottom: 1px solid #e5e7eb;
     }
-
     th {
       background: #f3f4f6;
       font-weight: 600;
     }
-
     .btn {
       padding: 0.6rem 1.2rem;
       border-radius: 6px;
@@ -191,18 +165,113 @@
       border: none;
       transition: 0.2s;
     }
-
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); }
-    .btn-danger  { background: var(--danger); color: white; }
-    .btn-danger:hover  { background: #dc2626; }
-
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-success { background: var(--success); color: white; }
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.2rem;
     }
-
+    .message {
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .success { background: #d1fae5; color: #065f46; }
+    .error { background: #fee2e2; color: #991b1b; }
+    /* Calendar Styles */
+    .calendar {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .calendar-header h3 {
+      margin: 0;
+      color: var(--primary-dark);
+    }
+    .calendar-nav button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary);
+      padding: 0.5rem;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+    .calendar-day-name {
+      font-weight: bold;
+      padding: 0.8rem;
+      background: #f3f4f6;
+      border-radius: 6px;
+    }
+    .calendar-day {
+      padding: 1rem 0.5rem;
+      min-height: 80px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .calendar-day:hover {
+      background: #eff6ff;
+    }
+    .calendar-day.inactive {
+      color: #9ca3af;
+      cursor: default;
+    }
+    .calendar-day.today {
+      background: #dbeafe;
+      font-weight: bold;
+    }
+    .calendar-day.has-appointments::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .calendar-day.selected {
+      border: 2px solid var(--primary);
+      background: #eff6ff;
+    }
+    .day-appointments {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .day-appointments h4 {
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+    }
+    .appt-item {
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      background: white;
+      border-left: 4px solid var(--primary);
+      border-radius: 4px;
+    }
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
       #sidebar { display: none; }
@@ -212,13 +281,11 @@
   </style>
 </head>
 <body>
-
   <!-- Login Screen -->
   <div id="login-page">
     <div class="login-box">
       <h2>Elite National Hospital</h2>
       <p style="text-align:center; margin-bottom:1.5rem; color:#4b5563;">Mulago National Referral • Uganda</p>
-
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
@@ -243,16 +310,15 @@
     </div>
   </div>
 
-  <!-- Main App (hidden initially) -->
+  <!-- Main App -->
   <div id="app" class="hidden">
-
     <!-- Sidebar -->
     <aside id="sidebar">
       <h3>ENHMS</h3>
       <ul>
         <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li class="role-admin role-reception"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
-        <li class="role-doctor role-admin"><a href="#appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+        <li class="role-admin role-reception role-nurse"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
+        <li class="role-admin role-doctor role-nurse"><a href="#appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
         <li class="role-admin role-reception"><a href="#billing"><i class="fas fa-money-bill-wave"></i> Billing</a></li>
         <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
@@ -271,7 +337,6 @@
           <h2>Welcome, <span id="user-name">User</span></h2>
           <p>Role: <strong id="user-role"></strong></p>
         </div>
-
         <div class="card">
           <h2>Quick Stats</h2>
           <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-top:1.5rem;">
@@ -296,7 +361,6 @@
         <div class="card">
           <h2>Patient Management</h2>
           <button class="btn btn-primary" onclick="showForm('patient-form')">+ Add New Patient</button>
-
           <form id="patient-form" class="hidden" style="margin:1.5rem 0;">
             <div class="form-row">
               <div>
@@ -323,7 +387,7 @@
             </div>
             <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Save Patient</button>
           </form>
-
+          <div id="patient-message" class="message hidden"></div>
           <table id="patient-table">
             <thead>
               <tr><th>ID</th><th>Name</th><th>National ID</th><th>Phone</th><th>Blood</th><th>Actions</th></tr>
@@ -333,12 +397,11 @@
         </div>
       </section>
 
-      <!-- Appointments -->
+      <!-- Appointments + Calendar -->
       <section id="appointments" class="page hidden">
         <div class="card">
           <h2>Appointments</h2>
           <button class="btn btn-primary" onclick="showForm('appt-form')">+ New Appointment</button>
-
           <form id="appt-form" class="hidden" style="margin:1.5rem 0;">
             <div class="form-row">
               <div>
@@ -366,8 +429,26 @@
             </div>
             <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Schedule</button>
           </form>
+          <div id="appt-message" class="message hidden"></div>
 
-          <table id="appt-table">
+          <!-- Calendar -->
+          <div class="calendar">
+            <div class="calendar-header">
+              <button class="calendar-nav" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+              <h3 id="calendar-title"></h3>
+              <button class="calendar-nav" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+          </div>
+
+          <!-- Selected Day Appointments -->
+          <div id="day-appointments" class="day-appointments hidden">
+            <h4>Appointments on <span id="selected-date"></span></h4>
+            <div id="day-appt-list"></div>
+          </div>
+
+          <!-- All Appointments Table (fallback) -->
+          <table id="appt-table" style="margin-top:2rem;">
             <thead>
               <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr>
             </thead>
@@ -376,7 +457,7 @@
         </div>
       </section>
 
-      <!-- Billing (simple view) -->
+      <!-- Billing (static for now) -->
       <section id="billing" class="page hidden">
         <div class="card">
           <h2>Billing Overview</h2>
@@ -396,14 +477,15 @@
   </div>
 
   <script>
-    // Fake authentication & role control
-    const loginForm   = document.getElementById('login-form');
-    const loginPage   = document.getElementById('login-page');
-    const app         = document.getElementById('app');
-    const userNameEl  = document.getElementById('user-name');
-    const userRoleEl  = document.getElementById('user-role');
-    const pageTitle   = document.getElementById('page-title');
-
+    // ──────────────────────────────────────────────
+    // Fake auth & role control
+    // ──────────────────────────────────────────────
+    const loginForm = document.getElementById('login-form');
+    const loginPage = document.getElementById('login-page');
+    const app = document.getElementById('app');
+    const userNameEl = document.getElementById('user-name');
+    const userRoleEl = document.getElementById('user-role');
+    const pageTitle = document.getElementById('page-title');
     let currentUser = null;
 
     const validUsers = {
@@ -417,7 +499,7 @@
       e.preventDefault();
       const username = document.getElementById('username').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
-      const role     = document.getElementById('role').value;
+      const role = document.getElementById('role').value;
 
       if (validUsers[username] && validUsers[username].pass === password && validUsers[username].role === role) {
         currentUser = validUsers[username];
@@ -425,14 +507,13 @@
         userRoleEl.textContent = currentUser.role.toUpperCase();
 
         // Show role-based menu items
-        document.querySelectorAll('.role-admin, .role-doctor, .role-nurse, .role-reception').forEach(el => {
-          el.classList.add('hidden');
-        });
+        document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
 
         loginPage.classList.add('hidden');
         app.classList.remove('hidden');
         loadData();
+        navigateTo('dashboard');
       } else {
         alert('Invalid credentials or role!');
       }
@@ -455,38 +536,40 @@
         if (link.id === 'logout') return;
         e.preventDefault();
         const target = link.getAttribute('href').substring(1);
-
-        document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-        document.getElementById(target).classList.remove('hidden');
-
-        document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
-
-        pageTitle.textContent = link.textContent.trim();
+        navigateTo(target);
       });
     });
 
+    function navigateTo(target) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(target).classList.remove('hidden');
+      document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
+      document.querySelector(`a[href="#${target}"]`).classList.add('active');
+      pageTitle.textContent = document.querySelector(`a[href="#${target}"]`).textContent.trim();
+
+      if (target === 'appointments') renderCalendar();
+    }
+
     // Show / hide forms
     function showForm(formId) {
-      const form = document.getElementById(formId);
-      form.classList.toggle('hidden');
+      document.getElementById(formId).classList.toggle('hidden');
     }
 
     // LocalStorage Helpers
     function getData(key) {
       return JSON.parse(localStorage.getItem(key)) || [];
     }
-
     function saveData(key, data) {
       localStorage.setItem(key, JSON.stringify(data));
     }
 
-    // Load & Render Patients
+    // ──────────────────────────────────────────────
+    // PATIENTS
+    // ──────────────────────────────────────────────
     function loadPatients() {
       const patients = getData('patients');
       const tbody = document.querySelector('#patient-table tbody');
       tbody.innerHTML = '';
-
       patients.forEach((p, i) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -504,14 +587,16 @@
     document.getElementById('patient-form').addEventListener('submit', e => {
       e.preventDefault();
       const patients = getData('patients');
-      patients.push({
-        name:  document.getElementById('p-name').value,
-        nid:   document.getElementById('p-nid').value,
-        phone: document.getElementById('p-phone').value,
+      const newPatient = {
+        name: document.getElementById('p-name').value.trim(),
+        nid: document.getElementById('p-nid').value.trim(),
+        phone: document.getElementById('p-phone').value.trim(),
         blood: document.getElementById('p-blood').value
-      });
+      };
+      patients.push(newPatient);
       saveData('patients', patients);
       loadPatients();
+      showMessage('patient-message', 'Patient added successfully!', 'success');
       e.target.reset();
       showForm('patient-form');
     });
@@ -522,14 +607,105 @@
       patients.splice(index, 1);
       saveData('patients', patients);
       loadPatients();
+      showMessage('patient-message', 'Patient deleted.', 'success');
     }
 
-    // Appointments
+    // ──────────────────────────────────────────────
+    // APPOINTMENTS + CALENDAR
+    // ──────────────────────────────────────────────
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let selectedDate = null;
+
+    function renderCalendar() {
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const today = new Date();
+
+      document.getElementById('calendar-title').textContent = 
+        new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+      const grid = document.getElementById('calendar-grid');
+      grid.innerHTML = '';
+
+      // Weekday names
+      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(day => {
+        const div = document.createElement('div');
+        div.className = 'calendar-day-name';
+        div.textContent = day;
+        grid.appendChild(div);
+      });
+
+      // Previous month filler
+      for (let i = firstDay; i > 0; i--) {
+        const div = document.createElement('div');
+        div.className = 'calendar-day inactive';
+        grid.appendChild(div);
+      }
+
+      const appts = getData('appointments');
+
+      // Current month days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const hasAppt = appts.some(a => a.date === dateStr);
+
+        const div = document.createElement('div');
+        div.className = 'calendar-day';
+        if (hasAppt) div.classList.add('has-appointments');
+        if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+          div.classList.add('today');
+        }
+        if (selectedDate === dateStr) div.classList.add('selected');
+
+        div.innerHTML = `<div>${day}</div>`;
+        div.onclick = () => showDayAppointments(dateStr);
+        grid.appendChild(div);
+      }
+    }
+
+    function showDayAppointments(dateStr) {
+      selectedDate = dateStr;
+      renderCalendar(); // refresh to show selected style
+
+      const appts = getData('appointments').filter(a => a.date === dateStr);
+      const container = document.getElementById('day-appointments');
+      const list = document.getElementById('day-appt-list');
+      const title = document.getElementById('selected-date');
+
+      title.textContent = new Date(dateStr).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      list.innerHTML = '';
+      if (appts.length === 0) {
+        list.innerHTML = '<p>No appointments scheduled for this day.</p>';
+      } else {
+        appts.forEach(a => {
+          const item = document.createElement('div');
+          item.className = 'appt-item';
+          item.innerHTML = `<strong>${a.time}</strong> - ${a.patient} <br><small>with ${a.doctor}</small>`;
+          list.appendChild(item);
+        });
+      }
+
+      container.classList.remove('hidden');
+    }
+
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    }
+
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    }
+
     function loadAppointments() {
       const appts = getData('appointments');
       const tbody = document.querySelector('#appt-table tbody');
       tbody.innerHTML = '';
-
       appts.forEach(a => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -546,32 +722,47 @@
     document.getElementById('appt-form').addEventListener('submit', e => {
       e.preventDefault();
       const appts = getData('appointments');
-      appts.push({
-        patient: document.getElementById('appt-patient').value,
-        doctor:  document.getElementById('appt-doctor').value,
-        date:    document.getElementById('appt-date').value,
-        time:    document.getElementById('appt-time').value
-      });
+      const newAppt = {
+        patient: document.getElementById('appt-patient').value.trim(),
+        doctor: document.getElementById('appt-doctor').value,
+        date: document.getElementById('appt-date').value,
+        time: document.getElementById('appt-time').value
+      };
+      appts.push(newAppt);
       saveData('appointments', appts);
       loadAppointments();
+      renderCalendar();
+      showMessage('appt-message', 'Appointment scheduled successfully!', 'success');
       e.target.reset();
       showForm('appt-form');
     });
 
+    // Set min date to today
+    document.getElementById('appt-date').min = new Date().toISOString().split('T')[0];
+
+    function showMessage(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = `message ${type}`;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 4000);
+    }
+
     function loadData() {
       loadPatients();
       loadAppointments();
+      // calendar renders on section show
     }
 
-    // Initial load (for demo)
-    if (localStorage.getItem('patients') === null) {
+    // Initial demo data
+    if (!localStorage.getItem('patients')) {
       saveData('patients', [
         {name:"Achieng Akello", nid:"UG-19850315-001", phone:"0700123456", blood:"O+"},
-        {name:"Kato Muwanga",   nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
+        {name:"Kato Muwanga", nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
       ]);
       saveData('appointments', [
         {patient:"Achieng Akello", doctor:"Dr. Nakato Irene", date:"2026-03-20", time:"09:30"},
-        {patient:"Kato Muwanga",   doctor:"Dr. Ouma Peter",   date:"2026-03-21", time:"14:00"}
+        {patient:"Kato Muwanga", doctor:"Dr. Ouma Peter", date:"2026-03-21", time:"14:00"}
       ]);
     }
   </script>
