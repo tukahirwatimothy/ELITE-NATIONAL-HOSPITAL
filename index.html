@@ -22,9 +22,16 @@
       background: var(--light);
       color: var(--dark);
       min-height: 100vh;
+      animation: fadeIn 1s ease-in;
     }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
     .hidden { display: none !important; }
-    /* Login Page */
+    section.page { animation: slideIn 0.6s ease-out; }
+    @keyframes slideIn { from { transform: translateY(30px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+    .card, .btn, .calendar-day { transition: all 0.3s ease; }
+    .card:hover, .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+    .calendar-day:hover { transform: scale(1.04); background: #eff6ff; }
+    /* Login */
     #login-page {
       display: flex;
       align-items: center;
@@ -36,260 +43,222 @@
     .login-box {
       background: white;
       color: var(--dark);
-      padding: 2.5rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      padding: 2.8rem 2.2rem;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
+      animation: popIn 0.8s;
     }
-    .login-box h2 {
-      text-align: center;
-      margin-bottom: 1.8rem;
-      color: var(--primary);
-    }
-    .form-group {
-      margin-bottom: 1.4rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
+    @keyframes popIn { from { transform: scale(0.85); opacity:0; } to { transform: scale(1); opacity:1; } }
+    .form-group { margin-bottom: 1.6rem; }
+    label { display: block; margin-bottom: 0.6rem; font-weight: 500; }
     input, select {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.85rem;
       border: 1px solid #d1d5db;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1rem;
     }
     input:focus, select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(30,64,175,0.15);
+      box-shadow: 0 0 0 4px rgba(30,64,175,0.15);
     }
     button {
       width: 100%;
-      padding: 0.9rem;
+      padding: 1rem;
       background: var(--primary);
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 1.05rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.25s;
     }
     button:hover { background: var(--primary-dark); }
-    /* Main Layout */
-    #app {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      min-height: 100vh;
-    }
+    /* Layout */
+    #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     #sidebar {
       background: var(--dark);
       color: white;
-      padding: 1.5rem 0;
+      padding: 1.8rem 0;
     }
     #sidebar h3 {
-      padding: 0 1.8rem 1.2rem;
-      font-size: 1.4rem;
+      padding: 0 2rem 1.4rem;
+      font-size: 1.5rem;
       border-bottom: 1px solid #374151;
     }
-    #sidebar ul {
-      list-style: none;
-      margin-top: 1.5rem;
-    }
+    #sidebar ul { list-style: none; margin-top: 1.8rem; }
     #sidebar li a {
       display: flex;
       align-items: center;
-      padding: 0.9rem 1.8rem;
+      padding: 1rem 2rem;
       color: #d1d5db;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
-    #sidebar li a:hover,
-    #sidebar li a.active {
+    #sidebar li a:hover, #sidebar li a.active {
       background: #374151;
       color: white;
     }
-    #sidebar i {
-      margin-right: 12px;
-      width: 20px;
-      text-align: center;
-    }
-    #main-content {
-      padding: 2rem;
-      background: var(--light);
-    }
+    #sidebar i { margin-right: 14px; width: 22px; text-align: center; }
+    #main-content { padding: 2.5rem; background: var(--light); }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
-    header h1 {
-      font-size: 1.8rem;
-      color: var(--primary-dark);
-    }
+    header h1 { font-size: 2rem; color: var(--primary-dark); }
     .card {
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      padding: 1.6rem;
-      margin-bottom: 1.8rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      padding: 1.8rem;
+      margin-bottom: 2rem;
     }
-    .card h2 {
-      margin-bottom: 1.2rem;
-      color: var(--primary);
-      font-size: 1.4rem;
-    }
+    .card h2 { margin-bottom: 1.4rem; color: var(--primary); font-size: 1.5rem; }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      margin-top: 1.2rem;
     }
     th, td {
-      padding: 0.9rem 1rem;
+      padding: 1rem 1.2rem;
       text-align: left;
       border-bottom: 1px solid #e5e7eb;
     }
-    th {
-      background: #f3f4f6;
-      font-weight: 600;
-    }
+    th { background: #f3f4f6; font-weight: 600; }
     .btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 1rem;
       border: none;
-      transition: 0.2s;
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); }
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #dc2626; }
-    .btn-success { background: var(--success); color: white; }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
     .message {
-      padding: 0.8rem;
-      margin: 1rem 0;
-      border-radius: 6px;
+      padding: 1rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
       text-align: center;
     }
     .success { background: #d1fae5; color: #065f46; }
-    .error { background: #fee2e2; color: #991b1b; }
-    /* Calendar Styles */
-    .calendar {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+    .error   { background: #fee2e2; color: #991b1b; }
+    /* Calendar */
+    .calendar { max-width: 950px; margin: 2rem auto; }
     .calendar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
-    .calendar-header h3 {
-      margin: 0;
-      color: var(--primary-dark);
-    }
+    .calendar-header h3 { margin: 0; color: var(--primary-dark); font-size: 1.4rem; }
     .calendar-nav button {
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       cursor: pointer;
       color: var(--primary);
-      padding: 0.5rem;
+      padding: 0.6rem;
     }
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
+      gap: 6px;
       text-align: center;
     }
     .calendar-day-name {
       font-weight: bold;
-      padding: 0.8rem;
+      padding: 1rem;
       background: #f3f4f6;
-      border-radius: 6px;
+      border-radius: 8px;
     }
     .calendar-day {
-      padding: 1rem 0.5rem;
-      min-height: 80px;
+      padding: 1.2rem 0.6rem;
+      min-height: 90px;
       border: 1px solid #e5e7eb;
-      border-radius: 6px;
+      border-radius: 8px;
       position: relative;
       cursor: pointer;
-      transition: background 0.2s;
     }
-    .calendar-day:hover {
-      background: #eff6ff;
-    }
-    .calendar-day.inactive {
-      color: #9ca3af;
-      cursor: default;
-    }
-    .calendar-day.today {
-      background: #dbeafe;
-      font-weight: bold;
-    }
+    .calendar-day.inactive { color: #9ca3af; cursor: default; }
+    .calendar-day.today { background: #dbeafe; font-weight: bold; }
     .calendar-day.has-appointments::after {
       content: '';
       position: absolute;
-      bottom: 8px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       background: var(--primary);
       border-radius: 50%;
     }
     .calendar-day.selected {
-      border: 2px solid var(--primary);
+      border: 3px solid var(--primary);
       background: #eff6ff;
     }
     .day-appointments {
-      margin-top: 1.5rem;
-      padding: 1rem;
+      margin-top: 1.8rem;
+      padding: 1.4rem;
       background: #f9fafb;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #e5e7eb;
     }
-    .day-appointments h4 {
-      margin-bottom: 0.8rem;
-      color: var(--primary);
-    }
     .appt-item {
-      padding: 0.6rem;
-      margin-bottom: 0.5rem;
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
       background: white;
-      border-left: 4px solid var(--primary);
-      border-radius: 4px;
+      border-left: 5px solid var(--primary);
+      border-radius: 6px;
     }
+    /* Images & Video */
+    .section-img {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 1.2rem 0;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .low-stock { background: #fee2e2 !important; font-weight: bold; color: var(--danger); }
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
-      #sidebar { display: none; }
-      #sidebar.active { display: block; position: fixed; top:0; left:0; width:260px; height:100%; z-index: 1000; }
+      #sidebar { display: none; position: fixed; top:0; left:0; width:260px; height:100%; z-index: 1000; }
+      #sidebar.active { display: block; }
       header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
+
+  <!-- Login -->
   <div id="login-page">
     <div class="login-box">
-      <h2>Elite National Hospital</h2>
-      <p style="text-align:center; margin-bottom:1.5rem; color:#4b5563;">Mulago National Referral • Uganda</p>
+      <h2>Elite National Hospital 🏥</h2>
+      <p style="text-align:center; margin:1rem 0 2rem; color:#4b5563;">Mulago National Referral • Uganda 🇺🇬</p>
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required/>
+          <input type="text" id="username" placeholder="admin / doctor01 / nurse01 / reception" required/>
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -305,26 +274,25 @@
             <option value="reception">Receptionist</option>
           </select>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Login →</button>
       </form>
     </div>
   </div>
 
   <!-- Main App -->
   <div id="app" class="hidden">
-    <!-- Sidebar -->
     <aside id="sidebar">
-      <h3>ENHMS</h3>
+      <h3>ENHMS 💉</h3>
       <ul>
         <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <li class="role-admin role-reception role-nurse"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
         <li class="role-admin role-doctor role-nurse"><a href="#appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+        <li class="role-admin role-reception"><a href="#pharmacy"><i class="fas fa-prescription-bottle-alt"></i> Pharmacy</a></li>
         <li class="role-admin role-reception"><a href="#billing"><i class="fas fa-money-bill-wave"></i> Billing</a></li>
         <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </aside>
 
-    <!-- Main Content -->
     <main id="main-content">
       <header>
         <h1 id="page-title">Dashboard</h1>
@@ -334,23 +302,21 @@
       <!-- Dashboard -->
       <section id="dashboard" class="page">
         <div class="card">
-          <h2>Welcome, <span id="user-name">User</span></h2>
-          <p>Role: <strong id="user-role"></strong></p>
+          <h2>Welcome, <span id="user-name">User</span> 😊</h2>
+          <p>Role: <strong id="user-role"></strong> 🩺</p>
         </div>
         <div class="card">
-          <h2>Quick Stats</h2>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-top:1.5rem;">
-            <div style="background:#ecfdf5; padding:1.2rem; border-radius:8px; text-align:center;">
-              <h3 style="color:var(--secondary);">248</h3>
-              <p>Patients Today</p>
+          <img src="https://images.unsplash.com/photo-1586776971484-9c8e7fa428a6?auto=format&fit=crop&q=80&w=1200" alt="Medical team at work" class="section-img">
+          <h2>Quick Stats 📊</h2>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.2rem; margin-top:1.6rem;">
+            <div style="background:#ecfdf5; padding:1.4rem; border-radius:10px; text-align:center;">
+              <h3 style="color:var(--secondary);">248</h3><p>Patients Today</p>
             </div>
-            <div style="background:#eff6ff; padding:1.2rem; border-radius:8px; text-align:center;">
-              <h3 style="color:var(--primary);">37</h3>
-              <p>Appointments</p>
+            <div style="background:#eff6ff; padding:1.4rem; border-radius:10px; text-align:center;">
+              <h3 style="color:var(--primary);">37</h3><p>Appointments</p>
             </div>
-            <div style="background:#fef2f2; padding:1.2rem; border-radius:8px; text-align:center;">
-              <h3 style="color:var(--danger);">UGX 4.8M</h3>
-              <p>Revenue Today</p>
+            <div style="background:#fef2f2; padding:1.4rem; border-radius:10px; text-align:center;">
+              <h3 style="color:var(--danger);">UGX 4.8M</h3><p>Revenue Today</p>
             </div>
           </div>
         </div>
@@ -359,57 +325,48 @@
       <!-- Patients -->
       <section id="patients" class="page hidden">
         <div class="card">
-          <h2>Patient Management</h2>
+          <h2>Patient Management 👩‍⚕️</h2>
           <button class="btn btn-primary" onclick="showForm('patient-form')">+ Add New Patient</button>
-          <form id="patient-form" class="hidden" style="margin:1.5rem 0;">
+          <form id="patient-form" class="hidden" style="margin:1.6rem 0;">
             <div class="form-row">
-              <div>
-                <label>Full Name</label>
-                <input type="text" id="p-name" required/>
-              </div>
-              <div>
-                <label>National ID</label>
-                <input type="text" id="p-nid" placeholder="CM87XXXXXXX" required/>
-              </div>
+              <div><label>Full Name</label><input type="text" id="p-name" required/></div>
+              <div><label>National ID</label><input type="text" id="p-nid" placeholder="CM8700000XXXX" required/></div>
             </div>
-            <div class="form-row" style="margin-top:1rem;">
-              <div>
-                <label>Phone</label>
-                <input type="tel" id="p-phone"/>
-              </div>
-              <div>
-                <label>Blood Group</label>
+            <div class="form-row" style="margin-top:1.2rem;">
+              <div><label>Phone</label><input type="tel" id="p-phone"/></div>
+              <div><label>Blood Group</label>
                 <select id="p-blood">
                   <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
                   <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
                 </select>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Save Patient</button>
+            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Save Patient ✅</button>
           </form>
           <div id="patient-message" class="message hidden"></div>
           <table id="patient-table">
-            <thead>
-              <tr><th>ID</th><th>Name</th><th>National ID</th><th>Phone</th><th>Blood</th><th>Actions</th></tr>
-            </thead>
+            <thead><tr><th>ID</th><th>Name</th><th>National ID</th><th>Phone</th><th>Blood</th><th>Actions</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
+        <div class="card">
+          <h3>Quick Diagnosis Help 🎥 Malaria (common in Uganda)</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/qw6jnFqZ-Hk" title="Malaria symptoms and prevention" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <p style="margin-top:1rem;">Fever • Chills • Headache • Fatigue — seek care quickly! 🦟</p>
+        </div>
       </section>
 
-      <!-- Appointments + Calendar -->
+      <!-- Appointments -->
       <section id="appointments" class="page hidden">
         <div class="card">
-          <h2>Appointments</h2>
+          <h2>Appointments 📅</h2>
           <button class="btn btn-primary" onclick="showForm('appt-form')">+ New Appointment</button>
-          <form id="appt-form" class="hidden" style="margin:1.5rem 0;">
+          <form id="appt-form" class="hidden" style="margin:1.6rem 0;">
             <div class="form-row">
-              <div>
-                <label>Patient Name</label>
-                <input type="text" id="appt-patient" required/>
-              </div>
-              <div>
-                <label>Doctor</label>
+              <div><label>Patient Name</label><input type="text" id="appt-patient" required/></div>
+              <div><label>Doctor</label>
                 <select id="appt-doctor" required>
                   <option>Dr. Nakato Irene</option>
                   <option>Dr. Ssekandi John</option>
@@ -417,21 +374,14 @@
                 </select>
               </div>
             </div>
-            <div class="form-row" style="margin-top:1rem;">
-              <div>
-                <label>Date</label>
-                <input type="date" id="appt-date" required/>
-              </div>
-              <div>
-                <label>Time</label>
-                <input type="time" id="appt-time" required/>
-              </div>
+            <div class="form-row" style="margin-top:1.2rem;">
+              <div><label>Date</label><input type="date" id="appt-date" required/></div>
+              <div><label>Time</label><input type="time" id="appt-time" required/></div>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Schedule</button>
+            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Schedule Appointment ✅</button>
           </form>
           <div id="appt-message" class="message hidden"></div>
 
-          <!-- Calendar -->
           <div class="calendar">
             <div class="calendar-header">
               <button class="calendar-nav" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
@@ -441,30 +391,64 @@
             <div class="calendar-grid" id="calendar-grid"></div>
           </div>
 
-          <!-- Selected Day Appointments -->
           <div id="day-appointments" class="day-appointments hidden">
             <h4>Appointments on <span id="selected-date"></span></h4>
             <div id="day-appt-list"></div>
           </div>
 
-          <!-- All Appointments Table (fallback) -->
-          <table id="appt-table" style="margin-top:2rem;">
-            <thead>
-              <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr>
-            </thead>
+          <table id="appt-table" style="margin-top:2.5rem;">
+            <thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Diagnosis Support Video – Malaria Life Cycle</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/0uyE046It3o" title="Malaria life cycle animation" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pharmacy -->
+      <section id="pharmacy" class="page hidden">
+        <div class="card">
+          <h2>Pharmacy Management 💊</h2>
+          <img src="https://images.unsplash.com/photo-1587854691338-13a1a8d9e0e7?auto=format&fit=crop&q=80&w=1200" alt="Pharmacy dispensary" class="section-img">
+          <button class="btn btn-primary" onclick="showForm('drug-form')">+ Add New Drug</button>
+          <form id="drug-form" class="hidden" style="margin:1.6rem 0;">
+            <div class="form-row">
+              <div><label>Drug Name</label><input type="text" id="drug-name" required placeholder="e.g. Coartem"/></div>
+              <div><label>Category</label>
+                <select id="drug-category" required>
+                  <option>Analgesic</option>
+                  <option>Antibiotic</option>
+                  <option>Antimalarial</option>
+                  <option>Antihypertensive</option>
+                  <option>Antiretroviral</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:1.2rem;">
+              <div><label>Price (UGX)</label><input type="number" id="drug-price" min="100" required/></div>
+              <div><label>Stock Level</label><input type="number" id="drug-stock" min="0" required/></div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Add Drug 💉</button>
+          </form>
+          <div id="pharmacy-message" class="message hidden"></div>
+          <table id="drug-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Price (UGX)</th><th>Stock</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
       </section>
 
-      <!-- Billing (static for now) -->
+      <!-- Billing -->
       <section id="billing" class="page hidden">
         <div class="card">
-          <h2>Billing Overview</h2>
+          <h2>Billing Overview 💰</h2>
           <table>
-            <thead>
-              <tr><th>Patient</th><th>Service</th><th>Amount (UGX)</th><th>Status</th></tr>
-            </thead>
+            <thead><tr><th>Patient</th><th>Service</th><th>Amount (UGX)</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td>Achieng Akello</td><td>Consultation + Lab</td><td>285,000</td><td>Paid</td></tr>
               <tr><td>Kato Muwanga</td><td>Surgery</td><td>2,450,000</td><td>Pending</td></tr>
@@ -478,35 +462,34 @@
 
   <script>
     // ──────────────────────────────────────────────
-    // Fake auth & role control
+    // AUTH & NAVIGATION
     // ──────────────────────────────────────────────
-    const loginForm = document.getElementById('login-form');
-    const loginPage = document.getElementById('login-page');
-    const app = document.getElementById('app');
-    const userNameEl = document.getElementById('user-name');
-    const userRoleEl = document.getElementById('user-role');
-    const pageTitle = document.getElementById('page-title');
-    let currentUser = null;
+    const loginForm   = document.getElementById('login-form');
+    const loginPage   = document.getElementById('login-page');
+    const app         = document.getElementById('app');
+    const userNameEl  = document.getElementById('user-name');
+    const userRoleEl  = document.getElementById('user-role');
+    const pageTitle   = document.getElementById('page-title');
+    let currentUser   = null;
 
     const validUsers = {
-      admin:     { pass: 'admin123', role: 'admin',     name: 'Admin Mukasa' },
-      doctor01:  { pass: 'doc2025',  role: 'doctor',   name: 'Dr. Nakato' },
-      nurse01:   { pass: 'nurse2025',role: 'nurse',    name: 'Nurse Sarah' },
-      reception: { pass: 'rec2025',  role: 'reception',name: 'Reception Jane' }
+      admin:     { pass:'admin123', role:'admin',     name:'Admin Mukasa'     },
+      doctor01:  { pass:'doc2025',  role:'doctor',   name:'Dr. Nakato Irene' },
+      nurse01:   { pass:'nurse2025',role:'nurse',    name:'Nurse Sarah'      },
+      reception: { pass:'rec2025',  role:'reception',name:'Reception Jane'   }
     };
 
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
       const username = document.getElementById('username').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
-      const role = document.getElementById('role').value;
+      const role     = document.getElementById('role').value;
 
       if (validUsers[username] && validUsers[username].pass === password && validUsers[username].role === role) {
         currentUser = validUsers[username];
         userNameEl.textContent = currentUser.name;
         userRoleEl.textContent = currentUser.role.toUpperCase();
 
-        // Show role-based menu items
         document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
 
@@ -515,14 +498,13 @@
         loadData();
         navigateTo('dashboard');
       } else {
-        alert('Invalid credentials or role!');
+        alert('Invalid username, password or role combination.');
       }
     });
 
-    // Logout
     document.getElementById('logout').addEventListener('click', e => {
       e.preventDefault();
-      if (confirm('Logout?')) {
+      if (confirm('Logout now?')) {
         currentUser = null;
         app.classList.add('hidden');
         loginPage.classList.remove('hidden');
@@ -530,7 +512,6 @@
       }
     });
 
-    // Navigation
     document.querySelectorAll('#sidebar a').forEach(link => {
       link.addEventListener('click', e => {
         if (link.id === 'logout') return;
@@ -547,20 +528,28 @@
       document.querySelector(`a[href="#${target}"]`).classList.add('active');
       pageTitle.textContent = document.querySelector(`a[href="#${target}"]`).textContent.trim();
 
-      if (target === 'appointments') renderCalendar();
+      if (target === 'appointments') {
+        renderCalendar();
+        setTimeout(renderCalendar, 400); // ensure after animation
+      }
     }
 
-    // Show / hide forms
     function showForm(formId) {
       document.getElementById(formId).classList.toggle('hidden');
     }
 
-    // LocalStorage Helpers
-    function getData(key) {
-      return JSON.parse(localStorage.getItem(key)) || [];
-    }
-    function saveData(key, data) {
-      localStorage.setItem(key, JSON.stringify(data));
+    // ──────────────────────────────────────────────
+    // LOCALSTORAGE HELPERS
+    // ──────────────────────────────────────────────
+    function getData(key) { return JSON.parse(localStorage.getItem(key)) || []; }
+    function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+    function showMessage(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = `message ${type}`;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 4500);
     }
 
     // ──────────────────────────────────────────────
@@ -578,7 +567,7 @@
           <td>${p.nid}</td>
           <td>${p.phone || '-'}</td>
           <td>${p.blood}</td>
-          <td><button class="btn btn-danger btn-sm" onclick="deletePatient(${i})">Delete</button></td>
+          <td><button class="btn btn-danger" onclick="deletePatient(${i})">Delete</button></td>
         `;
         tbody.appendChild(tr);
       });
@@ -587,56 +576,53 @@
     document.getElementById('patient-form').addEventListener('submit', e => {
       e.preventDefault();
       const patients = getData('patients');
-      const newPatient = {
+      patients.push({
         name: document.getElementById('p-name').value.trim(),
         nid: document.getElementById('p-nid').value.trim(),
         phone: document.getElementById('p-phone').value.trim(),
         blood: document.getElementById('p-blood').value
-      };
-      patients.push(newPatient);
+      });
       saveData('patients', patients);
       loadPatients();
-      showMessage('patient-message', 'Patient added successfully!', 'success');
+      showMessage('patient-message', 'Patient added successfully! 👤', 'success');
       e.target.reset();
       showForm('patient-form');
     });
 
     function deletePatient(index) {
-      if (!confirm('Delete patient?')) return;
+      if (!confirm('Delete this patient record?')) return;
       let patients = getData('patients');
       patients.splice(index, 1);
       saveData('patients', patients);
       loadPatients();
-      showMessage('patient-message', 'Patient deleted.', 'success');
+      showMessage('patient-message', 'Patient record removed.', 'success');
     }
 
     // ──────────────────────────────────────────────
     // APPOINTMENTS + CALENDAR
     // ──────────────────────────────────────────────
     let currentMonth = new Date().getMonth();
-    let currentYear = new Date().getFullYear();
+    let currentYear  = new Date().getFullYear();
     let selectedDate = null;
 
     function renderCalendar() {
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const today = new Date();
+      const firstDay     = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth  = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const today        = new Date();
 
-      document.getElementById('calendar-title').textContent = 
+      document.getElementById('calendar-title').textContent =
         new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
 
       const grid = document.getElementById('calendar-grid');
       grid.innerHTML = '';
 
-      // Weekday names
-      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(day => {
+      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
         const div = document.createElement('div');
         div.className = 'calendar-day-name';
-        div.textContent = day;
+        div.textContent = d;
         grid.appendChild(div);
       });
 
-      // Previous month filler
       for (let i = firstDay; i > 0; i--) {
         const div = document.createElement('div');
         div.className = 'calendar-day inactive';
@@ -645,7 +631,6 @@
 
       const appts = getData('appointments');
 
-      // Current month days
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
         const hasAppt = appts.some(a => a.date === dateStr);
@@ -666,41 +651,33 @@
 
     function showDayAppointments(dateStr) {
       selectedDate = dateStr;
-      renderCalendar(); // refresh to show selected style
+      renderCalendar();
 
       const appts = getData('appointments').filter(a => a.date === dateStr);
       const container = document.getElementById('day-appointments');
       const list = document.getElementById('day-appt-list');
       const title = document.getElementById('selected-date');
 
-      title.textContent = new Date(dateStr).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      title.textContent = new Date(dateStr).toLocaleDateString('en-GB', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
 
       list.innerHTML = '';
       if (appts.length === 0) {
-        list.innerHTML = '<p>No appointments scheduled for this day.</p>';
+        list.innerHTML = '<p style="color:#6b7280;">No appointments on this day.</p>';
       } else {
         appts.forEach(a => {
           const item = document.createElement('div');
           item.className = 'appt-item';
-          item.innerHTML = `<strong>${a.time}</strong> - ${a.patient} <br><small>with ${a.doctor}</small>`;
+          item.innerHTML = `<strong>${a.time}</strong> – ${a.patient}<br><small>with ${a.doctor}</small>`;
           list.appendChild(item);
         });
       }
-
       container.classList.remove('hidden');
     }
 
-    function prevMonth() {
-      currentMonth--;
-      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-      renderCalendar();
-    }
-
-    function nextMonth() {
-      currentMonth++;
-      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-      renderCalendar();
-    }
+    function prevMonth() { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); }
+    function nextMonth() { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); }
 
     function loadAppointments() {
       const appts = getData('appointments');
@@ -722,47 +699,86 @@
     document.getElementById('appt-form').addEventListener('submit', e => {
       e.preventDefault();
       const appts = getData('appointments');
-      const newAppt = {
+      appts.push({
         patient: document.getElementById('appt-patient').value.trim(),
         doctor: document.getElementById('appt-doctor').value,
         date: document.getElementById('appt-date').value,
         time: document.getElementById('appt-time').value
-      };
-      appts.push(newAppt);
+      });
       saveData('appointments', appts);
       loadAppointments();
       renderCalendar();
-      showMessage('appt-message', 'Appointment scheduled successfully!', 'success');
+      showMessage('appt-message', 'Appointment scheduled! 📅', 'success');
       e.target.reset();
       showForm('appt-form');
     });
 
-    // Set min date to today
     document.getElementById('appt-date').min = new Date().toISOString().split('T')[0];
 
-    function showMessage(id, text, type) {
-      const el = document.getElementById(id);
-      el.textContent = text;
-      el.className = `message ${type}`;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 4000);
+    // ──────────────────────────────────────────────
+    // PHARMACY
+    // ──────────────────────────────────────────────
+    function loadDrugs() {
+      const drugs = getData('drugs');
+      const tbody = document.querySelector('#drug-table tbody');
+      tbody.innerHTML = '';
+      drugs.forEach((d, i) => {
+        const tr = document.createElement('tr');
+        if (d.stock < 10) tr.classList.add('low-stock');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${d.name}</td>
+          <td>${d.category}</td>
+          <td>${Number(d.price).toLocaleString()}</td>
+          <td>${d.stock}</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
+    document.getElementById('drug-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const drugs = getData('drugs');
+      drugs.push({
+        name: document.getElementById('drug-name').value.trim(),
+        category: document.getElementById('drug-category').value,
+        price: document.getElementById('drug-price').value,
+        stock: document.getElementById('drug-stock').value
+      });
+      saveData('drugs', drugs);
+      loadDrugs();
+      showMessage('pharmacy-message', 'Drug added to inventory! 💊', 'success');
+      e.target.reset();
+      showForm('drug-form');
+    });
+
+    // ──────────────────────────────────────────────
+    // LOAD ALL DATA
+    // ──────────────────────────────────────────────
     function loadData() {
       loadPatients();
       loadAppointments();
-      // calendar renders on section show
+      loadDrugs();
+      if (!document.getElementById('appointments').classList.contains('hidden')) {
+        renderCalendar();
+      }
     }
 
-    // Initial demo data
+    // Demo / initial data
     if (!localStorage.getItem('patients')) {
       saveData('patients', [
         {name:"Achieng Akello", nid:"UG-19850315-001", phone:"0700123456", blood:"O+"},
-        {name:"Kato Muwanga", nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
+        {name:"Kato Muwanga",   nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
       ]);
       saveData('appointments', [
         {patient:"Achieng Akello", doctor:"Dr. Nakato Irene", date:"2026-03-20", time:"09:30"},
-        {patient:"Kato Muwanga", doctor:"Dr. Ouma Peter", date:"2026-03-21", time:"14:00"}
+        {patient:"Kato Muwanga",   doctor:"Dr. Ouma Peter",   date:"2026-03-21", time:"14:00"}
+      ]);
+      saveData('drugs', [
+        {name:"Paracetamol 500mg",         category:"Analgesic",     price:"1500",  stock:"180"},
+        {name:"Artemether-Lumefantrine",   category:"Antimalarial",  price:"8500",  stock:"38"},
+        {name:"Amoxicillin 500mg",         category:"Antibiotic",    price:"3200",  stock:"7"},
+        {name:"Metformin 500mg",           category:"Antihypertensive", price:"2000", stock:"220"}
       ]);
     }
   </script>
