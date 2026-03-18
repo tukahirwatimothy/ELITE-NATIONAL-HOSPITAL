@@ -1,786 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elite National Hospital Management System • Uganda</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <style>
-    :root {
-      --primary: #1e40af;
-      --primary-dark: #1e3a8a;
-      --secondary: #10b981;
-      --gray: #6b7280;
-      --light: #f3f4f6;
-      --dark: #111827;
-      --danger: #ef4444;
-      --success: #10b981;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--light);
-      color: var(--dark);
-      min-height: 100vh;
-      animation: fadeIn 1s ease-in;
-    }
-    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-    .hidden { display: none !important; }
-    section.page { animation: slideIn 0.6s ease-out; }
-    @keyframes slideIn { from { transform: translateY(30px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-    .card, .btn, .calendar-day { transition: all 0.3s ease; }
-    .card:hover, .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-    .calendar-day:hover { transform: scale(1.04); background: #eff6ff; }
-    /* Login */
-    #login-page {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-    }
-    .login-box {
-      background: white;
-      color: var(--dark);
-      padding: 2.8rem 2.2rem;
-      border-radius: 16px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-      width: 100%;
-      max-width: 440px;
-      animation: popIn 0.8s;
-    }
-    @keyframes popIn { from { transform: scale(0.85); opacity:0; } to { transform: scale(1); opacity:1; } }
-    .form-group { margin-bottom: 1.6rem; }
-    label { display: block; margin-bottom: 0.6rem; font-weight: 500; }
-    input, select {
-      width: 100%;
-      padding: 0.85rem;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(30,64,175,0.15);
-    }
-    button {
-      width: 100%;
-      padding: 1rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.25s;
-    }
-    button:hover { background: var(--primary-dark); }
-    /* Layout */
-    #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
-    #sidebar {
-      background: var(--dark);
-      color: white;
-      padding: 1.8rem 0;
-    }
-    #sidebar h3 {
-      padding: 0 2rem 1.4rem;
-      font-size: 1.5rem;
-      border-bottom: 1px solid #374151;
-    }
-    #sidebar ul { list-style: none; margin-top: 1.8rem; }
-    #sidebar li a {
-      display: flex;
-      align-items: center;
-      padding: 1rem 2rem;
-      color: #d1d5db;
-      text-decoration: none;
-      transition: all 0.25s;
-    }
-    #sidebar li a:hover, #sidebar li a.active {
-      background: #374151;
-      color: white;
-    }
-    #sidebar i { margin-right: 14px; width: 22px; text-align: center; }
-    #main-content { padding: 2.5rem; background: var(--light); }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2.5rem;
-    }
-    header h1 { font-size: 2rem; color: var(--primary-dark); }
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-      padding: 1.8rem;
-      margin-bottom: 2rem;
-    }
-    .card h2 { margin-bottom: 1.4rem; color: var(--primary); font-size: 1.5rem; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1.2rem;
-    }
-    th, td {
-      padding: 1rem 1.2rem;
-      text-align: left;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    th { background: #f3f4f6; font-weight: 600; }
-    .btn {
-      padding: 0.7rem 1.4rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      border: none;
-    }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-danger:hover { background: #dc2626; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-    .message {
-      padding: 1rem;
-      margin: 1.2rem 0;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .success { background: #d1fae5; color: #065f46; }
-    .error   { background: #fee2e2; color: #991b1b; }
-    /* Calendar */
-    .calendar { max-width: 950px; margin: 2rem auto; }
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.2rem;
-    }
-    .calendar-header h3 { margin: 0; color: var(--primary-dark); font-size: 1.4rem; }
-    .calendar-nav button {
-      background: none;
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: var(--primary);
-      padding: 0.6rem;
-    }
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-      text-align: center;
-    }
-    .calendar-day-name {
-      font-weight: bold;
-      padding: 1rem;
-      background: #f3f4f6;
-      border-radius: 8px;
-    }
-    .calendar-day {
-      padding: 1.2rem 0.6rem;
-      min-height: 90px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      position: relative;
-      cursor: pointer;
-    }
-    .calendar-day.inactive { color: #9ca3af; cursor: default; }
-    .calendar-day.today { background: #dbeafe; font-weight: bold; }
-    .calendar-day.has-appointments::after {
-      content: '';
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      background: var(--primary);
-      border-radius: 50%;
-    }
-    .calendar-day.selected {
-      border: 3px solid var(--primary);
-      background: #eff6ff;
-    }
-    .day-appointments {
-      margin-top: 1.8rem;
-      padding: 1.4rem;
-      background: #f9fafb;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-    }
-    .appt-item {
-      padding: 0.8rem;
-      margin-bottom: 0.8rem;
-      background: white;
-      border-left: 5px solid var(--primary);
-      border-radius: 6px;
-    }
-    /* Images & Video */
-    .section-img {
-      width: 100%;
-      max-height: 240px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      margin: 1.2rem 0;
-    }
-    .video-container iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-    }
-    .low-stock { background: #fee2e2 !important; font-weight: bold; color: var(--danger); }
-    @media (max-width: 992px) {
-      #app { grid-template-columns: 1fr; }
-      #sidebar { display: none; position: fixed; top:0; left:0; width:260px; height:100%; z-index: 1000; }
-      #sidebar.active { display: block; }
-      header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite National Hospital System PRO</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{font-family:Segoe UI;margin:0;background:#f3f4f6}
+.hidden{display:none}
+#app{display:grid;grid-template-columns:240px 1fr}
+#sidebar{background:#111827;color:white;height:100vh;padding:10px}
+#sidebar a{display:block;color:white;padding:10px;text-decoration:none}
+#sidebar a:hover{background:#374151}
+#main{padding:20px}
+.card{background:white;padding:20px;margin-bottom:20px;border-radius:10px}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;border-bottom:1px solid #ddd}
+img{border-radius:50%;width:40px;height:40px}
+</style>
 </head>
+
 <body>
 
-  <!-- Login -->
-  <div id="login-page">
-    <div class="login-box">
-      <h2>Elite National Hospital 🏥</h2>
-      <p style="text-align:center; margin:1rem 0 2rem; color:#4b5563;">Mulago National Referral • Uganda 🇺🇬</p>
-      <form id="login-form">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="username" placeholder="admin / doctor01 / nurse01 / reception" required/>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="password" placeholder="••••••••" required/>
-        </div>
-        <div class="form-group">
-          <label>Role</label>
-          <select id="role" required>
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="doctor">Doctor</option>
-            <option value="nurse">Nurse</option>
-            <option value="reception">Receptionist</option>
-          </select>
-        </div>
-        <button type="submit">Login →</button>
-      </form>
-    </div>
-  </div>
+<!-- LOGIN -->
+<div id="login-page" style="display:flex;justify-content:center;align-items:center;height:100vh;background:#1e40af;color:white">
+<div style="background:white;color:black;padding:20px;border-radius:10px;width:300px">
+<h2>Login</h2>
+<form id="login-form">
+<input id="username" placeholder="Username" required>
+<input id="password" type="password" placeholder="Password" required>
+<select id="role">
+<option value="">Role</option>
+<option value="admin">Admin</option>
+<option value="doctor">Doctor</option>
+<option value="nurse">Nurse</option>
+<option value="reception">Reception</option>
+</select>
+<button>Login</button>
+</form>
+</div>
+</div>
 
-  <!-- Main App -->
-  <div id="app" class="hidden">
-    <aside id="sidebar">
-      <h3>ENHMS 💉</h3>
-      <ul>
-        <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li class="role-admin role-reception role-nurse"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
-        <li class="role-admin role-doctor role-nurse"><a href="#appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-        <li class="role-admin role-reception"><a href="#pharmacy"><i class="fas fa-prescription-bottle-alt"></i> Pharmacy</a></li>
-        <li class="role-admin role-reception"><a href="#billing"><i class="fas fa-money-bill-wave"></i> Billing</a></li>
-        <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-      </ul>
-    </aside>
+<!-- APP -->
+<div id="app" class="hidden">
 
-    <main id="main-content">
-      <header>
-        <h1 id="page-title">Dashboard</h1>
-        <button class="btn btn-primary" onclick="document.getElementById('sidebar').classList.toggle('active')">☰ Menu</button>
-      </header>
+<div id="sidebar">
+<h3>HMS PRO</h3>
+<a onclick="nav('dashboard')">Dashboard</a>
+<a onclick="nav('patients')" class="role-admin role-reception">Patients</a>
+<a onclick="nav('appointments')" class="role-admin role-doctor">Appointments</a>
+<a onclick="nav('pharmacy')" class="role-admin role-reception">Pharmacy</a>
+<a onclick="nav('doctors')" class="role-admin">Doctors</a>
+<a onclick="logout()">Logout</a>
+</div>
 
-      <!-- Dashboard -->
-      <section id="dashboard" class="page">
-        <div class="card">
-          <h2>Welcome, <span id="user-name">User</span> 😊</h2>
-          <p>Role: <strong id="user-role"></strong> 🩺</p>
-        </div>
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1586776971484-9c8e7fa428a6?auto=format&fit=crop&q=80&w=1200" alt="Medical team at work" class="section-img">
-          <h2>Quick Stats 📊</h2>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.2rem; margin-top:1.6rem;">
-            <div style="background:#ecfdf5; padding:1.4rem; border-radius:10px; text-align:center;">
-              <h3 style="color:var(--secondary);">248</h3><p>Patients Today</p>
-            </div>
-            <div style="background:#eff6ff; padding:1.4rem; border-radius:10px; text-align:center;">
-              <h3 style="color:var(--primary);">37</h3><p>Appointments</p>
-            </div>
-            <div style="background:#fef2f2; padding:1.4rem; border-radius:10px; text-align:center;">
-              <h3 style="color:var(--danger);">UGX 4.8M</h3><p>Revenue Today</p>
-            </div>
-          </div>
-        </div>
-      </section>
+<div id="main">
 
-      <!-- Patients -->
-      <section id="patients" class="page hidden">
-        <div class="card">
-          <h2>Patient Management 👩‍⚕️</h2>
-          <button class="btn btn-primary" onclick="showForm('patient-form')">+ Add New Patient</button>
-          <form id="patient-form" class="hidden" style="margin:1.6rem 0;">
-            <div class="form-row">
-              <div><label>Full Name</label><input type="text" id="p-name" required/></div>
-              <div><label>National ID</label><input type="text" id="p-nid" placeholder="CM8700000XXXX" required/></div>
-            </div>
-            <div class="form-row" style="margin-top:1.2rem;">
-              <div><label>Phone</label><input type="tel" id="p-phone"/></div>
-              <div><label>Blood Group</label>
-                <select id="p-blood">
-                  <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                  <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Save Patient ✅</button>
-          </form>
-          <div id="patient-message" class="message hidden"></div>
-          <table id="patient-table">
-            <thead><tr><th>ID</th><th>Name</th><th>National ID</th><th>Phone</th><th>Blood</th><th>Actions</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="card">
-          <h3>Quick Diagnosis Help 🎥 Malaria (common in Uganda)</h3>
-          <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/qw6jnFqZ-Hk" title="Malaria symptoms and prevention" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <p style="margin-top:1rem;">Fever • Chills • Headache • Fatigue — seek care quickly! 🦟</p>
-        </div>
-      </section>
+<!-- DASHBOARD -->
+<div id="dashboard" class="page">
+<div class="card">
+<h2>Dashboard</h2>
+<p>Patients: <span id="stat-p">0</span></p>
+<p>Appointments: <span id="stat-a">0</span></p>
+<p>Revenue: UGX <span id="stat-r">0</span></p>
+</div>
+</div>
 
-      <!-- Appointments -->
-      <section id="appointments" class="page hidden">
-        <div class="card">
-          <h2>Appointments 📅</h2>
-          <button class="btn btn-primary" onclick="showForm('appt-form')">+ New Appointment</button>
-          <form id="appt-form" class="hidden" style="margin:1.6rem 0;">
-            <div class="form-row">
-              <div><label>Patient Name</label><input type="text" id="appt-patient" required/></div>
-              <div><label>Doctor</label>
-                <select id="appt-doctor" required>
-                  <option>Dr. Nakato Irene</option>
-                  <option>Dr. Ssekandi John</option>
-                  <option>Dr. Ouma Peter</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row" style="margin-top:1.2rem;">
-              <div><label>Date</label><input type="date" id="appt-date" required/></div>
-              <div><label>Time</label><input type="time" id="appt-time" required/></div>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Schedule Appointment ✅</button>
-          </form>
-          <div id="appt-message" class="message hidden"></div>
+<!-- DOCTORS -->
+<div id="doctors" class="page hidden">
+<div class="card">
+<h2>Doctors</h2>
+<form id="doc-form">
+<input id="doc-name" placeholder="Doctor Name">
+<input id="doc-spec" placeholder="Specialty">
+<input type="file" id="doc-img">
+<button>Add</button>
+</form>
+<table><tbody id="doc-table"></tbody></table>
+</div>
+</div>
 
-          <div class="calendar">
-            <div class="calendar-header">
-              <button class="calendar-nav" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
-              <h3 id="calendar-title"></h3>
-              <button class="calendar-nav" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="calendar-grid" id="calendar-grid"></div>
-          </div>
+<!-- PATIENTS -->
+<div id="patients" class="page hidden">
+<div class="card">
+<h2>Patients</h2>
+<form id="p-form">
+<input id="p-name" placeholder="Name">
+<input id="p-nid" placeholder="NID">
+<button>Add</button>
+</form>
+<table><tbody id="p-table"></tbody></table>
+</div>
+</div>
 
-          <div id="day-appointments" class="day-appointments hidden">
-            <h4>Appointments on <span id="selected-date"></span></h4>
-            <div id="day-appt-list"></div>
-          </div>
+<!-- APPOINTMENTS -->
+<div id="appointments" class="page hidden">
+<div class="card">
+<h2>Appointments</h2>
+<form id="a-form">
+<input id="a-patient" placeholder="Patient">
+<input id="a-date" type="date">
+<button>Add</button>
+</form>
+<table><tbody id="a-table"></tbody></table>
+</div>
+</div>
 
-          <table id="appt-table" style="margin-top:2.5rem;">
-            <thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="card">
-          <h3>Diagnosis Support Video – Malaria Life Cycle</h3>
-          <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/0uyE046It3o" title="Malaria life cycle animation" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </div>
-      </section>
+<!-- PHARMACY -->
+<div id="pharmacy" class="page hidden">
+<div class="card">
+<h2>Pharmacy</h2>
 
-      <!-- Pharmacy -->
-      <section id="pharmacy" class="page hidden">
-        <div class="card">
-          <h2>Pharmacy Management 💊</h2>
-          <img src="https://images.unsplash.com/photo-1587854691338-13a1a8d9e0e7?auto=format&fit=crop&q=80&w=1200" alt="Pharmacy dispensary" class="section-img">
-          <button class="btn btn-primary" onclick="showForm('drug-form')">+ Add New Drug</button>
-          <form id="drug-form" class="hidden" style="margin:1.6rem 0;">
-            <div class="form-row">
-              <div><label>Drug Name</label><input type="text" id="drug-name" required placeholder="e.g. Coartem"/></div>
-              <div><label>Category</label>
-                <select id="drug-category" required>
-                  <option>Analgesic</option>
-                  <option>Antibiotic</option>
-                  <option>Antimalarial</option>
-                  <option>Antihypertensive</option>
-                  <option>Antiretroviral</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row" style="margin-top:1.2rem;">
-              <div><label>Price (UGX)</label><input type="number" id="drug-price" min="100" required/></div>
-              <div><label>Stock Level</label><input type="number" id="drug-stock" min="0" required/></div>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.4rem;">Add Drug 💉</button>
-          </form>
-          <div id="pharmacy-message" class="message hidden"></div>
-          <table id="drug-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Price (UGX)</th><th>Stock</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
+<form id="drug-form">
+<input id="d-name" placeholder="Drug">
+<input id="d-price" placeholder="Price">
+<input id="d-stock" placeholder="Stock">
+<button>Add</button>
+</form>
 
-      <!-- Billing -->
-      <section id="billing" class="page hidden">
-        <div class="card">
-          <h2>Billing Overview 💰</h2>
-          <table>
-            <thead><tr><th>Patient</th><th>Service</th><th>Amount (UGX)</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>Achieng Akello</td><td>Consultation + Lab</td><td>285,000</td><td>Paid</td></tr>
-              <tr><td>Kato Muwanga</td><td>Surgery</td><td>2,450,000</td><td>Pending</td></tr>
-              <tr><td>Nalubega Sarah</td><td>Pharmacy</td><td>148,500</td><td>Insurance</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-  </div>
+<h3>Dispense Drug</h3>
+<form id="dispense-form">
+<input id="disp-name" placeholder="Drug Name">
+<input id="disp-qty" placeholder="Quantity">
+<button>Dispense</button>
+</form>
 
-  <script>
-    // ──────────────────────────────────────────────
-    // AUTH & NAVIGATION
-    // ──────────────────────────────────────────────
-    const loginForm   = document.getElementById('login-form');
-    const loginPage   = document.getElementById('login-page');
-    const app         = document.getElementById('app');
-    const userNameEl  = document.getElementById('user-name');
-    const userRoleEl  = document.getElementById('user-role');
-    const pageTitle   = document.getElementById('page-title');
-    let currentUser   = null;
+<table>
+<thead><tr><th>Name</th><th>Price</th><th>Stock</th><th>Status</th></tr></thead>
+<tbody id="d-table"></tbody>
+</table>
 
-    const validUsers = {
-      admin:     { pass:'admin123', role:'admin',     name:'Admin Mukasa'     },
-      doctor01:  { pass:'doc2025',  role:'doctor',   name:'Dr. Nakato Irene' },
-      nurse01:   { pass:'nurse2025',role:'nurse',    name:'Nurse Sarah'      },
-      reception: { pass:'rec2025',  role:'reception',name:'Reception Jane'   }
-    };
+</div>
+</div>
 
-    loginForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const username = document.getElementById('username').value.trim().toLowerCase();
-      const password = document.getElementById('password').value;
-      const role     = document.getElementById('role').value;
+</div>
+</div>
 
-      if (validUsers[username] && validUsers[username].pass === password && validUsers[username].role === role) {
-        currentUser = validUsers[username];
-        userNameEl.textContent = currentUser.name;
-        userRoleEl.textContent = currentUser.role.toUpperCase();
+<script>
 
-        document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
+// USERS
+const users={
+admin:{p:"admin123",r:"admin"},
+doctor01:{p:"doc2025",r:"doctor"},
+nurse01:{p:"nurse2025",r:"nurse"},
+reception:{p:"rec2025",r:"reception"}
+};
 
-        loginPage.classList.add('hidden');
-        app.classList.remove('hidden');
-        loadData();
-        navigateTo('dashboard');
-      } else {
-        alert('Invalid username, password or role combination.');
-      }
-    });
+// STORAGE
+const get=k=>JSON.parse(localStorage.getItem(k))||[];
+const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
-    document.getElementById('logout').addEventListener('click', e => {
-      e.preventDefault();
-      if (confirm('Logout now?')) {
-        currentUser = null;
-        app.classList.add('hidden');
-        loginPage.classList.remove('hidden');
-        loginForm.reset();
-      }
-    });
+// LOGIN
+login-form.onsubmit=e=>{
+e.preventDefault();
+let u=username.value.toLowerCase();
+let p=password.value;
+let r=role.value;
 
-    document.querySelectorAll('#sidebar a').forEach(link => {
-      link.addEventListener('click', e => {
-        if (link.id === 'logout') return;
-        e.preventDefault();
-        const target = link.getAttribute('href').substring(1);
-        navigateTo(target);
-      });
-    });
+if(users[u] && users[u].p===p && users[u].r===r){
+login-page.style.display="none";
+app.classList.remove("hidden");
 
-    function navigateTo(target) {
-      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-      document.getElementById(target).classList.remove('hidden');
-      document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
-      document.querySelector(`a[href="#${target}"]`).classList.add('active');
-      pageTitle.textContent = document.querySelector(`a[href="#${target}"]`).textContent.trim();
+document.querySelectorAll('[class*="role-"]').forEach(x=>x.style.display="none");
+document.querySelectorAll('.role-'+r).forEach(x=>x.style.display="block");
 
-      if (target === 'appointments') {
-        renderCalendar();
-        setTimeout(renderCalendar, 400); // ensure after animation
-      }
-    }
+load();
+}else alert("Wrong login");
+};
 
-    function showForm(formId) {
-      document.getElementById(formId).classList.toggle('hidden');
-    }
+// NAV
+function nav(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+}
 
-    // ──────────────────────────────────────────────
-    // LOCALSTORAGE HELPERS
-    // ──────────────────────────────────────────────
-    function getData(key) { return JSON.parse(localStorage.getItem(key)) || []; }
-    function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+// DASHBOARD
+function update(){
+stat-p.innerText=get('patients').length;
+stat-a.innerText=get('appointments').length;
 
-    function showMessage(id, text, type) {
-      const el = document.getElementById(id);
-      el.textContent = text;
-      el.className = `message ${type}`;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 4500);
-    }
+let rev=0;
+get('drugs').forEach(d=>rev+=Number(d.price)*2);
+stat-r.innerText=rev.toLocaleString();
+}
 
-    // ──────────────────────────────────────────────
-    // PATIENTS
-    // ──────────────────────────────────────────────
-    function loadPatients() {
-      const patients = getData('patients');
-      const tbody = document.querySelector('#patient-table tbody');
-      tbody.innerHTML = '';
-      patients.forEach((p, i) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${i+1}</td>
-          <td>${p.name}</td>
-          <td>${p.nid}</td>
-          <td>${p.phone || '-'}</td>
-          <td>${p.blood}</td>
-          <td><button class="btn btn-danger" onclick="deletePatient(${i})">Delete</button></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+// DOCTORS
+doc-form.onsubmit=e=>{
+e.preventDefault();
 
-    document.getElementById('patient-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const patients = getData('patients');
-      patients.push({
-        name: document.getElementById('p-name').value.trim(),
-        nid: document.getElementById('p-nid').value.trim(),
-        phone: document.getElementById('p-phone').value.trim(),
-        blood: document.getElementById('p-blood').value
-      });
-      saveData('patients', patients);
-      loadPatients();
-      showMessage('patient-message', 'Patient added successfully! 👤', 'success');
-      e.target.reset();
-      showForm('patient-form');
-    });
+let reader=new FileReader();
+reader.onload=()=>{
+let d=get('doctors');
+d.push({
+name:doc-name.value,
+spec:doc-spec.value,
+img:reader.result
+});
+set('doctors',d);
+load();
+};
+reader.readAsDataURL(doc-img.files[0]);
+};
 
-    function deletePatient(index) {
-      if (!confirm('Delete this patient record?')) return;
-      let patients = getData('patients');
-      patients.splice(index, 1);
-      saveData('patients', patients);
-      loadPatients();
-      showMessage('patient-message', 'Patient record removed.', 'success');
-    }
+function loadDocs(){
+let d=get('doctors');
+doc-table.innerHTML="";
+d.forEach(x=>{
+doc-table.innerHTML+=`
+<tr>
+<td><img src="${x.img}"></td>
+<td>${x.name}</td>
+<td>${x.spec}</td>
+</tr>`;
+});
+}
 
-    // ──────────────────────────────────────────────
-    // APPOINTMENTS + CALENDAR
-    // ──────────────────────────────────────────────
-    let currentMonth = new Date().getMonth();
-    let currentYear  = new Date().getFullYear();
-    let selectedDate = null;
+// PATIENTS
+p-form.onsubmit=e=>{
+e.preventDefault();
+let d=get('patients');
+d.push({name:p-name.value,nid:p-nid.value});
+set('patients',d);
+load();
+};
 
-    function renderCalendar() {
-      const firstDay     = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth  = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const today        = new Date();
+// APPOINTMENTS
+a-form.onsubmit=e=>{
+e.preventDefault();
+let d=get('appointments');
+d.push({p:a-patient.value,date:a-date.value});
+set('appointments',d);
+load();
+};
 
-      document.getElementById('calendar-title').textContent =
-        new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
+// DRUGS
+drug-form.onsubmit=e=>{
+e.preventDefault();
+let d=get('drugs');
+d.push({name:d-name.value,price:d-price.value,stock:d-stock.value});
+set('drugs',d);
+load();
+};
 
-      const grid = document.getElementById('calendar-grid');
-      grid.innerHTML = '';
+// DISPENSE
+dispense-form.onsubmit=e=>{
+e.preventDefault();
+let d=get('drugs');
+d.forEach(x=>{
+if(x.name===disp-name.value){
+x.stock=Number(x.stock)-Number(disp-qty.value);
+}
+});
+set('drugs',d);
+load();
+};
 
-      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-        const div = document.createElement('div');
-        div.className = 'calendar-day-name';
-        div.textContent = d;
-        grid.appendChild(div);
-      });
+// LOAD
+function load(){
+loadDocs();
 
-      for (let i = firstDay; i > 0; i--) {
-        const div = document.createElement('div');
-        div.className = 'calendar-day inactive';
-        grid.appendChild(div);
-      }
+let p=get('patients');
+p-table.innerHTML="";
+p.forEach(x=>{
+p-table.innerHTML+=`<tr><td>${x.name}</td><td>${x.nid}</td></tr>`;
+});
 
-      const appts = getData('appointments');
+let a=get('appointments');
+a-table.innerHTML="";
+a.forEach(x=>{
+a-table.innerHTML+=`<tr><td>${x.p}</td><td>${x.date}</td></tr>`;
+});
 
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        const hasAppt = appts.some(a => a.date === dateStr);
+let d=get('drugs');
+d-table.innerHTML="";
+d.forEach(x=>{
+let s=Number(x.stock);
+let status="GOOD";
+if(s<10) status="CRITICAL";
+else if(s<50) status="LOW";
+else if(s>200) status="HIGH";
 
-        const div = document.createElement('div');
-        div.className = 'calendar-day';
-        if (hasAppt) div.classList.add('has-appointments');
-        if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
-          div.classList.add('today');
-        }
-        if (selectedDate === dateStr) div.classList.add('selected');
+d-table.innerHTML+=`
+<tr>
+<td>${x.name}</td>
+<td>${x.price}</td>
+<td>${s}</td>
+<td>${status}</td>
+</tr>`;
+});
 
-        div.innerHTML = `<div>${day}</div>`;
-        div.onclick = () => showDayAppointments(dateStr);
-        grid.appendChild(div);
-      }
-    }
+update();
+}
 
-    function showDayAppointments(dateStr) {
-      selectedDate = dateStr;
-      renderCalendar();
+// LOGOUT
+function logout(){location.reload();}
 
-      const appts = getData('appointments').filter(a => a.date === dateStr);
-      const container = document.getElementById('day-appointments');
-      const list = document.getElementById('day-appt-list');
-      const title = document.getElementById('selected-date');
+// INIT
+if(!localStorage.getItem('patients')){
+set('patients',[]);
+set('appointments',[]);
+set('drugs',[{name:"Panadol",price:1500,stock:20}]);
+set('doctors',[]);
+}
 
-      title.textContent = new Date(dateStr).toLocaleDateString('en-GB', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
+</script>
 
-      list.innerHTML = '';
-      if (appts.length === 0) {
-        list.innerHTML = '<p style="color:#6b7280;">No appointments on this day.</p>';
-      } else {
-        appts.forEach(a => {
-          const item = document.createElement('div');
-          item.className = 'appt-item';
-          item.innerHTML = `<strong>${a.time}</strong> – ${a.patient}<br><small>with ${a.doctor}</small>`;
-          list.appendChild(item);
-        });
-      }
-      container.classList.remove('hidden');
-    }
-
-    function prevMonth() { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); }
-    function nextMonth() { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); }
-
-    function loadAppointments() {
-      const appts = getData('appointments');
-      const tbody = document.querySelector('#appt-table tbody');
-      tbody.innerHTML = '';
-      appts.forEach(a => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${a.date}</td>
-          <td>${a.time}</td>
-          <td>${a.patient}</td>
-          <td>${a.doctor}</td>
-          <td>Scheduled</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    document.getElementById('appt-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const appts = getData('appointments');
-      appts.push({
-        patient: document.getElementById('appt-patient').value.trim(),
-        doctor: document.getElementById('appt-doctor').value,
-        date: document.getElementById('appt-date').value,
-        time: document.getElementById('appt-time').value
-      });
-      saveData('appointments', appts);
-      loadAppointments();
-      renderCalendar();
-      showMessage('appt-message', 'Appointment scheduled! 📅', 'success');
-      e.target.reset();
-      showForm('appt-form');
-    });
-
-    document.getElementById('appt-date').min = new Date().toISOString().split('T')[0];
-
-    // ──────────────────────────────────────────────
-    // PHARMACY
-    // ──────────────────────────────────────────────
-    function loadDrugs() {
-      const drugs = getData('drugs');
-      const tbody = document.querySelector('#drug-table tbody');
-      tbody.innerHTML = '';
-      drugs.forEach((d, i) => {
-        const tr = document.createElement('tr');
-        if (d.stock < 10) tr.classList.add('low-stock');
-        tr.innerHTML = `
-          <td>${i+1}</td>
-          <td>${d.name}</td>
-          <td>${d.category}</td>
-          <td>${Number(d.price).toLocaleString()}</td>
-          <td>${d.stock}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    document.getElementById('drug-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const drugs = getData('drugs');
-      drugs.push({
-        name: document.getElementById('drug-name').value.trim(),
-        category: document.getElementById('drug-category').value,
-        price: document.getElementById('drug-price').value,
-        stock: document.getElementById('drug-stock').value
-      });
-      saveData('drugs', drugs);
-      loadDrugs();
-      showMessage('pharmacy-message', 'Drug added to inventory! 💊', 'success');
-      e.target.reset();
-      showForm('drug-form');
-    });
-
-    // ──────────────────────────────────────────────
-    // LOAD ALL DATA
-    // ──────────────────────────────────────────────
-    function loadData() {
-      loadPatients();
-      loadAppointments();
-      loadDrugs();
-      if (!document.getElementById('appointments').classList.contains('hidden')) {
-        renderCalendar();
-      }
-    }
-
-    // Demo / initial data
-    if (!localStorage.getItem('patients')) {
-      saveData('patients', [
-        {name:"Achieng Akello", nid:"UG-19850315-001", phone:"0700123456", blood:"O+"},
-        {name:"Kato Muwanga",   nid:"UG-19920722-002", phone:"0777123456", blood:"A-"}
-      ]);
-      saveData('appointments', [
-        {patient:"Achieng Akello", doctor:"Dr. Nakato Irene", date:"2026-03-20", time:"09:30"},
-        {patient:"Kato Muwanga",   doctor:"Dr. Ouma Peter",   date:"2026-03-21", time:"14:00"}
-      ]);
-      saveData('drugs', [
-        {name:"Paracetamol 500mg",         category:"Analgesic",     price:"1500",  stock:"180"},
-        {name:"Artemether-Lumefantrine",   category:"Antimalarial",  price:"8500",  stock:"38"},
-        {name:"Amoxicillin 500mg",         category:"Antibiotic",    price:"3200",  stock:"7"},
-        {name:"Metformin 500mg",           category:"Antihypertensive", price:"2000", stock:"220"}
-      ]);
-    }
-  </script>
 </body>
 </html>
