@@ -90,6 +90,13 @@
 
     button:hover { background: var(--primary-dark); transform: scale(1.02); }
 
+    #login-error {
+      color: var(--danger);
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
     /* Main Layout */
     #app {
       display: grid;
@@ -228,11 +235,11 @@
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required/>
+          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required autocomplete="off"/>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="password" placeholder="••••••••" required/>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="off"/>
         </div>
         <div class="form-group">
           <label>Role</label>
@@ -245,13 +252,13 @@
           </select>
         </div>
         <button type="submit">Login</button>
+        <div id="login-error"></div>
       </form>
     </div>
   </div>
 
   <!-- Main App -->
   <div id="app" class="hidden">
-
     <!-- Sidebar -->
     <aside id="sidebar">
       <h3>ENHMS</h3>
@@ -283,17 +290,17 @@
           <h2>Quick Stats</h2>
           <div class="stats-grid">
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Black African doctor in white coat smiling in hospital">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor in hospital">
               <h3 style="color:var(--secondary);">248</h3>
               <p>Patients Today</p>
             </div>
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Black Ugandan-style doctor consulting patient">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor consulting">
               <h3 style="color:var(--primary);">37</h3>
               <p>Appointments</p>
             </div>
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Black patient receiving care in hospital setting">
+              <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Patient care">
               <h3 style="color:var(--danger);">UGX 4.8M</h3>
               <p>Revenue Today</p>
             </div>
@@ -307,137 +314,91 @@
         </div>
       </section>
 
-      <!-- Patients (unchanged, omitted for brevity) -->
-      <section id="patients" class="page hidden"> ... </section>
-
-      <!-- Appointments (unchanged, omitted for brevity) -->
-      <section id="appointments" class="page hidden"> ... </section>
-
-      <!-- New: Pharmacy -->
-      <section id="pharmacy" class="page hidden">
-        <div class="card">
-          <h2>Pharmacy Management</h2>
-          <button class="btn btn-primary" onclick="showForm('pharmacy-form')">+ Dispense Medicine</button>
-
-          <form id="pharmacy-form" class="hidden" style="margin:1.5rem 0;">
-            <div class="form-row">
-              <div>
-                <label>Patient Name</label>
-                <input type="text" id="ph-patient" required/>
-              </div>
-              <div>
-                <label>Medicine Type</label>
-                <select id="ph-type" required>
-                  <option>Antimalarials (e.g. Coartem)</option>
-                  <option>Antibiotics (e.g. Amoxicillin)</option>
-                  <option>Analgesics (e.g. Paracetamol)</option>
-                  <option>Antihypertensives</option>
-                  <option>Antiretrovirals</option>
-                  <option>Insulin / Diabetes meds</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row" style="margin-top:1rem;">
-              <div>
-                <label>Quantity</label>
-                <input type="number" id="ph-qty" min="1" required/>
-              </div>
-              <div>
-                <label>Notes</label>
-                <input type="text" id="ph-notes"/>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:1.2rem;">Dispense</button>
-          </form>
-
-          <table id="pharmacy-table">
-            <thead>
-              <tr><th>Patient</th><th>Medicine Type</th><th>Qty</th><th>Date</th><th>Status</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-
-          <h3 style="margin-top:2rem;">Medicine Stock Overview</h3>
-          <ul style="list-style:none; margin-top:1rem;">
-            <li>Antimalarials: <span class="low-stock">Low (18 units left)</span></li>
-            <li>Antibiotics: <span>Moderate (120 units)</span></li>
-            <li>Analgesics: <span>Good (450 units)</span></li>
-            <li>Insulin: <span class="warning">Critical (5 units - urgent reorder)</span></li>
-          </ul>
-        </div>
+      <!-- Patients section (shortened for brevity - copy from previous version if needed) -->
+      <section id="patients" class="page hidden">
+        <!-- ... your patient management code here ... -->
       </section>
 
-      <!-- Billing (unchanged, omitted for brevity) -->
-      <section id="billing" class="page hidden"> ... </section>
+      <!-- Appointments, Pharmacy, Billing sections - copy from previous full version -->
+      <!-- For space reasons omitted here, but keep them as in the last complete code I sent -->
+
     </main>
   </div>
 
   <script>
-    // ... (keep all previous login, navigation, patient, appointment logic unchanged)
+    // ────────────────────────────────────────────────
+    // LOGIN LOGIC - IMPROVED VERSION
+    // ────────────────────────────────────────────────
 
-    // Add to existing loadData()
-    function loadData() {
-      loadPatients();
-      loadAppointments();
-      loadPharmacy();
-      initCalendar();
-    }
+    const loginForm   = document.getElementById('login-form');
+    const loginPage   = document.getElementById('login-page');
+    const app         = document.getElementById('app');
+    const errorDiv    = document.getElementById('login-error');
+    const userNameEl  = document.getElementById('user-name');
+    const userRoleEl  = document.getElementById('user-role');
 
-    // Calendar
-    function initCalendar() {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('calendar-input').value = today;
-      document.getElementById('selected-date').textContent = today;
+    let currentUser = null;
 
-      document.getElementById('calendar-input').addEventListener('change', e => {
-        document.getElementById('selected-date').textContent = e.target.value;
-      });
-    }
+    const validUsers = {
+      admin:     { pass: 'admin123', role: 'admin',     name: 'Admin Mukasa' },
+      doctor01:  { pass: 'doc2025',  role: 'doctor',   name: 'Dr. Nakato' },
+      nurse01:   { pass: 'nurse2025',role: 'nurse',    name: 'Nurse Sarah' },
+      reception: { pass: 'rec2025',  role: 'reception',name: 'Reception Jane' }
+    };
 
-    // Pharmacy
-    function loadPharmacy() {
-      const items = getData('pharmacy');
-      const tbody = document.querySelector('#pharmacy-table tbody');
-      tbody.innerHTML = '';
-
-      items.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${item.patient}</td>
-          <td>${item.type}</td>
-          <td>${item.qty}</td>
-          <td>${item.date}</td>
-          <td>Dispensed</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    document.getElementById('pharmacy-form')?.addEventListener('submit', e => {
+    loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const items = getData('pharmacy');
-      items.push({
-        patient: document.getElementById('ph-patient').value,
-        type: document.getElementById('ph-type').value,
-        qty: document.getElementById('ph-qty').value,
-        date: new Date().toISOString().split('T')[0],
-        notes: document.getElementById('ph-notes').value
-      });
-      saveData('pharmacy', items);
-      loadPharmacy();
-      e.target.reset();
-      showForm('pharmacy-form');
+
+      const usernameInput = document.getElementById('username').value.trim().toLowerCase();
+      const passwordInput = document.getElementById('password').value;
+      const selectedRole  = document.getElementById('role').value;
+
+      errorDiv.textContent = ''; // clear previous error
+
+      if (!usernameInput || !passwordInput || !selectedRole) {
+        errorDiv.textContent = 'Please fill all fields';
+        return;
+      }
+
+      const user = validUsers[usernameInput];
+
+      if (user && user.pass === passwordInput && user.role === selectedRole) {
+        currentUser = user;
+        userNameEl.textContent = user.name;
+        userRoleEl.textContent = user.role.toUpperCase();
+
+        // Show role-based menu items
+        document.querySelectorAll('[class*="role-"]').forEach(el => {
+          el.classList.add('hidden');
+        });
+        document.querySelectorAll(`.role-${selectedRole}`).forEach(el => {
+          el.classList.remove('hidden');
+        });
+
+        loginPage.classList.add('hidden');
+        app.classList.remove('hidden');
+
+        // Optional: load data for sections
+        // loadData();   // uncomment if you have this function
+      } else {
+        errorDiv.textContent = 'Invalid username, password, or role combination';
+      }
     });
 
-    // Initial pharmacy demo data
-    if (localStorage.getItem('pharmacy') === null) {
-      saveData('pharmacy', [
-        {patient: "Achieng Akello", type: "Antimalarials", qty: 12, date: "2026-03-15"},
-        {patient: "Kato Muwanga", type: "Analgesics", qty: 30, date: "2026-03-17"}
-      ]);
-    }
+    // Logout
+    document.getElementById('logout')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('Logout?')) {
+        currentUser = null;
+        app.classList.add('hidden');
+        loginPage.classList.remove('hidden');
+        loginForm.reset();
+        errorDiv.textContent = '';
+      }
+    });
 
-    // ... (keep showForm, getData, saveData, etc.)
+    // For testing: auto-focus username field
+    document.getElementById('username')?.focus();
   </script>
 </body>
 </html>
