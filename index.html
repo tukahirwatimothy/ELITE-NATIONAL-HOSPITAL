@@ -18,9 +18,9 @@ body{font-family:Segoe UI;margin:0;background:#f3f4f6}
 .card{background:white;padding:20px;margin-bottom:20px;border-radius:10px}
 table{width:100%;border-collapse:collapse}
 td,th{padding:10px;border-bottom:1px solid #ddd}
+img{border-radius:10px}
 .dashboard-cards{display:flex;gap:20px;flex-wrap:wrap}
 .dashboard-card{flex:1;padding:20px;border-radius:10px;cursor:pointer}
-img{border-radius:10px}
 </style>
 </head>
 
@@ -51,7 +51,6 @@ img{border-radius:10px}
 <div id="sidebar">
 <h3>HMS PRO</h3>
 <a onclick="nav('dashboard')">Dashboard</a>
-<a onclick="nav('overview')" class="role-admin role-reception">Overview</a>
 <a onclick="nav('patients')" class="role-admin role-reception">Patients</a>
 <a onclick="nav('appointments')" class="role-admin role-doctor">Appointments</a>
 <a onclick="nav('pharmacy')" class="role-admin role-reception">Pharmacy</a>
@@ -66,6 +65,7 @@ img{border-radius:10px}
 
 <h2>Dashboard</h2>
 
+<!-- Doctor Images -->
 <div style="display:flex;gap:20px;margin-bottom:20px">
 <div style="text-align:center">
 <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" style="width:120px;height:120px;object-fit:cover">
@@ -78,9 +78,10 @@ img{border-radius:10px}
 </div>
 </div>
 
+<!-- Clickable Cards -->
 <div class="dashboard-cards">
 
-<div class="dashboard-card" style="background:#dbeafe" onclick="nav('overview')">
+<div class="dashboard-card" style="background:#dbeafe" onclick="nav('patients')">
 <h3>Patients</h3>
 <p id="stat-p">0</p>
 </div>
@@ -97,30 +98,6 @@ img{border-radius:10px}
 
 </div>
 
-</div>
-
-<!-- OVERVIEW -->
-<div id="overview" class="page hidden">
-<div class="card">
-
-<h2>Hospital Overview</h2>
-
-<h3>Patients</h3>
-<table>
-<thead><tr><th>Name</th><th>ID</th></tr></thead>
-<tbody id="ov-patients"></tbody>
-</table>
-
-<h3>Appointments</h3>
-<table>
-<thead><tr><th>Patient</th><th>Date</th></tr></thead>
-<tbody id="ov-appts"></tbody>
-</table>
-
-<h3>Revenue</h3>
-<p>Total Revenue: UGX <span id="ov-rev">0</span></p>
-
-</div>
 </div>
 
 <!-- DOCTORS -->
@@ -231,7 +208,7 @@ document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
 document.getElementById(id).classList.remove('hidden');
 }
 
-// UPDATE
+// DASHBOARD
 function update(){
 stat-p.innerText=get('patients').length;
 stat-a.innerText=get('appointments').length;
@@ -241,56 +218,25 @@ get('drugs').forEach(d=>rev+=Number(d.price)*2);
 stat-r.innerText=rev.toLocaleString();
 }
 
-// LOAD
-function load(){
+// DOCTORS
+doc-form.onsubmit=e=>{
+e.preventDefault();
 
-// patients
-let p=get('patients');
-p-table.innerHTML="";
-ov-patients.innerHTML="";
-p.forEach(x=>{
-p-table.innerHTML+=`<tr><td>${x.name}</td><td>${x.nid}</td></tr>`;
-ov-patients.innerHTML+=`<tr><td>${x.name}</td><td>${x.nid}</td></tr>`;
+let reader=new FileReader();
+reader.onload=()=>{
+let d=get('doctors');
+d.push({
+name:doc-name.value,
+spec:doc-spec.value,
+img:reader.result
 });
+set('doctors',d);
+load();
+};
+if(doc-img.files[0]) reader.readAsDataURL(doc-img.files[0]);
+};
 
-// appointments
-let a=get('appointments');
-a-table.innerHTML="";
-ov-appts.innerHTML="";
-a.forEach(x=>{
-a-table.innerHTML+=`<tr><td>${x.p}</td><td>${x.date}</td></tr>`;
-ov-appts.innerHTML+=`<tr><td>${x.p}</td><td>${x.date}</td></tr>`;
-});
-
-// drugs
-let d=get('drugs');
-d-table.innerHTML="";
-let rev=0;
-
-d.forEach(x=>{
-let s=Number(x.stock);
-let status="GOOD";
-if(s<10) status="CRITICAL";
-else if(s<50) status="LOW";
-else if(s>200) status="HIGH";
-
-rev+=Number(x.price)*2;
-
-d-table.innerHTML+=`
-<tr>
-<td>${x.name}</td>
-<td>${x.price}</td>
-<td>${s}</td>
-<td>${status}</td>
-</tr>`;
-});
-
-ov-rev.innerText=rev.toLocaleString();
-
-update();
-}
-
-// FORMS
+// PATIENTS
 p-form.onsubmit=e=>{
 e.preventDefault();
 let d=get('patients');
@@ -299,6 +245,7 @@ set('patients',d);
 load();
 };
 
+// APPOINTMENTS
 a-form.onsubmit=e=>{
 e.preventDefault();
 let d=get('appointments');
@@ -307,6 +254,7 @@ set('appointments',d);
 load();
 };
 
+// DRUGS
 drug-form.onsubmit=e=>{
 e.preventDefault();
 let d=get('drugs');
@@ -315,6 +263,7 @@ set('drugs',d);
 load();
 };
 
+// DISPENSE
 dispense-form.onsubmit=e=>{
 e.preventDefault();
 let d=get('drugs');
@@ -327,6 +276,57 @@ set('drugs',d);
 load();
 };
 
+// LOAD
+function load(){
+
+// doctors
+let docs=get('doctors');
+doc-table.innerHTML="";
+docs.forEach(x=>{
+doc-table.innerHTML+=`
+<tr>
+<td><img src="${x.img}" width="40"></td>
+<td>${x.name}</td>
+<td>${x.spec}</td>
+</tr>`;
+});
+
+// patients
+let p=get('patients');
+p-table.innerHTML="";
+p.forEach(x=>{
+p-table.innerHTML+=`<tr><td>${x.name}</td><td>${x.nid}</td></tr>`;
+});
+
+// appointments
+let a=get('appointments');
+a-table.innerHTML="";
+a.forEach(x=>{
+a-table.innerHTML+=`<tr><td>${x.p}</td><td>${x.date}</td></tr>`;
+});
+
+// drugs
+let d=get('drugs');
+d-table.innerHTML="";
+d.forEach(x=>{
+let s=Number(x.stock);
+let status="GOOD";
+if(s<10) status="CRITICAL";
+else if(s<50) status="LOW";
+else if(s>200) status="HIGH";
+
+d-table.innerHTML+=`
+<tr>
+<td>${x.name}</td>
+<td>${x.price}</td>
+<td>${s}</td>
+<td>${status}</td>
+</tr>`;
+});
+
+update();
+}
+
 // LOGOUT
 function logout(){location.reload();}
 
@@ -335,6 +335,7 @@ if(!localStorage.getItem('patients')){
 set('patients',[]);
 set('appointments',[]);
 set('drugs',[{name:"Panadol",price:1500,stock:20}]);
+set('doctors',[]);
 }
 
 </script>
