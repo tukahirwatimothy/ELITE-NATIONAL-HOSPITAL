@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Elite National Hospital Management System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
@@ -10,51 +10,178 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --primary: #1e40af; --primary-dark: #1e3a8a; --success: #10b981; --light: #f3f4f6;
-      --dark: #111827; --danger: #ef4444; --warning: #f59e0b;
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --success: #10b981;
+      --light: #f3f4f6;
+      --dark: #111827;
+      --danger: #ef4444;
+      --warning: #f59e0b;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     .hidden { display: none !important; }
 
+    /* Login */
     #login-page {
-      display: flex; align-items: center; justify-content: center; min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       background: linear-gradient(rgba(30,64,175,0.45), rgba(16,185,129,0.35)),
-                  url('https://img.freepik.com/free-vector/medical-background-blue-with-plus-signs_1017-26360.jpg') center/cover;
+                  url('https://img.freepik.com/free-vector/medical-background-blue-with-plus-signs_1017-26360.jpg') center/cover no-repeat;
       background-blend-mode: overlay;
     }
 
     .login-box {
-      background: rgba(255,255,255,0.96); padding: 2.5rem 2.2rem; border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25); max-width: 420px; width: 100%;
+      background: rgba(255,255,255,0.96);
+      padding: 2.2rem 1.8rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      width: 90%;
+      max-width: 420px;
     }
 
-    .form-group { margin-bottom: 1.4rem; }
+    .form-group { margin-bottom: 1.3rem; }
     label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-    input, select { width: 100%; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; }
-    button { padding: 0.95rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 500; }
+    input, select {
+      width: 100%;
+      padding: 0.85rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.95rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 500;
+      font-size: 1.05rem;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
+
     button:hover { background: var(--primary-dark); }
 
-    #app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
-    #sidebar { background: var(--dark); color: white; padding: 1.4rem 0; }
-    #sidebar h3 { padding: 0 1.6rem 1rem; font-size: 1.35rem; border-bottom: 1px solid #374151; }
+    /* Main layout */
+    #app {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    #sidebar {
+      background: var(--dark);
+      color: white;
+      padding: 1.4rem 0;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    #sidebar h3 {
+      padding: 0 1.6rem 1rem;
+      font-size: 1.35rem;
+      border-bottom: 1px solid #374151;
+    }
+
     #sidebar ul { list-style: none; margin-top: 1.2rem; }
-    #sidebar li a { display: flex; align-items: center; padding: 0.85rem 1.6rem; color: #d1d5db; text-decoration: none; transition: 0.25s; }
-    #sidebar li a:hover, #sidebar li a.active { background: #374151; color: white; transform: translateX(5px); }
+    #sidebar li a {
+      display: flex;
+      align-items: center;
+      padding: 0.9rem 1.6rem;
+      color: #d1d5db;
+      text-decoration: none;
+      transition: 0.25s;
+    }
+
+    #sidebar li a:hover,
+    #sidebar li a.active {
+      background: #374151;
+      color: white;
+      transform: translateX(5px);
+    }
+
     #sidebar i { margin-right: 10px; width: 20px; text-align: center; }
 
-    #main-content { padding: 2rem; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; }
-    header h1 { font-size: 1.75rem; color: var(--primary-dark); }
+    #main-content {
+      padding: 1.6rem;
+      background: var(--light);
+    }
 
-    .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.07); padding: 1.5rem; margin-bottom: 1.6rem; }
-    .chart-container { position: relative; height: 340px; width: 100%; margin: 1.2rem 0; padding: 0.8rem; background: #fafafa; border-radius: 8px; border: 1px solid #e5e7eb; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.6rem;
+    }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 0.9rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    header h1 {
+      font-size: 1.7rem;
+      color: var(--primary-dark);
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      padding: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 340px;
+      width: 100%;
+      margin: 1.2rem 0;
+      padding: 0.8rem;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
     th { background: #f8fafc; font-weight: 600; }
 
-    .btn { padding: 0.6rem 1.1rem; border-radius: 6px; cursor: pointer; font-size: 0.92rem; border: none; margin: 0.2rem; }
+    .btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border: none;
+      margin: 0.25rem;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+
     .btn-primary  { background: var(--primary);  color: white; }
     .btn-success  { background: var(--success);  color: white; }
     .btn-danger   { background: var(--danger);   color: white; }
@@ -63,13 +190,49 @@
     .status-critical  { color: var(--danger);  font-weight:bold; }
     .status-discharged{ color: #6b7280;       font-weight:bold; font-style:italic; }
 
-    .toast { position: fixed; bottom: 24px; right: 24px; padding: 1rem 1.6rem; background: #111827; color: white; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.3); z-index: 2000; opacity: 0; transition: opacity 0.4s; }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: #111827;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.4s;
+      font-size: 0.95rem;
+      max-width: 90%;
+    }
+
     .toast.show { opacity: 1; }
 
+    /* ───────────────────── Mobile / Responsive ───────────────────── */
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
-      #sidebar { display: none; position: fixed; inset: 0 auto 0 0; width: 240px; z-index: 1000; }
-      #sidebar.active { display: block; }
+      #sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 280px;
+        transform: translateX(-100%);
+        height: 100vh;
+        overflow-y: auto;
+        box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+      }
+      #sidebar.active { transform: translateX(0); }
+      #main-content { padding: 1.2rem; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+      .chart-container { height: 300px; }
+      .login-box { padding: 2rem 1.5rem; width: 90%; }
+      header h1 { font-size: 1.5rem; }
+    }
+
+    @media (max-width: 576px) {
+      .card { padding: 1.2rem; }
+      button, .btn { font-size: 0.95rem; padding: 0.8rem; min-height: 48px; }
+      .chart-container { height: 260px; }
+      #sidebar { width: 85vw; }
     }
   </style>
 </head>
@@ -79,7 +242,7 @@
   <div class="login-box">
     <h2>Elite National Hospital</h2>
     <form id="login-form">
-      <div class="form-group"><label>Username</label><input type="text" id="username" required></div>
+      <div class="form-group"><label>Username</label><input type="text" id="username" required autocomplete="off"></div>
       <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
       <div class="form-group">
         <label>Role</label>
@@ -90,7 +253,7 @@
         </select>
       </div>
       <button type="submit">Login</button>
-      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem;"></div>
+      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem; min-height:1.4rem;"></div>
     </form>
   </div>
 </div>
@@ -134,13 +297,13 @@
         <h2>Hospital Overview</h2>
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; margin-top:1.5rem;">
           <div style="background:#f8fafc; padding:1.4rem; border-radius:10px; text-align:center;">
-            <h4>Bed Occupancy</h4><p style="font-size:2.4rem; color:var(--primary);">78%</p>
+            <h4>Bed Occupancy</h4><p style="font-size:2.2rem; color:var(--primary);">78%</p>
           </div>
           <div style="background:#f8fafc; padding:1.4rem; border-radius:10px; text-align:center;">
-            <h4>Active Patients</h4><p style="font-size:2.4rem; color:var(--success);">142</p>
+            <h4>Active Patients</h4><p style="font-size:2.2rem; color:var(--success);">142</p>
           </div>
           <div style="background:#f8fafc; padding:1.4rem; border-radius:10px; text-align:center;">
-            <h4>Staff On Duty</h4><p style="font-size:2.4rem; color:var(--primary);">38</p>
+            <h4>Staff On Duty</h4><p style="font-size:2.2rem; color:var(--primary);">38</p>
           </div>
         </div>
       </div>
@@ -151,9 +314,9 @@
       <div class="card">
         <h2>Patients Overview & Analytics</h2>
         <button class="btn btn-primary" onclick="refreshCharts()" style="margin:1rem 0;">Refresh Charts</button>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.6rem;">
-          <div><h4>Bed Occupancy (mock)</h4><div class="chart-container"><canvas id="bedChart"></canvas></div></div>
-          <div><h4>Patients by Status (live)</h4><div class="chart-container"><canvas id="statusChart"></canvas></div></div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.4rem;">
+          <div><h4>Bed Occupancy</h4><div class="chart-container"><canvas id="bedChart"></canvas></div></div>
+          <div><h4>Patients by Status</h4><div class="chart-container"><canvas id="statusChart"></canvas></div></div>
         </div>
       </div>
     </section>
@@ -176,11 +339,13 @@
     <section id="my-patients" class="page hidden">
       <div class="card">
         <h2>My Assigned Patients</h2>
-        <input type="text" id="patient-search" placeholder="Search by name or room..." style="width:100%; max-width:400px; padding:0.8rem; margin-bottom:1.2rem; border:1px solid #d1d5db; border-radius:6px;">
-        <table>
-          <thead><tr><th>Name</th><th>Age/Gender</th><th>Status</th><th>Room</th><th>Admitted</th><th>Actions</th></tr></thead>
-          <tbody id="patients-tbody"></tbody>
-        </table>
+        <input type="text" id="patient-search" placeholder="Search by name or room..." style="width:100%; padding:0.8rem; margin-bottom:1.2rem; border:1px solid #d1d5db; border-radius:6px;">
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>Name</th><th>Age/Gender</th><th>Status</th><th>Room</th><th>Admitted</th><th>Actions</th></tr></thead>
+            <tbody id="patients-tbody"></tbody>
+          </table>
+        </div>
         <div style="margin-top:2rem;">
           <h3>Nursing Reports</h3>
           <div id="reports-container" style="max-height:500px; overflow-y:auto;"></div>
@@ -188,7 +353,7 @@
       </div>
     </section>
 
-    <!-- Calendar (both roles) -->
+    <!-- Calendar -->
     <section id="calendar" class="page hidden">
       <div class="card">
         <h2>Hospital Calendar & Schedule</h2>
@@ -202,7 +367,7 @@
 
 <script>
 // ────────────────────────────────────────────────
-// Data
+// Data & persistence
 // ────────────────────────────────────────────────
 let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
   { id:1, name:"Aisha Nakato", age:34, gender:"Female", room:"Ward A – Bed 12", status:"Stable", admitted:"2025-03-10", reports:[], discharged:null },
@@ -210,13 +375,16 @@ let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
   { id:3, name:"Patience Akello", age:28, gender:"Female", room:"Maternity – Bed 7", status:"Stable", admitted:"2025-03-18", reports:[], discharged:null }
 ];
 
-function savePatients() { localStorage.setItem('enhms_patients', JSON.stringify(patients)); }
-function showToast(msg, type='success') {
+function savePatients() {
+  localStorage.setItem('enhms_patients', JSON.stringify(patients));
+}
+
+function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.style.background = type==='error'?'var(--danger)':type==='warning'?'var(--warning)':'var(--success)';
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3200);
+  setTimeout(() => t.classList.remove('show'), 3200);
 }
 
 // ────────────────────────────────────────────────
@@ -253,11 +421,8 @@ document.getElementById('login-form').addEventListener('submit', e => {
   }
 });
 
-// Logout
-document.getElementById('logout').addEventListener('click', e => { e.preventDefault(); if(confirm('Logout?')) location.reload(); });
-
 // ────────────────────────────────────────────────
-// Navigation
+// Navigation & Sidebar toggle
 // ────────────────────────────────────────────────
 let calendar, bedChart, statusChart;
 
@@ -270,13 +435,18 @@ function showPage(id) {
   const active = document.querySelector(`#sidebar a[href="#${id}"]`);
   if (active) active.classList.add('active');
 
-  document.getElementById('page-title').textContent = 
+  document.getElementById('page-title').textContent =
     id.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ') || 'Dashboard';
 
-  // Force chart & calendar refresh when shown
+  // Refresh visuals when section becomes visible
   if (id === 'calendar' && calendar) calendar.render();
   if (id === 'patients-overview') refreshCharts();
   if (id === 'dashboard') document.getElementById('active-count').textContent = patients.filter(p=>!p.discharged).length;
+
+  // Auto-close sidebar on mobile after selection
+  if (window.innerWidth <= 992) {
+    document.getElementById('sidebar').classList.remove('active');
+  }
 }
 
 document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
@@ -290,8 +460,20 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('active');
 });
 
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', e => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menu-toggle');
+  if (window.innerWidth <= 992 &&
+      sidebar.classList.contains('active') &&
+      !sidebar.contains(e.target) &&
+      !toggle.contains(e.target)) {
+    sidebar.classList.remove('active');
+  }
+});
+
 // ────────────────────────────────────────────────
-// Calendar – interactive (click day shows info)
+// Calendar – clickable days
 // ────────────────────────────────────────────────
 function initCalendar() {
   const el = document.getElementById('calendar-container');
@@ -309,21 +491,21 @@ function initCalendar() {
       const dateStr = info.dateStr;
       const events = calendar.getEvents().filter(ev => ev.start.toISOString().split('T')[0] === dateStr);
       let msg = `Date: ${dateStr}\n`;
-      msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events';
+      msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events this day';
       showToast(msg);
     }
   });
+
   calendar.render();
 }
 
 // ────────────────────────────────────────────────
-// Charts – recreated every time section is shown
+// Charts – recreated when section shown
 // ────────────────────────────────────────────────
 function refreshCharts() {
   if (bedChart) bedChart.destroy();
   if (statusChart) statusChart.destroy();
 
-  // Bed Occupancy (mock)
   bedChart = new Chart(document.getElementById('bedChart'), {
     type: 'doughnut',
     data: {
@@ -337,7 +519,6 @@ function refreshCharts() {
     }
   });
 
-  // Patients by Status (live data)
   const counts = {
     Stable: patients.filter(p => p.status === 'Stable' && !p.discharged).length,
     Critical: patients.filter(p => p.status === 'Critical' && !p.discharged).length,
@@ -349,7 +530,7 @@ function refreshCharts() {
     data: {
       labels: ['Stable', 'Critical', 'Discharged'],
       datasets: [{
-        label: 'Patient Count',
+        label: 'Patients',
         data: [counts.Stable, counts.Critical, counts.Discharged],
         backgroundColor: ['#10b981', '#ef4444', '#6b7280']
       }]
@@ -364,11 +545,12 @@ function refreshCharts() {
 }
 
 // ────────────────────────────────────────────────
-// Render Patients & Reports (Nurse)
+// Patient list & reports rendering
 // ────────────────────────────────────────────────
 function renderPatients(filter = '') {
   const tbody = document.getElementById('patients-tbody');
   if (!tbody) return;
+
   tbody.innerHTML = '';
   const q = filter.toLowerCase();
 
@@ -398,6 +580,7 @@ function renderReports() {
   const cont = document.getElementById('reports-container');
   if (!cont) return;
   cont.innerHTML = '';
+
   patients.forEach(p => {
     if (!p.reports?.length) return;
     const sec = document.createElement('div');
@@ -409,15 +592,20 @@ function renderReports() {
   });
 }
 
-// Add Patient (Admin)
+// ────────────────────────────────────────────────
+// Add patient (Admin)
+// ────────────────────────────────────────────────
 document.getElementById('add-patient-form')?.addEventListener('submit', e => {
   e.preventDefault();
-  const name = document.getElementById('p-name').value.trim();
-  const age = parseInt(document.getElementById('p-age').value);
+  const name   = document.getElementById('p-name').value.trim();
+  const age    = parseInt(document.getElementById('p-age').value);
   const gender = document.getElementById('p-gender').value;
-  const room = document.getElementById('p-room').value.trim();
+  const room   = document.getElementById('p-room').value.trim();
 
-  if (!name || isNaN(age) || !room) return showToast('Please fill all fields', 'error');
+  if (!name || isNaN(age) || !room) {
+    showToast('Please fill all fields correctly', 'error');
+    return;
+  }
 
   const newId = patients.length ? Math.max(...patients.map(p=>p.id)) + 1 : 1;
   patients.push({
@@ -428,11 +616,13 @@ document.getElementById('add-patient-form')?.addEventListener('submit', e => {
 
   savePatients();
   renderPatients();
-  showToast('Patient added successfully');
+  showToast('Patient registered successfully');
   e.target.reset();
 });
 
-// Button actions
+// ────────────────────────────────────────────────
+// Button actions (delegation)
+// ────────────────────────────────────────────────
 document.addEventListener('click', e => {
   const t = e.target;
   if (!t.dataset.id) return;
@@ -445,17 +635,17 @@ document.addEventListener('click', e => {
     if (s && ['Stable','Critical','Discharged'].includes(s)) {
       p.status = s;
       if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
-      savePatients(); renderPatients(); showToast(`Status → ${s}`);
+      savePatients(); renderPatients(); showToast(`Status updated → ${s}`);
     }
   }
 
   if (t.classList.contains('add-report')) {
-    const txt = prompt(`Report for ${p.name}:`)?.trim();
+    const txt = prompt(`Nursing note for ${p.name}:`)?.trim();
     if (txt) {
       const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
       p.reports = p.reports || [];
       p.reports.push({time, text:txt});
-      savePatients(); renderReports(); showToast('Report saved');
+      savePatients(); renderReports(); showToast('Report added');
     }
   }
 
@@ -472,7 +662,7 @@ document.addEventListener('click', e => {
 document.getElementById('patient-search')?.addEventListener('input', e => renderPatients(e.target.value));
 
 // ────────────────────────────────────────────────
-// Initial render
+// Initial setup
 // ────────────────────────────────────────────────
 renderPatients();
 </script>
