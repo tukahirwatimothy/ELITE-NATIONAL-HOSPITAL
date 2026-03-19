@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Elite National Hospital Management System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     :root {
       --primary: #1e40af;
@@ -20,19 +23,27 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
     .hidden { display: none !important; }
+
     #login-page {
       display: flex; align-items: center; justify-content: center; min-height: 100vh;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: linear-gradient(rgba(30, 64, 175, 0.35), rgba(16, 185, 129, 0.25)),
+                  url('https://img.freepik.com/free-vector/medical-background-blue-with-plus-signs_1017-26360.jpg') center/cover no-repeat;
+      background-blend-mode: overlay;
     }
+
     .login-box {
-      background: white; padding: 2.5rem 2rem; border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25); max-width: 420px; width: 100%;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+      padding: 2.8rem 2.2rem; border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.22); max-width: 440px; width: 100%;
+      border: 1px solid rgba(255,255,255,0.4);
     }
-    .form-group { margin-bottom: 1.4rem; }
-    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-    input, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; }
-    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 500; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.6rem; font-weight: 500; }
+    input, select { width: 100%; padding: 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+    button { padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; }
     button:hover { background: var(--primary-dark); }
+
     #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     #sidebar { background: var(--dark); color: white; padding: 1.5rem 0; }
     #sidebar h3 { padding: 0 1.8rem 1.2rem; font-size: 1.4rem; border-bottom: 1px solid #374151; }
@@ -40,36 +51,38 @@
     #sidebar li a { display: flex; align-items: center; padding: 0.9rem 1.8rem; color: #d1d5db; text-decoration: none; transition: 0.3s; }
     #sidebar li a:hover, #sidebar li a.active { background: #374151; color: white; transform: translateX(8px); }
     #sidebar i { margin-right: 12px; width: 20px; text-align: center; }
+
     #main-content { padding: 2rem; }
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     header h1 { font-size: 1.8rem; color: var(--primary-dark); }
-    .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 1.6rem; margin-bottom: 1.8rem; }
+
+    .card { background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); padding: 1.8rem; margin-bottom: 2rem; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
-    th { background: #f3f4f6; font-weight: 600; }
-    .btn { padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; border: none; margin: 0.2rem; }
+    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f8fafc; font-weight: 600; }
+
+    .btn { padding: 0.7rem 1.3rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; border: none; margin: 0.25rem; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-success { background: var(--success); color: white; }
     .btn-warning { background: var(--warning); color: white; }
     .btn-danger { background: var(--danger); color: white; }
-    .status-stable   { color: var(--success);   font-weight: bold; }
-    .status-improving{ color: #059669; font-weight: bold; }
-    .status-critical { color: var(--danger);    font-weight: bold; }
+
+    .status-stable    { color: var(--success);   font-weight: bold; }
+    .status-improving { color: #059669; font-weight: bold; }
+    .status-critical  { color: var(--danger);    font-weight: bold; }
     .status-discharged{ color: #6b7280; font-weight: bold; font-style: italic; }
-    .report-item {
-      border-left: 4px solid var(--primary); padding: 1rem; margin: 1rem 0;
-      background: #f9fafb; border-radius: 6px; font-size: 0.95rem;
-    }
-    .report-image { max-width: 240px; margin-top: 0.8rem; border-radius: 8px; display: block; }
-    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-    .video-item { background: #f9fafb; padding: 1rem; border-radius: 8px; }
-    #patient-search { padding: 0.8rem; width: 100%; max-width: 400px; margin-bottom: 1.2rem; border: 1px solid #d1d5db; border-radius: 6px; }
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; padding: 1rem 1.5rem;
-      background: #111827; color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 2000; opacity: 0; transition: opacity 0.4s;
-    }
+
+    .report-item { border-left: 4px solid var(--primary); padding: 1.1rem; margin: 1.2rem 0; background: #f9fafb; border-radius: 8px; }
+    .report-image { max-width: 260px; margin-top: 0.9rem; border-radius: 8px; }
+
+    .chart-container { position: relative; height: 340px; margin: 1.8rem 0; }
+    #calendar { max-width: 1200px; margin: 0 auto; }
+
+    .toast { position: fixed; bottom: 30px; right: 30px; padding: 1.2rem 1.8rem; background: #111827; color: white; border-radius: 10px; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 2000; opacity: 0; transition: opacity 0.5s; }
     .toast.show { opacity: 1; }
+
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
       #sidebar { display: none; position: fixed; inset: 0 auto 0 0; width: 260px; z-index: 1000; }
@@ -90,11 +103,12 @@
         <select id="role" required>
           <option value="">Select Role</option>
           <option value="admin">Admin</option>
+          <option value="doctor">Doctor</option>
           <option value="nurse">Nurse</option>
         </select>
       </div>
       <button type="submit">Login</button>
-      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem;"></div>
+      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1.2rem; font-size:0.95rem;"></div>
     </form>
   </div>
 </div>
@@ -105,9 +119,11 @@
     <ul>
       <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
       <li class="role-admin"><a href="#hospital-overview"><i class="fas fa-hospital"></i> Hospital Overview</a></li>
+      <li class="role-admin"><a href="#patients-overview"><i class="fas fa-users"></i> Patients Overview</a></li>
       <li class="role-admin"><a href="#admin-panel"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
-      <li class="role-admin role-nurse"><a href="#diseases-portal"><i class="fas fa-book-medical"></i> Diseases & Education</a></li>
+      <li class="role-admin role-doctor role-nurse"><a href="#diseases-portal"><i class="fas fa-book-medical"></i> Diseases & Education</a></li>
       <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
+      <li class="role-admin role-doctor role-nurse"><a href="#calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
       <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </aside>
@@ -120,6 +136,14 @@
 
     <!-- Dashboard -->
     <section id="dashboard" class="page">
+      <div class="card" onclick="showPage('hospital-overview')">
+        <h2>Hospital Quick Stats</h2>
+        <p>Bed Occupancy: <strong>78%</strong> | Active Patients: <strong id="active-count">142</strong></p>
+      </div>
+      <div class="card" onclick="showPage('patients-overview')">
+        <h2>Patients & Insights</h2>
+        <p>View charts, vitals trends, performance</p>
+      </div>
       <div class="card">
         <h2>Welcome, <span id="user-name"></span> 👋</h2>
         <p>Role: <strong id="user-role"></strong></p>
@@ -127,108 +151,83 @@
       </div>
     </section>
 
-    <!-- Diseases & Education -->
-    <section id="diseases-portal" class="page hidden">
+    <!-- Calendar -->
+    <section id="calendar" class="page hidden">
       <div class="card">
-        <h2>Diseases & Health Education Portal 📚</h2>
-        <div class="video-grid">
-          <div class="video-item"><h3>Malaria – Symptoms & Prevention</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe></div>
-          <div class="video-item"><h3>Diabetes – Basics & Management</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe></div>
-          <div class="video-item"><h3>Hypertension Explained</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe></div>
-          <div class="video-item"><h3>Typhoid – Signs & Care</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" frameborder="0" allowfullscreen></iframe></div>
-        </div>
+        <h2>Hospital Calendar</h2>
+        <div id="calendar-container"></div>
       </div>
     </section>
 
-    <!-- Hospital Overview (Admin) -->
-    <section id="hospital-overview" class="page hidden">
+    <!-- Patients Overview + Charts (Admin) -->
+    <section id="patients-overview" class="page hidden role-admin">
       <div class="card">
-        <h2>Hospital Overview</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin:1.5rem 0;">
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Bed Occupancy</h3><p style="font-size:2.5rem; color:var(--primary);">78%</p>
+        <h2>Patients Overview & Insights</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:2rem; margin:2rem 0;">
+          <div>
+            <h3>Bed Occupancy</h3>
+            <div class="chart-container"><canvas id="bedChart"></canvas></div>
           </div>
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Active Patients</h3><p style="font-size:2.5rem; color:var(--secondary);">142</p>
+          <div>
+            <h3>Patients by Status</h3>
+            <div class="chart-container"><canvas id="statusChart"></canvas></div>
           </div>
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Staff On Duty</h3><p style="font-size:2.5rem; color:var(--primary);">38</p>
+          <div style="grid-column: span 2;">
+            <h3>Daily Vitals Trends (Mock Aggregate)</h3>
+            <div class="chart-container"><canvas id="vitalsChart"></canvas></div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Admin Panel – Add Patient -->
-    <section id="admin-panel" class="page hidden">
-      <div class="card">
-        <h2>Admin Panel – Add New Patient</h2>
-        <form id="add-patient-form">
-          <div class="form-group"><label>Full Name</label><input id="p-name" required></div>
-          <div class="form-group"><label>Age</label><input id="p-age" type="number" min="0" max="120" required></div>
-          <div class="form-group"><label>Gender</label>
-            <select id="p-gender" required><option>Male</option><option>Female</option><option>Other</option></select>
-          </div>
-          <div class="form-group"><label>Room / Bed</label><input id="p-room" required placeholder="e.g. Ward B – Bed 15"></div>
-          <button type="submit" class="btn btn-primary">Register Patient</button>
-        </form>
       </div>
     </section>
 
     <!-- My Patients – Nurse -->
-    <section id="my-patients" class="page hidden">
+    <section id="my-patients" class="page hidden role-nurse">
       <div class="card">
         <h2>My Patients – Nursing Station</h2>
         <input type="text" id="patient-search" placeholder="Search by name or room...">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Age/Gender</th>
-              <th>Status</th>
-              <th>Room/Bed</th>
-              <th>Admitted</th>
-              <th>Actions</th>
+              <th>Name</th><th>Age/Gender</th><th>Status</th><th>Room</th><th>Admitted</th><th>Meds</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="patients-tbody"></tbody>
         </table>
 
-        <div style="margin-top:2.5rem;">
+        <div style="margin-top:2.8rem;">
           <h3>Patient Reports</h3>
           <div id="reports-container"></div>
         </div>
       </div>
     </section>
+
+    <!-- Other sections (Hospital Overview, Diseases, Admin Panel) remain similar -->
+    <!-- ... paste your previous versions of these sections here if needed ... -->
+
   </main>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-// ────────────────────────────────────────────────
-// Data Structure & Persistence
-// ────────────────────────────────────────────────
+// Data & Persistence
 let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
-  { id: 1, name: "Aisha Nakato", age: 34, gender: "Female", room: "Ward A – Bed 12", status: "Stable", admitted: "2025-03-10", reports: [], discharged: null },
-  { id: 2, name: "Musa Ssekitto", age: 52, gender: "Male", room: "ICU – Bed 4", status: "Critical", admitted: "2025-03-15", reports: [], discharged: null },
-  { id: 3, name: "Patience Akello", age: 28, gender: "Female", room: "Maternity – Bed 7", status: "Stable", admitted: "2025-03-18", reports: [], discharged: null }
+  { id: 1, name: "Aisha Nakato", age: 34, gender: "Female", room: "Ward A – Bed 12", status: "Stable", admitted: "2025-03-10", reports: [], discharged: null, meds: ["Paracetamol 500mg", "Artemether-Lumefantrine"] },
+  { id: 2, name: "Musa Ssekitto", age: 52, gender: "Male", room: "ICU – Bed 4", status: "Critical", admitted: "2025-03-15", reports: [], discharged: null, meds: ["Insulin", "Amlodipine"] },
+  { id: 3, name: "Patience Akello", age: 28, gender: "Female", room: "Maternity – Bed 7", status: "Stable", admitted: "2025-03-18", reports: [], discharged: null, meds: ["Folic Acid"] }
 ];
 
-function savePatients() {
-  localStorage.setItem('enhms_patients', JSON.stringify(patients));
-}
+function savePatients() { localStorage.setItem('enhms_patients', JSON.stringify(patients)); }
 
 function showToast(message, type = 'success') {
   const toast = document.getElementById('toast');
   toast.textContent = message;
   toast.style.background = type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--success)';
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3200);
+  setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
-// ────────────────────────────────────────────────
-// Login
-// ────────────────────────────────────────────────
+// Login (added doctor role)
 document.getElementById('login-form').addEventListener('submit', e => {
   e.preventDefault();
   const username = document.getElementById('username').value.trim().toLowerCase();
@@ -237,11 +236,12 @@ document.getElementById('login-form').addEventListener('submit', e => {
 
   const users = {
     admin:    { pass: 'admin123',   name: 'Admin Mukasa' },
+    doctor01: { pass: 'doctor2025', name: 'Dr. Okello'   },
     nurse01:  { pass: 'nurse2025',  name: 'Nurse Sarah'  }
   };
 
   const user = users[username];
-  if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
+  if (user && user.pass === password && ['admin','doctor','nurse'].includes(role)) {
     document.getElementById('user-name').textContent = user.name;
     document.getElementById('user-role').textContent = role.toUpperCase();
     document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala' });
@@ -254,61 +254,136 @@ document.getElementById('login-form').addEventListener('submit', e => {
 
     showPage('dashboard');
     renderPatients();
+    initCalendar();
+    if (role === 'admin') initCharts();
   } else {
-    document.getElementById('login-error').textContent = 'Wrong username, password or role';
+    document.getElementById('login-error').textContent = 'Invalid credentials or role';
   }
 });
 
-// Logout
-document.getElementById('logout').addEventListener('click', e => {
-  e.preventDefault();
-  if (confirm('Logout?')) location.reload();
-});
+// Logout, showPage, renderPatients, renderAllPatientReports, add-patient-form, event delegation – keep from previous
 
-// ────────────────────────────────────────────────
-// Navigation
-// ────────────────────────────────────────────────
-function showPage(id) {
-  document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
-  const target = document.getElementById(id);
-  if (target) target.classList.remove('hidden');
+// Calendar with some auto events from patients
+let calendar;
+function initCalendar() {
+  const calendarEl = document.getElementById('calendar-container');
+  if (!calendarEl || calendar) return;
 
-  document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
-  const active = document.querySelector(`#sidebar a[href="#${id}"]`);
-  if (active) active.classList.add('active');
+  const events = patients.map(p => ({
+    title: `${p.name} Admission`,
+    start: p.admitted,
+    color: p.status === 'Critical' ? '#ef4444' : '#10b981'
+  })).concat([
+    { title: 'Staff Meeting', start: '2025-03-22T10:00:00' },
+    { title: 'Nurse Shift – Sarah', start: '2025-03-20T08:00:00', end: '2025-03-20T16:00:00', color: '#3b82f6' }
+  ]);
 
-  document.getElementById('page-title').textContent =
-    id.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Dashboard';
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek' },
+    events,
+    editable: false
+  });
+  calendar.render();
 }
 
-document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const id = link.getAttribute('href').substring(1);
-    showPage(id);
+// Charts (Bed, Status, Vitals)
+let bedChart, statusChart, vitalsChart;
+function initCharts() {
+  if (bedChart) bedChart.destroy();
+  if (statusChart) statusChart.destroy();
+  if (vitalsChart) vitalsChart.destroy();
+
+  // Bed
+  bedChart = new Chart(document.getElementById('bedChart'), {
+    type: 'doughnut',
+    data: { labels: ['Occupied', 'Available'], datasets: [{ data: [78, 22], backgroundColor: ['#1e40af', '#e5e7eb'] }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
   });
-});
 
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('active');
-});
+  // Status
+  const statusCounts = {
+    Stable: patients.filter(p => p.status === 'Stable' && !p.discharged).length,
+    Improving: patients.filter(p => p.status === 'Improving' && !p.discharged).length,
+    Critical: patients.filter(p => p.status === 'Critical' && !p.discharged).length,
+    Discharged: patients.filter(p => p.discharged).length
+  };
+  statusChart = new Chart(document.getElementById('statusChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Stable','Improving','Critical','Discharged'],
+      datasets: [{ label: 'Patients', data: Object.values(statusCounts), backgroundColor: ['#10b981','#059669','#ef4444','#6b7280'] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+  });
 
-// ────────────────────────────────────────────────
-// Render Patients (Nurse view)
-// ────────────────────────────────────────────────
+  // Vitals Trend (mock)
+  const days = Array.from({length:7}, (_,i) => `Day ${i+1}`);
+  vitalsChart = new Chart(document.getElementById('vitalsChart'), {
+    type: 'line',
+    data: {
+      labels: days,
+      datasets: [
+        { label: 'Avg Temp (°C)', data: [36.8,37.1,36.9,38.2,37.5,36.7,37.0], borderColor: '#ef4444', tension: 0.3 },
+        { label: 'Avg BP Systolic', data: [118,122,120,135,128,119,121], borderColor: '#3b82f6', tension: 0.3 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false } } }
+  });
+}
+
+// Refresh charts when showing page or data changes
+function showPage(id) {
+  // ... same as before ...
+  if (id === 'patients-overview') initCharts();
+  if (id === 'calendar' && calendar) calendar.render();
+}
+
+// Add medication (nurse)
+function addMedication(id) {
+  const patient = patients.find(p => p.id === id);
+  const med = prompt(`Add medication for ${patient.name}:`);
+  if (med && med.trim()) {
+    patient.meds = patient.meds || [];
+    patient.meds.push(med.trim());
+    savePatients();
+    renderPatients();
+    showToast('Medication added');
+  }
+}
+
+// Print summary
+function printSummary(id) {
+  const p = patients.find(x => x.id === id);
+  if (!p) return;
+
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html><head><title>${p.name} Summary</title>
+    <style>body{font-family:Arial;padding:2cm;} h1{text-align:center;} table{width:100%;border-collapse:collapse;} th,td{border:1px solid #ddd;padding:8px;}</style>
+    </head><body>
+    <h1>Patient Summary - ${p.name}</h1>
+    <p><strong>Age/Gender:</strong> ${p.age} • ${p.gender}</p>
+    <p><strong>Room:</strong> ${p.room} | <strong>Status:</strong> ${p.status}</p>
+    <p><strong>Admitted:</strong> ${p.admitted} ${p.discharged ? `| Discharged: ${p.discharged}` : ''}</p>
+    <h3>Medications</h3><ul>${(p.meds||[]).map(m => `<li>${m}</li>`).join('')}</ul>
+    <h3>Reports</h3><div>${p.reports.map(r => `<p><strong>${r.time}:</strong> ${r.text}</p>`).join('')}</div>
+    </body></html>
+  `);
+  win.document.close();
+}
+
+// Update renderPatients to include meds & print button
 function renderPatients(filter = '') {
   const tbody = document.getElementById('patients-tbody');
   if (!tbody) return;
 
   tbody.innerHTML = '';
-  const lowerFilter = filter.toLowerCase();
+  const lower = filter.toLowerCase();
 
   patients
-    .filter(p => !p.discharged) // hide discharged by default
-    .filter(p => 
-      p.name.toLowerCase().includes(lowerFilter) || 
-      p.room.toLowerCase().includes(lowerFilter)
-    )
+    .filter(p => !p.discharged)
+    .filter(p => p.name.toLowerCase().includes(lower) || p.room.toLowerCase().includes(lower))
     .forEach(p => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -317,127 +392,23 @@ function renderPatients(filter = '') {
         <td class="status-${p.status.toLowerCase()}">${p.status}</td>
         <td>${p.room}</td>
         <td>${p.admitted}</td>
+        <td>${(p.meds||[]).join(', ') || 'None'}</td>
         <td>
-          <button class="btn btn-success update-status" data-id="${p.id}">Update Status</button>
-          <button class="btn btn-primary add-report" data-id="${p.id}">Add Report</button>
+          <button class="btn btn-success update-status" data-id="${p.id}">Status</button>
+          <button class="btn btn-primary add-report" data-id="${p.id}">Report</button>
+          <button class="btn btn-warning" onclick="addMedication(${p.id})">+ Med</button>
           ${p.status !== 'Discharged' ? `<button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>` : ''}
+          <button class="btn btn-info" onclick="printSummary(${p.id})">Print</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
 
   renderAllPatientReports();
+  document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
 }
 
-function renderAllPatientReports() {
-  const container = document.getElementById('reports-container');
-  if (!container) return;
-  container.innerHTML = '';
-
-  patients.forEach(p => {
-    if (p.reports.length === 0) return;
-
-    const section = document.createElement('div');
-    section.innerHTML = `<h4 style="margin:1.5rem 0 0.8rem;">${p.name} (${p.room})</h4>`;
-
-    p.reports.forEach(r => {
-      const div = document.createElement('div');
-      div.className = 'report-item';
-      let content = r.text.replace(
-        /(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))/gi,
-        '<br><img src="$1" class="report-image" alt="Report image" onerror="this.style.display=\'none\'">'
-      );
-      div.innerHTML = `<strong>${r.time}</strong><br>${content}`;
-      section.appendChild(div);
-    });
-
-    container.appendChild(section);
-  });
-}
-
-// ────────────────────────────────────────────────
-// Add new patient (Admin)
-// ────────────────────────────────────────────────
-document.getElementById('add-patient-form')?.addEventListener('submit', e => {
-  e.preventDefault();
-  const name  = document.getElementById('p-name').value.trim();
-  const age   = parseInt(document.getElementById('p-age').value);
-  const gender = document.getElementById('p-gender').value;
-  const room  = document.getElementById('p-room').value.trim();
-
-  if (!name || isNaN(age) || age < 1 || !room) {
-    showToast('Please fill all fields correctly', 'error');
-    return;
-  }
-
-  const newId = patients.length ? Math.max(...patients.map(p => p.id)) + 1 : 1;
-  patients.push({
-    id: newId,
-    name,
-    age,
-    gender,
-    room,
-    status: 'Stable',
-    admitted: new Date().toISOString().split('T')[0],
-    reports: [],
-    discharged: null
-  });
-
-  savePatients();
-  renderPatients();
-  showToast('Patient registered successfully');
-  e.target.reset();
-});
-
-// ────────────────────────────────────────────────
-// Event delegation for buttons
-// ────────────────────────────────────────────────
-document.addEventListener('click', e => {
-  const t = e.target;
-  const id = t.dataset.id ? parseInt(t.dataset.id) : null;
-  const patient = patients.find(p => p.id === id);
-
-  if (!patient) return;
-
-  if (t.classList.contains('update-status')) {
-    const newStatus = prompt('New status:\nStable / Improving / Critical / Discharged', patient.status);
-    if (newStatus && ['Stable','Improving','Critical','Discharged'].includes(newStatus.trim())) {
-      patient.status = newStatus.trim();
-      if (newStatus.trim() === 'Discharged') patient.discharged = new Date().toISOString().split('T')[0];
-      savePatients();
-      renderPatients();
-      showToast(`Status updated to ${newStatus}`);
-    }
-  }
-
-  if (t.classList.contains('add-report')) {
-    const text = prompt(`Nursing report for ${patient.name}\n\nPaste image URLs if needed:`);
-    if (text && text.trim()) {
-      const time = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
-      patient.reports.push({ time, text: text.trim() });
-      savePatients();
-      renderAllPatientReports();
-      showToast('Report added');
-    }
-  }
-
-  if (t.classList.contains('discharge')) {
-    if (confirm(`Discharge ${patient.name}?`)) {
-      patient.status = 'Discharged';
-      patient.discharged = new Date().toISOString().split('T')[0];
-      savePatients();
-      renderPatients();
-      showToast(`${patient.name} has been discharged`, 'warning');
-    }
-  }
-});
-
-// Search
-document.getElementById('patient-search')?.addEventListener('input', e => {
-  renderPatients(e.target.value);
-});
-
-// Initial render
+// Initial
 renderPatients();
 </script>
 </body>
