@@ -13,7 +13,6 @@
       --light: #f3f4f6;
       --dark: #111827;
       --danger: #ef4444;
-      --warning: #f59e0b;
       --success: #10b981;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -37,73 +36,34 @@
     }
     .form-group { margin-bottom: 1.4rem; }
     label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-    }
-    button {
-      padding: 0.9rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-    }
+    input, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; }
+    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; }
     button:hover { background: var(--primary-dark); }
 
     #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     #sidebar { background: var(--dark); color: white; padding: 1.5rem 0; }
     #sidebar h3 { padding: 0 1.8rem 1.2rem; font-size: 1.4rem; border-bottom: 1px solid #374151; }
     #sidebar ul { list-style: none; margin-top: 1.5rem; }
-    #sidebar li a {
-      display: flex;
-      align-items: center;
-      padding: 0.9rem 1.8rem;
-      color: #d1d5db;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    #sidebar li a:hover, #sidebar li a.active {
-      background: #374151;
-      color: white;
-      transform: translateX(8px);
-    }
+    #sidebar li a { display: flex; align-items: center; padding: 0.9rem 1.8rem; color: #d1d5db; text-decoration: none; transition: 0.3s; }
+    #sidebar li a:hover, #sidebar li a.active { background: #374151; color: white; transform: translateX(8px); }
     #sidebar i { margin-right: 12px; width: 20px; text-align: center; }
 
     #main-content { padding: 2rem; }
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     header h1 { font-size: 1.8rem; color: var(--primary-dark); }
 
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      padding: 1.6rem;
-      margin-bottom: 1.8rem;
-    }
-
+    .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 1.6rem; margin-bottom: 1.8rem; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
     th, td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
     th { background: #f3f4f6; font-weight: 600; }
 
-    .btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      border: none;
-      margin: 0.2rem;
-    }
+    .btn { padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; border: none; margin: 0.2rem; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-success { background: var(--secondary); color: white; }
     .btn-danger { background: var(--danger); color: white; }
 
     .status-stable   { color: var(--success);   font-weight: bold; }
     .status-critical { color: var(--danger);    font-weight: bold; }
-    .status-improving { color: #d97706; font-weight: bold; }
 
     .report-item {
       border-left: 4px solid var(--primary);
@@ -125,11 +85,7 @@
       gap: 1.5rem;
       margin-top: 1.5rem;
     }
-    .video-item {
-      background: #f9fafb;
-      padding: 1rem;
-      border-radius: 8px;
-    }
+    .video-item { background: #f9fafb; padding: 1rem; border-radius: 8px; }
 
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
@@ -140,7 +96,7 @@
 </head>
 <body>
 
-<!-- Login Screen -->
+<!-- Login -->
 <div id="login-page">
   <div class="login-box">
     <h2>Elite National Hospital Management System</h2>
@@ -161,7 +117,7 @@
   </div>
 </div>
 
-<!-- Main Application -->
+<!-- Main App -->
 <div id="app" class="hidden">
   <aside id="sidebar">
     <h3>ENHMS</h3>
@@ -184,9 +140,10 @@
     <!-- Dashboard -->
     <section id="dashboard" class="page">
       <div class="card">
-        <h2>Welcome, <span id="user-name">User</span> 👋</h2>
+        <h2>Welcome, <span id="user-name"></span> 👋</h2>
         <p>Role: <strong id="user-role"></strong></p>
-        <p>Current time in Kampala: <span id="current-time"></span></p>
+        <p>Kampala time: <span id="current-time"></span></p>
+        <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?auto=format&fit=crop&q=80&w=800" alt="Hospital team" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin-top:1rem;">
       </div>
     </section>
 
@@ -198,63 +155,32 @@
         <div class="video-grid">
           <div class="video-item">
             <h3>Malaria – Symptoms & Prevention</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" title="Malaria education" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe>
           </div>
           <div class="video-item">
             <h3>Diabetes – Basics & Management</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" title="Diabetes education" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe>
           </div>
           <div class="video-item">
             <h3>Hypertension Explained</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" title="Hypertension education" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe>
           </div>
           <div class="video-item">
             <h3>Typhoid – Signs & Care</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" title="Typhoid education" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" frameborder="0" allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Hospital Overview (Admin) -->
-    <section id="hospital-overview" class="page hidden">
-      <div class="card">
-        <h2>Hospital Overview – Live Metrics</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin:1.5rem 0;">
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Bed Occupancy</h3>
-            <p style="font-size:2.5rem; color:var(--primary);">78%</p>
-            <small>312 / 400 beds occupied</small>
-          </div>
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Active Patients</h3>
-            <p style="font-size:2.5rem; color:var(--secondary);">142</p>
-          </div>
-          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Staff On Duty</h3>
-            <p style="font-size:2.5rem; color:var(--primary);">38</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Admin Panel -->
-    <section id="admin-panel" class="page hidden">
-      <div class="card">
-        <h2>Admin Panel – Management Tools</h2>
-        <p>Register new patients, doctors, nurses (forms coming in next update)</p>
-        <p style="color:#555;">Currently showing static overview. Data entry & CRUD features in progress.</p>
-      </div>
-    </section>
-
-    <!-- My Patients – Nurse -->
+    <!-- My Patients (Nurse) -->
     <section id="my-patients" class="page hidden">
       <div class="card">
         <h2>My Patients – Nursing Station</h2>
-
         <table>
           <thead>
             <tr>
+              <th>Photo</th>
               <th>Name</th>
               <th>Age/Gender</th>
               <th>Status</th>
@@ -264,39 +190,7 @@
             </tr>
           </thead>
           <tbody id="patients-tbody">
-            <tr data-name="Aisha Nakato">
-              <td>Aisha Nakato</td>
-              <td>34 • Female</td>
-              <td class="status-stable">Stable</td>
-              <td>Ward A – Bed 12</td>
-              <td>BP 118/76, Temp 36.8°C – good appetite</td>
-              <td>
-                <button class="btn btn-success update-status">Update Status</button>
-                <button class="btn btn-primary add-report">Add Report</button>
-              </td>
-            </tr>
-            <tr data-name="Musa Ssekitto">
-              <td>Musa Ssekitto</td>
-              <td>52 • Male</td>
-              <td class="status-critical">Critical</td>
-              <td>ICU – Bed 4</td>
-              <td>O2 sat 89%, fever 39.1°C – on oxygen</td>
-              <td>
-                <button class="btn btn-success update-status">Update Status</button>
-                <button class="btn btn-primary add-report">Add Report</button>
-              </td>
-            </tr>
-            <tr data-name="Patience Akello">
-              <td>Patience Akello</td>
-              <td>28 • Female</td>
-              <td class="status-stable">Stable</td>
-              <td>Maternity – Bed 7</td>
-              <td>Post-delivery day 2 – breastfeeding well</td>
-              <td>
-                <button class="btn btn-success update-status">Update Status</button>
-                <button class="btn btn-primary add-report">Add Report</button>
-              </td>
-            </tr>
+            <!-- Populated dynamically -->
           </tbody>
         </table>
 
@@ -306,12 +200,40 @@
         </div>
       </div>
     </section>
+
+    <!-- Hospital Overview (Admin) -->
+    <section id="hospital-overview" class="page hidden">
+      <div class="card">
+        <h2>Hospital Overview</h2>
+        <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?auto=format&fit=crop&q=80" alt="Hospital" style="width:100%; height:220px; object-fit:cover; border-radius:8px; margin:1rem 0;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin:1.5rem 0;">
+          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
+            <h3>Bed Occupancy</h3><p style="font-size:2.5rem; color:var(--primary);">78%</p>
+          </div>
+          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
+            <h3>Active Patients</h3><p style="font-size:2.5rem; color:var(--secondary);">142</p>
+          </div>
+          <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
+            <h3>Staff On Duty</h3><p style="font-size:2.5rem; color:var(--primary);">38</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin-panel" class="page hidden">
+      <div class="card">
+        <h2>Admin Panel</h2>
+        <p>Register patients, doctors, nurses – full forms coming soon.</p>
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80" alt="Medical team" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin-top:1rem;">
+      </div>
+    </section>
   </main>
 </div>
 
 <script>
 // ────────────────────────────────────────────────
-// Login logic
+// Login
 // ────────────────────────────────────────────────
 document.getElementById('login-form').addEventListener('submit', e => {
   e.preventDefault();
@@ -325,7 +247,6 @@ document.getElementById('login-form').addEventListener('submit', e => {
   };
 
   const user = users[username];
-
   if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
     document.getElementById('user-name').textContent = user.name;
     document.getElementById('user-role').textContent = role.toUpperCase();
@@ -339,7 +260,7 @@ document.getElementById('login-form').addEventListener('submit', e => {
 
     showPage('dashboard');
   } else {
-    document.getElementById('login-error').textContent = 'Invalid username, password or role';
+    document.getElementById('login-error').textContent = 'Invalid login';
   }
 });
 
@@ -357,52 +278,44 @@ function showPage(id) {
   document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
   document.querySelector(`#sidebar a[href="#${id}"]`)?.classList.add('active');
 
-  document.getElementById('page-title').textContent =
+  document.getElementById('page-title').textContent = 
     id.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Dashboard';
 }
 
 // ────────────────────────────────────────────────
-// Button actions – Nurse reports & status
+// Nurse – Update status & Add report (emojis + image support)
 // ────────────────────────────────────────────────
 document.addEventListener('click', e => {
-  const target = e.target;
+  const t = e.target;
 
-  // Update Status
-  if (target.classList.contains('update-status')) {
-    const row = target.closest('tr');
-    const statusCell = row.querySelector('td:nth-child(3)');
-    const current = statusCell.textContent.trim();
-    const newStatus = prompt('Enter new status (Stable / Critical / Improving / Discharged):', current);
-
+  if (t.classList.contains('update-status')) {
+    const row = t.closest('tr');
+    const cell = row.querySelector('td:nth-child(4)');
+    const current = cell.textContent.trim();
+    const newStatus = prompt('New status (Stable / Critical / Improving / Discharged):', current);
     if (newStatus && newStatus.trim()) {
-      statusCell.textContent = newStatus.trim();
-      statusCell.className = `status-${newStatus.toLowerCase().replace(/\s+/g, '-')}`;
+      cell.textContent = newStatus.trim();
+      cell.className = `status-${newStatus.toLowerCase().replace(/\s+/g, '-')}`;
     }
   }
 
-  // Add Report (supports emojis + image URLs)
-  if (target.classList.contains('add-report')) {
-    const row = target.closest('tr');
-    const patientName = row.dataset.name;
-    const text = prompt(`Nursing report for ${patientName}\n\nYou can use emojis and paste image URLs:`);
+  if (t.classList.contains('add-report')) {
+    const row = t.closest('tr');
+    const name = row.dataset.name;
+    const text = prompt(`Report for ${name}\n\nYou can use emojis and paste image URLs[](https://...jpg):`);
 
     if (text && text.trim()) {
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const reportDiv = document.createElement('div');
-      reportDiv.className = 'report-item';
+      const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      const div = document.createElement('div');
+      div.className = 'report-item';
 
-      // Auto-detect image URLs and convert to <img>
       let content = text.replace(
         /(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))/gi,
         '<br><img src="$1" class="report-image" alt="Attached image" onerror="this.style.display=\'none\'">'
       );
 
-      reportDiv.innerHTML = `
-        <strong>${patientName} – ${time}</strong><br>
-        ${content}
-      `;
-
-      document.getElementById('reports-log').prepend(reportDiv);
+      div.innerHTML = `<strong>${name} – ${time}</strong><br>${content}`;
+      document.getElementById('reports-log').prepend(div);
     }
   }
 });
