@@ -13,33 +13,26 @@
       --light: #f3f4f6;
       --dark: #111827;
       --danger: #ef4444;
+      --warning: #f59e0b;
       --success: #10b981;
+      --info: #3b82f6;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
     .hidden { display: none !important; }
-
     #login-page {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     }
     .login-box {
-      background: white;
-      padding: 2.5rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      max-width: 420px;
-      width: 100%;
+      background: white; padding: 2.5rem 2rem; border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25); max-width: 420px; width: 100%;
     }
     .form-group { margin-bottom: 1.4rem; }
     label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-    input, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; }
-    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; }
+    input, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; }
+    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 500; }
     button:hover { background: var(--primary-dark); }
-
     #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     #sidebar { background: var(--dark); color: white; padding: 1.5rem 0; }
     #sidebar h3 { padding: 0 1.8rem 1.2rem; font-size: 1.4rem; border-bottom: 1px solid #374151; }
@@ -47,46 +40,36 @@
     #sidebar li a { display: flex; align-items: center; padding: 0.9rem 1.8rem; color: #d1d5db; text-decoration: none; transition: 0.3s; }
     #sidebar li a:hover, #sidebar li a.active { background: #374151; color: white; transform: translateX(8px); }
     #sidebar i { margin-right: 12px; width: 20px; text-align: center; }
-
     #main-content { padding: 2rem; }
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     header h1 { font-size: 1.8rem; color: var(--primary-dark); }
-
     .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 1.6rem; margin-bottom: 1.8rem; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
     th, td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
     th { background: #f3f4f6; font-weight: 600; }
-
     .btn { padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; border: none; margin: 0.2rem; }
     .btn-primary { background: var(--primary); color: white; }
-    .btn-success { background: var(--secondary); color: white; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-warning { background: var(--warning); color: white; }
     .btn-danger { background: var(--danger); color: white; }
-
     .status-stable   { color: var(--success);   font-weight: bold; }
+    .status-improving{ color: #059669; font-weight: bold; }
     .status-critical { color: var(--danger);    font-weight: bold; }
-
+    .status-discharged{ color: #6b7280; font-weight: bold; font-style: italic; }
     .report-item {
-      border-left: 4px solid var(--primary);
-      padding-left: 1rem;
-      margin: 1rem 0;
-      background: #f9fafb;
-      border-radius: 6px;
+      border-left: 4px solid var(--primary); padding: 1rem; margin: 1rem 0;
+      background: #f9fafb; border-radius: 6px; font-size: 0.95rem;
     }
-    .report-image {
-      max-width: 280px;
-      margin-top: 0.8rem;
-      border-radius: 8px;
-      display: block;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
+    .report-image { max-width: 240px; margin-top: 0.8rem; border-radius: 8px; display: block; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
     .video-item { background: #f9fafb; padding: 1rem; border-radius: 8px; }
-
+    #patient-search { padding: 0.8rem; width: 100%; max-width: 400px; margin-bottom: 1.2rem; border: 1px solid #d1d5db; border-radius: 6px; }
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; padding: 1rem 1.5rem;
+      background: #111827; color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 2000; opacity: 0; transition: opacity 0.4s;
+    }
+    .toast.show { opacity: 1; }
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
       #sidebar { display: none; position: fixed; inset: 0 auto 0 0; width: 260px; z-index: 1000; }
@@ -132,7 +115,7 @@
   <main id="main-content">
     <header>
       <h1 id="page-title">Dashboard</h1>
-      <button class="btn btn-primary" onclick="document.getElementById('sidebar').classList.toggle('active')">☰ Menu</button>
+      <button class="btn btn-primary" id="menu-toggle">☰ Menu</button>
     </header>
 
     <!-- Dashboard -->
@@ -149,22 +132,10 @@
       <div class="card">
         <h2>Diseases & Health Education Portal 📚</h2>
         <div class="video-grid">
-          <div class="video-item">
-            <h3>Malaria – Symptoms & Prevention</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div class="video-item">
-            <h3>Diabetes – Basics & Management</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div class="video-item">
-            <h3>Hypertension Explained</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div class="video-item">
-            <h3>Typhoid – Signs & Care</h3>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" frameborder="0" allowfullscreen></iframe>
-          </div>
+          <div class="video-item"><h3>Malaria – Symptoms & Prevention</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe></div>
+          <div class="video-item"><h3>Diabetes – Basics & Management</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe></div>
+          <div class="video-item"><h3>Hypertension Explained</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe></div>
+          <div class="video-item"><h3>Typhoid – Signs & Care</h3><iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" frameborder="0" allowfullscreen></iframe></div>
         </div>
       </div>
     </section>
@@ -193,15 +164,11 @@
         <h2>Admin Panel – Add New Patient</h2>
         <form id="add-patient-form">
           <div class="form-group"><label>Full Name</label><input id="p-name" required></div>
-          <div class="form-group"><label>Age</label><input id="p-age" type="number" min="0" required></div>
+          <div class="form-group"><label>Age</label><input id="p-age" type="number" min="0" max="120" required></div>
           <div class="form-group"><label>Gender</label>
-            <select id="p-gender" required>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
+            <select id="p-gender" required><option>Male</option><option>Female</option><option>Other</option></select>
           </div>
-          <div class="form-group"><label>Room / Bed</label><input id="p-room" required></div>
+          <div class="form-group"><label>Room / Bed</label><input id="p-room" required placeholder="e.g. Ward B – Bed 15"></div>
           <button type="submit" class="btn btn-primary">Register Patient</button>
         </form>
       </div>
@@ -211,6 +178,7 @@
     <section id="my-patients" class="page hidden">
       <div class="card">
         <h2>My Patients – Nursing Station</h2>
+        <input type="text" id="patient-search" placeholder="Search by name or room...">
         <table>
           <thead>
             <tr>
@@ -218,7 +186,7 @@
               <th>Age/Gender</th>
               <th>Status</th>
               <th>Room/Bed</th>
-              <th>Last Report</th>
+              <th>Admitted</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -226,26 +194,36 @@
         </table>
 
         <div style="margin-top:2.5rem;">
-          <h3>Nursing Reports Log</h3>
-          <div id="reports-log" style="max-height:500px; overflow-y:auto; padding:1rem 0;"></div>
+          <h3>Patient Reports</h3>
+          <div id="reports-container"></div>
         </div>
       </div>
     </section>
   </main>
 </div>
 
+<div id="toast" class="toast"></div>
+
 <script>
 // ────────────────────────────────────────────────
-// Persistent patient data (localStorage)
+// Data Structure & Persistence
 // ────────────────────────────────────────────────
 let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
-  { id: 1, name: "Aisha Nakato", age: 34, gender: "Female", room: "Ward A – Bed 12", status: "Stable", lastReport: "BP 118/76, Temp 36.8°C" },
-  { id: 2, name: "Musa Ssekitto", age: 52, gender: "Male", room: "ICU – Bed 4", status: "Critical", lastReport: "O2 sat 89%, fever 39.1°C" },
-  { id: 3, name: "Patience Akello", age: 28, gender: "Female", room: "Maternity – Bed 7", status: "Stable", lastReport: "Post-delivery day 2" }
+  { id: 1, name: "Aisha Nakato", age: 34, gender: "Female", room: "Ward A – Bed 12", status: "Stable", admitted: "2025-03-10", reports: [], discharged: null },
+  { id: 2, name: "Musa Ssekitto", age: 52, gender: "Male", room: "ICU – Bed 4", status: "Critical", admitted: "2025-03-15", reports: [], discharged: null },
+  { id: 3, name: "Patience Akello", age: 28, gender: "Female", room: "Maternity – Bed 7", status: "Stable", admitted: "2025-03-18", reports: [], discharged: null }
 ];
 
 function savePatients() {
   localStorage.setItem('enhms_patients', JSON.stringify(patients));
+}
+
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.background = type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--success)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
 // ────────────────────────────────────────────────
@@ -258,8 +236,8 @@ document.getElementById('login-form').addEventListener('submit', e => {
   const role = document.getElementById('role').value;
 
   const users = {
-    admin:   { pass: 'admin123', name: 'Admin Mukasa' },
-    nurse01: { pass: 'nurse2025', name: 'Nurse Sarah' }
+    admin:    { pass: 'admin123',   name: 'Admin Mukasa' },
+    nurse01:  { pass: 'nurse2025',  name: 'Nurse Sarah'  }
   };
 
   const user = users[username];
@@ -299,7 +277,7 @@ function showPage(id) {
   const active = document.querySelector(`#sidebar a[href="#${id}"]`);
   if (active) active.classList.add('active');
 
-  document.getElementById('page-title').textContent = 
+  document.getElementById('page-title').textContent =
     id.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Dashboard';
 }
 
@@ -311,28 +289,69 @@ document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
   });
 });
 
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
 // ────────────────────────────────────────────────
-// Render patient list (shared)
+// Render Patients (Nurse view)
 // ────────────────────────────────────────────────
-function renderPatients() {
+function renderPatients(filter = '') {
   const tbody = document.getElementById('patients-tbody');
   if (!tbody) return;
 
   tbody.innerHTML = '';
+  const lowerFilter = filter.toLowerCase();
+
+  patients
+    .filter(p => !p.discharged) // hide discharged by default
+    .filter(p => 
+      p.name.toLowerCase().includes(lowerFilter) || 
+      p.room.toLowerCase().includes(lowerFilter)
+    )
+    .forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.age} • ${p.gender}</td>
+        <td class="status-${p.status.toLowerCase()}">${p.status}</td>
+        <td>${p.room}</td>
+        <td>${p.admitted}</td>
+        <td>
+          <button class="btn btn-success update-status" data-id="${p.id}">Update Status</button>
+          <button class="btn btn-primary add-report" data-id="${p.id}">Add Report</button>
+          ${p.status !== 'Discharged' ? `<button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>` : ''}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  renderAllPatientReports();
+}
+
+function renderAllPatientReports() {
+  const container = document.getElementById('reports-container');
+  if (!container) return;
+  container.innerHTML = '';
+
   patients.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.name}</td>
-      <td>${p.age} • ${p.gender}</td>
-      <td class="status-${p.status.toLowerCase()}">${p.status}</td>
-      <td>${p.room}</td>
-      <td>${p.lastReport || 'No report yet'}</td>
-      <td>
-        <button class="btn btn-success update-status">Update Status</button>
-        <button class="btn btn-primary add-report">Add Report</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
+    if (p.reports.length === 0) return;
+
+    const section = document.createElement('div');
+    section.innerHTML = `<h4 style="margin:1.5rem 0 0.8rem;">${p.name} (${p.room})</h4>`;
+
+    p.reports.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'report-item';
+      let content = r.text.replace(
+        /(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))/gi,
+        '<br><img src="$1" class="report-image" alt="Report image" onerror="this.style.display=\'none\'">'
+      );
+      div.innerHTML = `<strong>${r.time}</strong><br>${content}`;
+      section.appendChild(div);
+    });
+
+    container.appendChild(section);
   });
 }
 
@@ -341,18 +360,17 @@ function renderPatients() {
 // ────────────────────────────────────────────────
 document.getElementById('add-patient-form')?.addEventListener('submit', e => {
   e.preventDefault();
-  const name   = document.getElementById('p-name').value.trim();
-  const age    = parseInt(document.getElementById('p-age').value);
+  const name  = document.getElementById('p-name').value.trim();
+  const age   = parseInt(document.getElementById('p-age').value);
   const gender = document.getElementById('p-gender').value;
-  const room   = document.getElementById('p-room').value.trim();
+  const room  = document.getElementById('p-room').value.trim();
 
-  if (!name || isNaN(age) || !room) {
-    alert('Please fill all fields correctly');
+  if (!name || isNaN(age) || age < 1 || !room) {
+    showToast('Please fill all fields correctly', 'error');
     return;
   }
 
   const newId = patients.length ? Math.max(...patients.map(p => p.id)) + 1 : 1;
-
   patients.push({
     id: newId,
     name,
@@ -360,52 +378,63 @@ document.getElementById('add-patient-form')?.addEventListener('submit', e => {
     gender,
     room,
     status: 'Stable',
-    lastReport: 'New admission'
+    admitted: new Date().toISOString().split('T')[0],
+    reports: [],
+    discharged: null
   });
 
   savePatients();
   renderPatients();
-  alert('Patient added successfully');
+  showToast('Patient registered successfully');
   e.target.reset();
 });
 
 // ────────────────────────────────────────────────
-// Button actions (delegated)
+// Event delegation for buttons
 // ────────────────────────────────────────────────
 document.addEventListener('click', e => {
   const t = e.target;
+  const id = t.dataset.id ? parseInt(t.dataset.id) : null;
+  const patient = patients.find(p => p.id === id);
+
+  if (!patient) return;
 
   if (t.classList.contains('update-status')) {
-    const row = t.closest('tr');
-    const statusCell = row.querySelector('td:nth-child(3)');
-    const current = statusCell.textContent.trim();
-    const newStatus = prompt('New status (Stable / Critical / Improving / Discharged):', current);
-
-    if (newStatus && newStatus.trim()) {
-      statusCell.textContent = newStatus.trim();
-      statusCell.className = `status-${newStatus.toLowerCase().replace(/\s+/g, '-')}`;
+    const newStatus = prompt('New status:\nStable / Improving / Critical / Discharged', patient.status);
+    if (newStatus && ['Stable','Improving','Critical','Discharged'].includes(newStatus.trim())) {
+      patient.status = newStatus.trim();
+      if (newStatus.trim() === 'Discharged') patient.discharged = new Date().toISOString().split('T')[0];
+      savePatients();
+      renderPatients();
+      showToast(`Status updated to ${newStatus}`);
     }
   }
 
   if (t.classList.contains('add-report')) {
-    const row = t.closest('tr');
-    const name = row.cells[0].textContent;
-    const text = prompt(`Report for ${name}\n\nYou can use emojis and paste image URLs[](https://...jpg):`);
-
+    const text = prompt(`Nursing report for ${patient.name}\n\nPaste image URLs if needed:`);
     if (text && text.trim()) {
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const div = document.createElement('div');
-      div.className = 'report-item';
-
-      let content = text.replace(
-        /(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))/gi,
-        '<br><img src="$1" class="report-image" alt="Image" onerror="this.style.display=\'none\'">'
-      );
-
-      div.innerHTML = `<strong>${name} – ${time}</strong><br>${content}`;
-      document.getElementById('reports-log').prepend(div);
+      const time = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
+      patient.reports.push({ time, text: text.trim() });
+      savePatients();
+      renderAllPatientReports();
+      showToast('Report added');
     }
   }
+
+  if (t.classList.contains('discharge')) {
+    if (confirm(`Discharge ${patient.name}?`)) {
+      patient.status = 'Discharged';
+      patient.discharged = new Date().toISOString().split('T')[0];
+      savePatients();
+      renderPatients();
+      showToast(`${patient.name} has been discharged`, 'warning');
+    }
+  }
+});
+
+// Search
+document.getElementById('patient-search')?.addEventListener('input', e => {
+  renderPatients(e.target.value);
 });
 
 // Initial render
