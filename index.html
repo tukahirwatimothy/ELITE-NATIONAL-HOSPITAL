@@ -16,7 +16,6 @@
       --danger: #ef4444;
       --warning: #f59e0b;
     }
-
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,11 +24,8 @@
       min-height: 100vh;
       animation: fadeIn 1.2s ease-out;
     }
-
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     .hidden { display: none !important; }
-
     /* Login Page */
     #login-page {
       display: flex;
@@ -39,7 +35,6 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
     }
-
     .login-box {
       background: white;
       color: var(--dark);
@@ -50,17 +45,13 @@
       max-width: 420px;
       animation: fadeIn 1s ease;
     }
-
     .login-box h2 {
       text-align: center;
       margin-bottom: 1.8rem;
       color: var(--primary);
     }
-
     .form-group { margin-bottom: 1.4rem; }
-
     label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-
     input, select {
       width: 100%;
       padding: 0.75rem;
@@ -69,13 +60,11 @@
       font-size: 1rem;
       transition: border 0.3s, box-shadow 0.3s;
     }
-
     input:focus, select:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(30,64,175,0.15);
     }
-
     button {
       width: 100%;
       padding: 0.9rem;
@@ -87,37 +76,30 @@
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
     }
-
     button:hover { background: var(--primary-dark); transform: scale(1.02); }
-
     #login-error {
       color: var(--danger);
       text-align: center;
       margin-top: 1rem;
       font-weight: 500;
     }
-
     /* Main Layout */
     #app {
       display: grid;
       grid-template-columns: 260px 1fr;
       min-height: 100vh;
     }
-
     #sidebar {
       background: var(--dark);
       color: white;
       padding: 1.5rem 0;
     }
-
     #sidebar h3 {
       padding: 0 1.8rem 1.2rem;
       font-size: 1.4rem;
       border-bottom: 1px solid #374151;
     }
-
     #sidebar ul { list-style: none; margin-top: 1.5rem; }
-
     #sidebar li a {
       display: flex;
       align-items: center;
@@ -126,29 +108,23 @@
       text-decoration: none;
       transition: all 0.3s;
     }
-
     #sidebar li a:hover, #sidebar li a.active {
       background: #374151;
       color: white;
       transform: translateX(8px);
     }
-
     #sidebar i { margin-right: 12px; width: 20px; text-align: center; }
-
     #main-content {
       padding: 2rem;
       background: var(--light);
     }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
     }
-
     header h1 { font-size: 1.8rem; color: var(--primary-dark); }
-
     .card {
       background: white;
       border-radius: 10px;
@@ -157,18 +133,14 @@
       margin-bottom: 1.8rem;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-
     .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-
     .card h2 { margin-bottom: 1.2rem; color: var(--primary); font-size: 1.4rem; }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.2rem;
       margin-top: 1.5rem;
     }
-
     .stat-card {
       background: white;
       padding: 1.5rem;
@@ -177,9 +149,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       transition: transform 0.3s;
     }
-
     .stat-card:hover { transform: scale(1.05); }
-
     .stat-card img {
       width: 100%;
       height: 140px;
@@ -187,13 +157,9 @@
       border-radius: 8px;
       margin-bottom: 0.8rem;
     }
-
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-
     th, td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
-
     th { background: #f3f4f6; font-weight: 600; }
-
     .btn {
       padding: 0.6rem 1.2rem;
       border-radius: 6px;
@@ -202,21 +168,22 @@
       border: none;
       transition: 0.3s;
     }
-
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); transform: scale(1.05); }
-
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #dc2626; }
-
     .low-stock { color: var(--danger); font-weight: bold; }
     .warning { color: var(--warning); }
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-
     .calendar-container { margin-top: 1.5rem; text-align: center; }
     .calendar-container input { font-size: 1.1rem; padding: 0.8rem; }
-
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    .video-item h3 { margin-bottom: 0.6rem; font-size: 1.1rem; }
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
       #sidebar { display: none; }
@@ -226,12 +193,10 @@
   </style>
 </head>
 <body>
-
   <!-- Login Screen -->
   <div id="login-page">
     <div class="login-box">
       <h2>Elite National Hospital Management System</h2>
-
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
@@ -309,34 +274,180 @@
 
         <div class="card calendar-container">
           <h2>Active Calendar</h2>
-          <p>Selected Date: <span id="selected-date">Select a date</span></p>
+          <p>Selected Date: <strong id="selected-date">Select a date below</strong></p>
           <input type="date" id="calendar-input">
+          <div id="calendar-info" style="margin-top:1rem; color:var(--primary); font-weight:500;"></div>
+        </div>
+
+        <div class="card">
+          <h2>Patient Education Videos</h2>
+          <p>Short explainers on common conditions (click to play)</p>
+          <div class="video-grid">
+            <div class="video-item">
+              <h3>Malaria: Symptoms, Treatment & Prevention</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/bQtZdm4L2Qg" title="Malaria Symptoms Treatment Prevention" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-item">
+              <h3>How to Prevent Malaria</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/k138Nc4_o-g" title="Prevent Malaria" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-item">
+              <h3>What is Diabetes? Simple Explanation</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/2TWelC6SHr8" title="What is Diabetes" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-item">
+              <h3>Mayo Clinic Explains Hypertension</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/r5XTTeP039Q" title="Hypertension Mayo Clinic" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Patients section (shortened for brevity - copy from previous version if needed) -->
+      <!-- Patients Section -->
       <section id="patients" class="page hidden">
-        <!-- ... your patient management code here ... -->
+        <div class="card">
+          <h2>Patient Management</h2>
+          <button class="btn btn-primary" onclick="alert('Add New Patient form would open here')">+ Add New Patient</button>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Contact</th>
+                <th>Last Visit</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>P001</td>
+                <td>Aisha Nakato</td>
+                <td>34</td>
+                <td>Female</td>
+                <td>+256 772 123 456</td>
+                <td>2026-03-15</td>
+                <td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td>
+              </tr>
+              <tr>
+                <td>P002</td>
+                <td>John Okello</td>
+                <td>45</td>
+                <td>Male</td>
+                <td>+256 701 987 654</td>
+                <td>2026-03-18</td>
+                <td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- Appointments, Pharmacy, Billing sections - copy from previous full version -->
-      <!-- For space reasons omitted here, but keep them as in the last complete code I sent -->
+      <!-- Appointments Section -->
+      <section id="appointments" class="page hidden">
+        <div class="card">
+          <h2>Appointments</h2>
+          <button class="btn btn-primary" onclick="alert('Schedule New Appointment form')">+ New Appointment</button>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-03-20 10:00</td>
+                <td>Aisha Nakato</td>
+                <td>Dr. Nakato</td>
+                <td>Confirmed</td>
+                <td><button class="btn btn-primary">Edit</button> <button class="btn btn-danger">Cancel</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
+      <!-- Pharmacy Section -->
+      <section id="pharmacy" class="page hidden">
+        <div class="card">
+          <h2>Pharmacy Inventory</h2>
+          <button class="btn btn-primary" onclick="alert('Add Medicine')">+ Add Medicine</button>
+          <table>
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Stock</th>
+                <th>Price (UGX)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Paracetamol</td>
+                <td>450</td>
+                <td>5,000</td>
+                <td>OK</td>
+              </tr>
+              <tr class="low-stock">
+                <td>Artemether-Lumefantrine (Malaria)</td>
+                <td>12</td>
+                <td>15,000</td>
+                <td>Low Stock!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Billing Section -->
+      <section id="billing" class="page hidden">
+        <div class="card">
+          <h2>Billing & Invoices</h2>
+          <button class="btn btn-primary" onclick="alert('Generate New Bill')">+ New Bill</button>
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Patient</th>
+                <th>Amount (UGX)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>INV-001</td>
+                <td>Aisha Nakato</td>
+                <td>280,000</td>
+                <td>Paid</td>
+              </tr>
+              <tr>
+                <td>INV-002</td>
+                <td>John Okello</td>
+                <td>450,000</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </div>
 
   <script>
     // ────────────────────────────────────────────────
-    // LOGIN LOGIC - IMPROVED VERSION
+    // LOGIN LOGIC
     // ────────────────────────────────────────────────
-
-    const loginForm   = document.getElementById('login-form');
-    const loginPage   = document.getElementById('login-page');
-    const app         = document.getElementById('app');
-    const errorDiv    = document.getElementById('login-error');
-    const userNameEl  = document.getElementById('user-name');
-    const userRoleEl  = document.getElementById('user-role');
-
+    const loginForm = document.getElementById('login-form');
+    const loginPage = document.getElementById('login-page');
+    const app = document.getElementById('app');
+    const errorDiv = document.getElementById('login-error');
+    const userNameEl = document.getElementById('user-name');
+    const userRoleEl = document.getElementById('user-role');
     let currentUser = null;
 
     const validUsers = {
@@ -348,38 +459,28 @@
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-
       const usernameInput = document.getElementById('username').value.trim().toLowerCase();
       const passwordInput = document.getElementById('password').value;
-      const selectedRole  = document.getElementById('role').value;
+      const selectedRole = document.getElementById('role').value;
 
-      errorDiv.textContent = ''; // clear previous error
-
+      errorDiv.textContent = '';
       if (!usernameInput || !passwordInput || !selectedRole) {
         errorDiv.textContent = 'Please fill all fields';
         return;
       }
 
       const user = validUsers[usernameInput];
-
       if (user && user.pass === passwordInput && user.role === selectedRole) {
         currentUser = user;
         userNameEl.textContent = user.name;
         userRoleEl.textContent = user.role.toUpperCase();
 
-        // Show role-based menu items
-        document.querySelectorAll('[class*="role-"]').forEach(el => {
-          el.classList.add('hidden');
-        });
-        document.querySelectorAll(`.role-${selectedRole}`).forEach(el => {
-          el.classList.remove('hidden');
-        });
+        document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll(`.role-${selectedRole}`).forEach(el => el.classList.remove('hidden'));
 
         loginPage.classList.add('hidden');
         app.classList.remove('hidden');
-
-        // Optional: load data for sections
-        // loadData();   // uncomment if you have this function
+        showPage('#dashboard'); // ensure dashboard shows after login
       } else {
         errorDiv.textContent = 'Invalid username, password, or role combination';
       }
@@ -397,8 +498,55 @@
       }
     });
 
-    // For testing: auto-focus username field
+    // ────────────────────────────────────────────────
+    // NAVIGATION & PAGE SWITCHING
+    // ────────────────────────────────────────────────
+    const navLinks = document.querySelectorAll('#sidebar a[href^="#"]');
+    const pages = document.querySelectorAll('.page');
+    const pageTitle = document.getElementById('page-title');
+
+    function showPage(targetId) {
+      pages.forEach(page => page.classList.add('hidden'));
+      const targetPage = document.getElementById(targetId.replace('#', ''));
+      if (targetPage) targetPage.classList.remove('hidden');
+
+      pageTitle.textContent = targetId.replace('#', '').charAt(0).toUpperCase() + targetId.slice(2) || 'Dashboard';
+
+      navLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`#sidebar a[href="${targetId}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('href');
+        if (target !== '#') showPage(target);
+      });
+    });
+
+    // ────────────────────────────────────────────────
+    // ACTIVE CALENDAR LOGIC
+    // ────────────────────────────────────────────────
+    const calendarInput = document.getElementById('calendar-input');
+    const selectedDateEl = document.getElementById('selected-date');
+    const calendarInfo = document.getElementById('calendar-info');
+
+    calendarInput.addEventListener('change', function() {
+      if (this.value) {
+        const date = new Date(this.value);
+        const formatted = date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        selectedDateEl.textContent = formatted;
+        calendarInfo.textContent = `Showing records / appointments for ${formatted}. (Demo mode)`;
+      }
+    });
+
+    // Set default to today
+    calendarInput.value = new Date().toISOString().split('T')[0];
+    calendarInput.dispatchEvent(new Event('change'));
+
+    // For testing: auto-focus username on load
     document.getElementById('username')?.focus();
   </script>
 </body>
-</html>v
+</html>
