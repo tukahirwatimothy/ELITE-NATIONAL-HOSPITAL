@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Elite National Hospital Management System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- FullCalendar v6.1.15 - stable & visible -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -19,11 +20,7 @@
       --warning: #f59e0b;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
@@ -157,6 +154,15 @@
       border: 1px solid #e5e7eb;
     }
 
+    /* Make calendar clearly visible */
+    #calendar-container {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-height: 420px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -224,8 +230,7 @@
       #main-content { padding: 1.2rem; }
       table { display: block; overflow-x: auto; white-space: nowrap; }
       .chart-container { height: 300px; }
-      .login-box { padding: 2rem 1.5rem; width: 90%; }
-      header h1 { font-size: 1.5rem; }
+      #calendar-container { min-height: 380px; }
     }
 
     @media (max-width: 576px) {
@@ -233,6 +238,7 @@
       button, .btn { font-size: 0.95rem; padding: 0.8rem; min-height: 48px; }
       .chart-container { height: 260px; }
       #sidebar { width: 85vw; }
+      #calendar-container { min-height: 340px; }
     }
   </style>
 </head>
@@ -353,10 +359,11 @@
       </div>
     </section>
 
-    <!-- Calendar -->
+    <!-- Calendar – now clearly visible & interactive -->
     <section id="calendar" class="page hidden">
       <div class="card">
         <h2>Hospital Calendar & Schedule</h2>
+        <p style="margin-bottom:1rem; color:#555;">Click any date to see events for that day.</p>
         <div id="calendar-container"></div>
       </div>
     </section>
@@ -421,6 +428,12 @@ document.getElementById('login-form').addEventListener('submit', e => {
   }
 });
 
+// Logout
+document.getElementById('logout').addEventListener('click', e => {
+  e.preventDefault();
+  if (confirm('Logout?')) location.reload();
+});
+
 // ────────────────────────────────────────────────
 // Navigation & Sidebar toggle
 // ────────────────────────────────────────────────
@@ -438,12 +451,12 @@ function showPage(id) {
   document.getElementById('page-title').textContent =
     id.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ') || 'Dashboard';
 
-  // Refresh visuals when section becomes visible
+  // Force refresh
   if (id === 'calendar' && calendar) calendar.render();
   if (id === 'patients-overview') refreshCharts();
   if (id === 'dashboard') document.getElementById('active-count').textContent = patients.filter(p=>!p.discharged).length;
 
-  // Auto-close sidebar on mobile after selection
+  // Auto-close sidebar on mobile
   if (window.innerWidth <= 992) {
     document.getElementById('sidebar').classList.remove('active');
   }
@@ -460,7 +473,7 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('active');
 });
 
-// Close sidebar when clicking outside on mobile
+// Close sidebar on outside click (mobile)
 document.addEventListener('click', e => {
   const sidebar = document.getElementById('sidebar');
   const toggle = document.getElementById('menu-toggle');
@@ -473,7 +486,7 @@ document.addEventListener('click', e => {
 });
 
 // ────────────────────────────────────────────────
-// Calendar – clickable days
+// Calendar – now visible & clickable
 // ────────────────────────────────────────────────
 function initCalendar() {
   const el = document.getElementById('calendar-container');
@@ -481,7 +494,12 @@ function initCalendar() {
 
   calendar = new FullCalendar.Calendar(el, {
     initialView: 'dayGridMonth',
-    headerToolbar: { left:'prev,next today', center:'title', right:'dayGridMonth,timeGridWeek' },
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek'
+    },
+    height: 'auto',
     events: patients.map(p => ({
       title: `${p.name} admitted`,
       start: p.admitted,
@@ -490,8 +508,8 @@ function initCalendar() {
     dateClick: function(info) {
       const dateStr = info.dateStr;
       const events = calendar.getEvents().filter(ev => ev.start.toISOString().split('T')[0] === dateStr);
-      let msg = `Date: ${dateStr}\n`;
-      msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events this day';
+      let msg = `Selected date: ${dateStr}\n`;
+      msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events on this day';
       showToast(msg);
     }
   });
@@ -500,7 +518,7 @@ function initCalendar() {
 }
 
 // ────────────────────────────────────────────────
-// Charts – recreated when section shown
+// Charts
 // ────────────────────────────────────────────────
 function refreshCharts() {
   if (bedChart) bedChart.destroy();
@@ -538,14 +556,13 @@ function refreshCharts() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
-      plugins: { legend: { display: false } }
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
     }
   });
 }
 
 // ────────────────────────────────────────────────
-// Patient list & reports rendering
+// Patient rendering & actions (unchanged core logic)
 // ────────────────────────────────────────────────
 function renderPatients(filter = '') {
   const tbody = document.getElementById('patients-tbody');
@@ -592,9 +609,7 @@ function renderReports() {
   });
 }
 
-// ────────────────────────────────────────────────
-// Add patient (Admin)
-// ────────────────────────────────────────────────
+// Add patient
 document.getElementById('add-patient-form')?.addEventListener('submit', e => {
   e.preventDefault();
   const name   = document.getElementById('p-name').value.trim();
@@ -602,10 +617,7 @@ document.getElementById('add-patient-form')?.addEventListener('submit', e => {
   const gender = document.getElementById('p-gender').value;
   const room   = document.getElementById('p-room').value.trim();
 
-  if (!name || isNaN(age) || !room) {
-    showToast('Please fill all fields correctly', 'error');
-    return;
-  }
+  if (!name || isNaN(age) || !room) return showToast('Fill all fields correctly', 'error');
 
   const newId = patients.length ? Math.max(...patients.map(p=>p.id)) + 1 : 1;
   patients.push({
@@ -616,13 +628,11 @@ document.getElementById('add-patient-form')?.addEventListener('submit', e => {
 
   savePatients();
   renderPatients();
-  showToast('Patient registered successfully');
+  showToast('Patient added successfully');
   e.target.reset();
 });
 
-// ────────────────────────────────────────────────
-// Button actions (delegation)
-// ────────────────────────────────────────────────
+// Button delegation
 document.addEventListener('click', e => {
   const t = e.target;
   if (!t.dataset.id) return;
@@ -635,17 +645,17 @@ document.addEventListener('click', e => {
     if (s && ['Stable','Critical','Discharged'].includes(s)) {
       p.status = s;
       if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
-      savePatients(); renderPatients(); showToast(`Status updated → ${s}`);
+      savePatients(); renderPatients(); showToast(`Status → ${s}`);
     }
   }
 
   if (t.classList.contains('add-report')) {
-    const txt = prompt(`Nursing note for ${p.name}:`)?.trim();
+    const txt = prompt(`Report for ${p.name}:`)?.trim();
     if (txt) {
       const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
       p.reports = p.reports || [];
       p.reports.push({time, text:txt});
-      savePatients(); renderReports(); showToast('Report added');
+      savePatients(); renderReports(); showToast('Report saved');
     }
   }
 
@@ -662,7 +672,7 @@ document.addEventListener('click', e => {
 document.getElementById('patient-search')?.addEventListener('input', e => renderPatients(e.target.value));
 
 // ────────────────────────────────────────────────
-// Initial setup
+// Start everything
 // ────────────────────────────────────────────────
 renderPatients();
 </script>
