@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Elite National Hospital Management System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --primary: #1e40af; --primary-dark: #1e3a8a; --secondary: #10b981;
@@ -15,14 +14,13 @@
     body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
     .hidden { display: none !important; }
 
-    #login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+    #login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
     .login-box { background: white; padding: 2.5rem 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); max-width: 420px; width: 100%; }
     .form-group { margin-bottom: 1.4rem; }
     label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
     input, select, textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; }
-    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button { padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; }
     button:hover { background: var(--primary-dark); }
-    #login-error { color: var(--danger); text-align: center; margin-top: 1rem; }
 
     #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     #sidebar { background: var(--dark); color: white; padding: 1.5rem 0; }
@@ -45,13 +43,15 @@
     .btn-danger { background: var(--danger); color: white; }
     .status-stable { color: var(--secondary); font-weight: bold; }
     .status-critical { color: var(--danger); font-weight: bold; }
-    .status-discharged { color: var(--gray); font-weight: bold; }
+    .report-item { border-left: 4px solid var(--primary); padding-left: 1rem; margin: 1rem 0; background: #f9fafb; border-radius: 6px; }
+    .report-image { max-width: 240px; margin-top: 0.6rem; border-radius: 6px; }
 
-    .chart-container { height: 320px; position: relative; margin: 1.5rem 0; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .video-item { background: #f9fafb; padding: 1rem; border-radius: 8px; }
 
     @media (max-width: 992px) {
       #app { grid-template-columns: 1fr; }
-      #sidebar { display: none; position: fixed; inset: 0  auto 0 0; width: 260px; z-index: 1000; }
+      #sidebar { display: none; position: fixed; inset: 0 auto 0 0; width: 260px; z-index: 1000; }
       #sidebar.active { display: block; }
     }
   </style>
@@ -69,13 +69,11 @@
         <select id="role" required>
           <option value="">Select Role</option>
           <option value="admin">Admin</option>
-          <option value="doctor">Doctor</option>
           <option value="nurse">Nurse</option>
-          <option value="reception">Receptionist</option>
         </select>
       </div>
       <button type="submit">Login</button>
-      <div id="login-error"></div>
+      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem;"></div>
     </form>
   </div>
 </div>
@@ -85,10 +83,10 @@
     <h3>ENHMS</h3>
     <ul>
       <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-      <li class="role-admin role-reception"><a href="#patients"><i class="fas fa-user-injured"></i> Patients</a></li>
-      <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
       <li class="role-admin"><a href="#hospital-overview"><i class="fas fa-hospital"></i> Hospital Overview</a></li>
       <li class="role-admin"><a href="#admin-panel"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
+      <li class="role-admin role-nurse"><a href="#diseases-portal"><i class="fas fa-book-medical"></i> Diseases & Education</a></li>
+      <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
       <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </aside>
@@ -99,102 +97,101 @@
       <button class="btn btn-primary" onclick="document.getElementById('sidebar').classList.toggle('active')">☰ Menu</button>
     </header>
 
-    <!-- Dashboard -->
     <section id="dashboard" class="page">
       <div class="card">
-        <h2>Welcome, <span id="user-name">User</span></h2>
+        <h2>Welcome, <span id="user-name">User</span> 👋</h2>
         <p>Role: <strong id="user-role"></strong></p>
+        <p>Current time in Kampala: <span id="current-time"></span></p>
       </div>
     </section>
 
-    <!-- Hospital Overview (Admin) -->
+    <section id="diseases-portal" class="page hidden">
+      <div class="card">
+        <h2>Diseases & Health Education Portal 📚</h2>
+        <p>Short educational videos on common conditions</p>
+        <div class="video-grid">
+          <div class="video-item">
+            <h3>Malaria – Symptoms & Prevention</h3>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="video-item">
+            <h3>Diabetes – Basics & Management</h3>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="video-item">
+            <h3>Hypertension Explained</h3>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="video-item">
+            <h3>Typhoid – Signs & Care</h3>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/3oMk8R9cK9U" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="hospital-overview" class="page hidden">
       <div class="card">
         <h2>Hospital Overview</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.2rem; margin:1.5rem 0;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin:1.5rem 0;">
           <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Bed Occupancy</h3>
-            <p style="font-size:2.4rem; color:var(--primary);">76%</p>
-            <small id="bed-stats">304 / 400 beds occupied</small>
+            <h3>Bed Occupancy</h3><p style="font-size:2.5rem; color:var(--primary);">78%</p>
           </div>
           <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Patients Today</h3>
-            <p style="font-size:2.4rem; color:var(--secondary);" id="today-patients">0</p>
+            <h3>Active Patients</h3><p style="font-size:2.5rem; color:var(--secondary);">142</p>
           </div>
           <div style="background:white; padding:1.5rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center;">
-            <h3>Revenue Today</h3>
-            <p style="font-size:2.4rem; color:var(--primary);">UGX <span id="today-revenue">0</span></p>
+            <h3>Staff On Duty</h3><p style="font-size:2.5rem; color:var(--primary);">38</p>
           </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:1.5rem;">
-          <div class="card"><h3>Admissions – Last 7 Days</h3><div class="chart-container"><canvas id="admissionsChart"></canvas></div></div>
-          <div class="card"><h3>Bed Occupancy by Ward</h3><div class="chart-container"><canvas id="bedChart"></canvas></div></div>
         </div>
       </div>
     </section>
 
-    <!-- Admin Panel – Registration -->
     <section id="admin-panel" class="page hidden">
       <div class="card">
-        <h2>Register New User / Patient</h2>
-        <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
-          <button class="btn btn-primary tab-btn active" data-tab="patient">Patient</button>
-          <button class="btn btn-primary tab-btn" data-tab="doctor">Doctor</button>
-          <button class="btn btn-primary tab-btn" data-tab="nurse">Nurse</button>
-        </div>
-
-        <div id="tab-patient">
-          <form id="patient-form">
-            <div class="form-group"><label>Full Name</label><input name="name" required></div>
-            <div class="form-group"><label>Age</label><input name="age" type="number" min="0" required></div>
-            <div class="form-group"><label>Gender</label><select name="gender" required><option>Male</option><option>Female</option><option>Other</option></select></div>
-            <div class="form-group"><label>Phone</label><input name="phone" type="tel" required></div>
-            <button type="submit" class="btn btn-primary">Register Patient</button>
-          </form>
-        </div>
-
-        <div id="tab-doctor" class="hidden">
-          <form id="doctor-form">
-            <div class="form-group"><label>Full Name</label><input name="name" required></div>
-            <div class="form-group"><label>Specialty</label><input name="specialty" required></div>
-            <div class="form-group"><label>Phone</label><input name="phone" type="tel" required></div>
-            <div class="form-group"><label>Email (login)</label><input name="email" type="email" required></div>
-            <button type="submit" class="btn btn-primary">Register Doctor</button>
-          </form>
-        </div>
-
-        <div id="tab-nurse" class="hidden">
-          <form id="nurse-form">
-            <div class="form-group"><label>Full Name</label><input name="name" required></div>
-            <div class="form-group"><label>Ward / Department</label><input name="ward" required></div>
-            <div class="form-group"><label>Phone</label><input name="phone" type="tel" required></div>
-            <div class="form-group"><label>Email (login)</label><input name="email" type="email" required></div>
-            <button type="submit" class="btn btn-primary">Register Nurse</button>
-          </form>
-        </div>
+        <h2>Admin Panel – Register Entries</h2>
+        <p>Forms below add real entries visible in other sections (session only).</p>
+        <!-- Add your registration forms here if needed -->
       </div>
     </section>
 
-    <!-- Patients (Admin/Reception view) -->
-    <section id="patients" class="page hidden">
-      <div class="card">
-        <h2>All Patients</h2>
-        <table id="all-patients-table">
-          <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Actions</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- My Patients (Nurse view) -->
     <section id="my-patients" class="page hidden">
       <div class="card">
-        <h2>My Assigned Patients</h2>
-        <table id="nurse-patients-table">
-          <thead><tr><th>Name</th><th>Age</th><th>Status</th><th>Last Report</th><th>Actions</th></tr></thead>
-          <tbody></tbody>
+        <h2>My Patients – Nursing Station</h2>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Age/Gender</th><th>Status</th><th>Room/Bed</th><th>Last Report</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="patients-tbody">
+            <tr data-name="Aisha Nakato">
+              <td>Aisha Nakato</td>
+              <td>34 • Female</td>
+              <td class="status-stable">Stable</td>
+              <td>Ward A – Bed 12</td>
+              <td>BP 118/76, Temp 36.8°C</td>
+              <td>
+                <button class="btn btn-success update-status">Update Status</button>
+                <button class="btn btn-primary add-report">Add Report</button>
+              </td>
+            </tr>
+            <tr data-name="Musa Ssekitto">
+              <td>Musa Ssekitto</td>
+              <td>52 • Male</td>
+              <td class="status-critical">Critical</td>
+              <td>ICU – Bed 4</td>
+              <td>O2 sat 89%, fever 39.1°C</td>
+              <td>
+                <button class="btn btn-success update-status">Update Status</button>
+                <button class="btn btn-primary add-report">Add Report</button>
+              </td>
+            </tr>
+          </tbody>
         </table>
+
+        <div style="margin-top:2rem;">
+          <h3>Reports Log</h3>
+          <div id="reports-log"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -202,16 +199,41 @@
 
 <script>
 // ────────────────────────────────────────────────
-// In-memory data stores
+// Login & Navigation
 // ────────────────────────────────────────────────
-let patients = [];
-let nextPatientId = 1001;
+document.getElementById('login-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const u = document.getElementById('username').value.trim().toLowerCase();
+  const p = document.getElementById('password').value;
+  const r = document.getElementById('role').value;
 
-let staff = { doctors: [], nurses: [] };
+  const users = {
+    admin:   { pass:'admin123', name:'Admin Mukasa' },
+    nurse01: { pass:'nurse2025', name:'Nurse Sarah' }
+  };
 
-// ────────────────────────────────────────────────
-// Utility functions
-// ────────────────────────────────────────────────
+  if (users[u] && users[u].pass === p && (r === 'admin' || r === 'nurse')) {
+    document.getElementById('user-name').textContent = users[u].name;
+    document.getElementById('user-role').textContent = r.toUpperCase();
+    document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', {timeZone:'Africa/Kampala'});
+
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+
+    document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll(`.role-${r}`).forEach(el => el.classList.remove('hidden'));
+
+    showPage('dashboard');
+  } else {
+    document.getElementById('login-error').textContent = 'Invalid login';
+  }
+});
+
+document.getElementById('logout').addEventListener('click', e => {
+  e.preventDefault();
+  location.reload();
+});
+
 function showPage(id) {
   document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
   document.getElementById(id)?.classList.remove('hidden');
@@ -219,199 +241,39 @@ function showPage(id) {
   document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
   document.querySelector(`#sidebar a[href="#${id}"]`)?.classList.add('active');
 
-  document.getElementById('page-title').textContent = id.replace(/-/g,' ').split(' ').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ') || 'Dashboard';
-
-  if (id === 'hospital-overview') updateOverviewCharts();
-  if (id === 'patients') renderAllPatients();
-  if (id === 'my-patients') renderNursePatients();
-}
-
-function updateOverviewCharts() {
-  const occupied = Math.floor(Math.random() * 100) + 280;
-  document.getElementById('bed-stats').textContent = `${occupied} / 400 beds occupied`;
-
-  document.getElementById('today-patients').textContent = patients.length;
-
-  const revenue = patients.length * (150000 + Math.floor(Math.random()*200000));
-  document.getElementById('today-revenue').textContent = revenue.toLocaleString();
-
-  // Simple charts (you can expand later)
-  new Chart(document.getElementById('admissionsChart'), {
-    type: 'bar',
-    data: { labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets: [{ label:'Admissions', data:[patients.length-3,patients.length-1,patients.length+2,...Array(4).fill(patients.length)], backgroundColor:'rgba(30,64,175,0.5)' }] },
-    options: { scales: { y: { beginAtZero:true } } }
-  });
-
-  new Chart(document.getElementById('bedChart'), {
-    type: 'doughnut',
-    data: { labels:['Occupied','Free'], datasets:[{ data:[occupied,400-occupied], backgroundColor:['#1e40af','#d1d5db'] }] },
-    options: { cutout:'70%' }
-  });
+  document.getElementById('page-title').textContent = id.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ') || 'Dashboard';
 }
 
 // ────────────────────────────────────────────────
-// Login
+// Nurse – Update Status & Add Report (with emoji + image URL support)
 // ────────────────────────────────────────────────
-const validUsers = {
-  admin:     { pass:'admin123', role:'admin',   name:'Admin Mukasa' },
-  doctor01:  { pass:'doc2025',  role:'doctor', name:'Dr. Nakato'   },
-  nurse01:   { pass:'nurse2025',role:'nurse',  name:'Nurse Sarah'  },
-  reception: { pass:'rec2025',  role:'reception', name:'Reception Jane' }
-};
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('update-status')) {
+    const row = e.target.closest('tr');
+    const statusCell = row.querySelector('td:nth-child(3)');
+    const current = statusCell.textContent.trim();
+    const newStatus = prompt('New status:', current);
+    if (newStatus) {
+      statusCell.textContent = newStatus;
+      statusCell.className = `status-${newStatus.toLowerCase().replace(/\s+/g,'-')}`;
+    }
+  }
 
-document.getElementById('login-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim().toLowerCase();
-  const password = document.getElementById('password').value;
-  const role = document.getElementById('role').value;
+  if (e.target.classList.contains('add-report')) {
+    const row = e.target.closest('tr');
+    const patientName = row.dataset.name;
+    const text = prompt(`Report for ${patientName} (emojis + image URLs allowed):`);
 
-  const user = validUsers[username];
-  if (user && user.pass === password && user.role === role) {
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-role').textContent = role.toUpperCase();
-
-    document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
-
-    document.getElementById('login-page').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-
-    showPage('dashboard');
-  } else {
-    document.getElementById('login-error').textContent = 'Invalid username, password or role';
+    if (text && text.trim()) {
+      const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      const div = document.createElement('div');
+      div.className = 'report-item';
+      let content = text.replace(/(https?:\/\/\S+\.(jpg|jpeg|png|gif))/gi, '<br><img src="$1" class="report-image" alt="Attached image">');
+      div.innerHTML = `<strong>${patientName} – ${time}</strong><br>${content}`;
+      document.getElementById('reports-log').prepend(div);
+    }
   }
 });
-
-// Logout
-document.getElementById('logout').addEventListener('click', e => {
-  e.preventDefault();
-  if (confirm('Logout?')) location.reload();
-});
-
-// Navigation
-document.querySelectorAll('#sidebar a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const id = a.getAttribute('href').substring(1);
-    showPage(id);
-  });
-});
-
-// ────────────────────────────────────────────────
-// Registration forms
-// ────────────────────────────────────────────────
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    document.querySelectorAll('#admin-panel > div:not(.card)').forEach(d => d.classList.add('hidden'));
-    document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
-  });
-});
-
-document.getElementById('patient-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const form = new FormData(e.target);
-  const patient = {
-    id: `P${nextPatientId++}`,
-    name: form.get('name'),
-    age: form.get('age'),
-    gender: form.get('gender'),
-    phone: form.get('phone'),
-    status: 'Stable',
-    reports: []
-  };
-  patients.push(patient);
-  e.target.reset();
-  alert('Patient registered successfully');
-  renderAllPatients();
-});
-
-['doctor','nurse'].forEach(role => {
-  document.getElementById(`${role}-form`).addEventListener('submit', e => {
-    e.preventDefault();
-    const form = new FormData(e.target);
-    const entry = {
-      name: form.get('name'),
-      phone: form.get('phone'),
-      email: form.get('email'),
-      ...(role === 'doctor' ? { specialty: form.get('specialty') } : { ward: form.get('ward') })
-    };
-    staff[`${role}s`].push(entry);
-    e.target.reset();
-    alert(`${role.charAt(0).toUpperCase() + role.slice(1)} registered successfully`);
-  });
-});
-
-// ────────────────────────────────────────────────
-// Render functions
-// ────────────────────────────────────────────────
-function renderAllPatients() {
-  const tbody = document.querySelector('#all-patients-table tbody');
-  tbody.innerHTML = '';
-  patients.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.id}</td>
-      <td>${p.name}</td>
-      <td>${p.age}</td>
-      <td>${p.gender}</td>
-      <td>${p.phone}</td>
-      <td><button class="btn btn-primary" onclick="viewPatient('${p.id}')">View</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function renderNursePatients() {
-  const tbody = document.querySelector('#nurse-patients-table tbody');
-  tbody.innerHTML = '';
-  patients.forEach(p => {
-    const lastReport = p.reports.length ? p.reports[p.reports.length-1].text.substring(0,40) + '...' : 'No report yet';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.name}</td>
-      <td>${p.age}</td>
-      <td class="status-${p.status.toLowerCase()}">${p.status}</td>
-      <td>${lastReport}</td>
-      <td>
-        <button class="btn btn-primary" onclick="viewPatient('${p.id}')">Details</button>
-        <button class="btn btn-success" onclick="updateStatus('${p.id}')">Update Status</button>
-        <button class="btn btn-primary" onclick="addReport('${p.id}')">Add Report</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-window.viewPatient = id => {
-  const p = patients.find(p => p.id === id);
-  if (p) alert(`Patient: ${p.name}\nAge: ${p.age}\nGender: ${p.gender}\nPhone: ${p.phone}\nStatus: ${p.status}\nReports:\n${p.reports.map(r => `- ${r.text} (${r.date})`).join('\n') || 'None'}`);
-};
-
-window.updateStatus = id => {
-  const p = patients.find(p => p.id === id);
-  if (!p) return;
-  const newStatus = prompt('New status (Stable / Critical / Discharged):', p.status);
-  if (newStatus && ['Stable','Critical','Discharged'].includes(newStatus)) {
-    p.status = newStatus;
-    renderNursePatients();
-  }
-};
-
-window.addReport = id => {
-  const p = patients.find(p => p.id === id);
-  if (!p) return;
-  const text = prompt('Enter nursing report / notes:');
-  if (text) {
-    p.reports.push({ date: new Date().toLocaleString(), text });
-    renderNursePatients();
-  }
-};
-
-// Initial page
-showPage('dashboard');
 </script>
 </body>
 </html>
