@@ -175,8 +175,8 @@
     .low-stock { color: var(--danger); font-weight: bold; }
     .warning { color: var(--warning); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-    .calendar-container { margin-top: 1.5rem; text-align: center; }
-    .calendar-container input { font-size: 1.1rem; padding: 0.8rem; }
+    .calendar-container { text-align: center; }
+    .calendar-container input { font-size: 1.1rem; padding: 0.8rem; width: 220px; }
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -193,6 +193,7 @@
   </style>
 </head>
 <body>
+
   <!-- Login Screen -->
   <div id="login-page">
     <div class="login-box">
@@ -200,7 +201,7 @@
       <form id="login-form">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="username" placeholder="admin / doctor01 / nurse01" required autocomplete="off"/>
+          <input type="text" id="username" placeholder="admin / doctor01 / nurse01 / reception" required autocomplete="off"/>
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -244,7 +245,7 @@
         <button class="btn btn-primary" onclick="document.getElementById('sidebar').classList.toggle('active')">☰ Menu</button>
       </header>
 
-      <!-- Dashboard -->
+      <!-- === Dashboard === -->
       <section id="dashboard" class="page">
         <div class="card">
           <h2>Welcome, <span id="user-name">User</span></h2>
@@ -255,17 +256,17 @@
           <h2>Quick Stats</h2>
           <div class="stats-grid">
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor in hospital">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor">
               <h3 style="color:var(--secondary);">248</h3>
               <p>Patients Today</p>
             </div>
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Doctor consulting">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Consulting">
               <h3 style="color:var(--primary);">37</h3>
               <p>Appointments</p>
             </div>
             <div class="stat-card">
-              <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Patient care">
+              <img src="https://images.unsplash.com/photo-1586776971484-7c0a5a00d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Care">
               <h3 style="color:var(--danger);">UGX 4.8M</h3>
               <p>Revenue Today</p>
             </div>
@@ -281,156 +282,88 @@
 
         <div class="card">
           <h2>Patient Education Videos</h2>
-          <p>Short explainers on common conditions (click to play)</p>
+          <p>Short explainers on common conditions</p>
           <div class="video-grid">
             <div class="video-item">
-              <h3>Malaria: Symptoms, Treatment & Prevention</h3>
-              <iframe width="100%" height="180" src="https://www.youtube.com/embed/bQtZdm4L2Qg" title="Malaria Symptoms Treatment Prevention" frameborder="0" allowfullscreen></iframe>
+              <h3>Malaria – Symptoms & Prevention</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/bQtZdm4L2Qg" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="video-item">
-              <h3>How to Prevent Malaria</h3>
-              <iframe width="100%" height="180" src="https://www.youtube.com/embed/k138Nc4_o-g" title="Prevent Malaria" frameborder="0" allowfullscreen></iframe>
+              <h3>Diabetes – Simple Explanation</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/2TWelC6SHr8" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="video-item">
-              <h3>What is Diabetes? Simple Explanation</h3>
-              <iframe width="100%" height="180" src="https://www.youtube.com/embed/2TWelC6SHr8" title="What is Diabetes" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="video-item">
-              <h3>Mayo Clinic Explains Hypertension</h3>
-              <iframe width="100%" height="180" src="https://www.youtube.com/embed/r5XTTeP039Q" title="Hypertension Mayo Clinic" frameborder="0" allowfullscreen></iframe>
+              <h3>Hypertension (High Blood Pressure)</h3>
+              <iframe width="100%" height="180" src="https://www.youtube.com/embed/r5XTTeP039Q" frameborder="0" allowfullscreen></iframe>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Patients Section -->
+      <!-- === Patients === -->
       <section id="patients" class="page hidden">
         <div class="card">
           <h2>Patient Management</h2>
-          <button class="btn btn-primary" onclick="alert('Add New Patient form would open here')">+ Add New Patient</button>
+          <button class="btn btn-primary" onclick="alert('Add patient form coming soon')">+ Add New Patient</button>
           <table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Contact</th>
-                <th>Last Visit</th>
-                <th>Actions</th>
+                <th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Last Visit</th><th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>P001</td>
-                <td>Aisha Nakato</td>
-                <td>34</td>
-                <td>Female</td>
-                <td>+256 772 123 456</td>
-                <td>2026-03-15</td>
-                <td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td>
-              </tr>
-              <tr>
-                <td>P002</td>
-                <td>John Okello</td>
-                <td>45</td>
-                <td>Male</td>
-                <td>+256 701 987 654</td>
-                <td>2026-03-18</td>
-                <td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td>
-              </tr>
+              <tr><td>P001</td><td>Aisha Nakato</td><td>34</td><td>Female</td><td>+256 772 123456</td><td>2025-03-10</td><td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td></tr>
+              <tr><td>P002</td><td>John Okello</td><td>45</td><td>Male</td><td>+256 701 987654</td><td>2025-03-15</td><td><button class="btn btn-primary">View</button> <button class="btn btn-danger">Delete</button></td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Appointments Section -->
+      <!-- === Appointments === -->
       <section id="appointments" class="page hidden">
         <div class="card">
           <h2>Appointments</h2>
-          <button class="btn btn-primary" onclick="alert('Schedule New Appointment form')">+ New Appointment</button>
+          <button class="btn btn-primary" onclick="alert('New appointment form coming soon')">+ Schedule Appointment</button>
           <table>
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
+              <tr><th>Date & Time</th><th>Patient</th><th>Doctor</th><th>Status</th><th>Actions</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>2026-03-20 10:00</td>
-                <td>Aisha Nakato</td>
-                <td>Dr. Nakato</td>
-                <td>Confirmed</td>
-                <td><button class="btn btn-primary">Edit</button> <button class="btn btn-danger">Cancel</button></td>
-              </tr>
+              <tr><td>2025-03-22 09:30</td><td>Aisha Nakato</td><td>Dr. Nakato</td><td>Confirmed</td><td><button class="btn btn-primary">Edit</button> <button class="btn btn-danger">Cancel</button></td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Pharmacy Section -->
+      <!-- === Pharmacy === -->
       <section id="pharmacy" class="page hidden">
         <div class="card">
           <h2>Pharmacy Inventory</h2>
-          <button class="btn btn-primary" onclick="alert('Add Medicine')">+ Add Medicine</button>
+          <button class="btn btn-primary" onclick="alert('Add medicine coming soon')">+ Add Medicine</button>
           <table>
             <thead>
-              <tr>
-                <th>Medicine</th>
-                <th>Stock</th>
-                <th>Price (UGX)</th>
-                <th>Status</th>
-              </tr>
+              <tr><th>Medicine</th><th>Stock</th><th>Price (UGX)</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Paracetamol</td>
-                <td>450</td>
-                <td>5,000</td>
-                <td>OK</td>
-              </tr>
-              <tr class="low-stock">
-                <td>Artemether-Lumefantrine (Malaria)</td>
-                <td>12</td>
-                <td>15,000</td>
-                <td>Low Stock!</td>
-              </tr>
+              <tr><td>Paracetamol 500mg</td><td>620</td><td>5,000</td><td>OK</td></tr>
+              <tr class="low-stock"><td>Artemether-Lumefantrine</td><td>18</td><td>15,000</td><td>Low Stock!</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Billing Section -->
+      <!-- === Billing === -->
       <section id="billing" class="page hidden">
         <div class="card">
           <h2>Billing & Invoices</h2>
-          <button class="btn btn-primary" onclick="alert('Generate New Bill')">+ New Bill</button>
+          <button class="btn btn-primary" onclick="alert('Generate bill coming soon')">+ New Invoice</button>
           <table>
             <thead>
-              <tr>
-                <th>Invoice #</th>
-                <th>Patient</th>
-                <th>Amount (UGX)</th>
-                <th>Status</th>
-              </tr>
+              <tr><th>Invoice #</th><th>Patient</th><th>Amount (UGX)</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>INV-001</td>
-                <td>Aisha Nakato</td>
-                <td>280,000</td>
-                <td>Paid</td>
-              </tr>
-              <tr>
-                <td>INV-002</td>
-                <td>John Okello</td>
-                <td>450,000</td>
-                <td>Pending</td>
-              </tr>
+              <tr><td>INV-001</td><td>Aisha Nakato</td><td>285,000</td><td>Paid</td></tr>
+              <tr><td>INV-002</td><td>John Okello</td><td>420,000</td><td>Pending</td></tr>
             </tbody>
           </table>
         </div>
@@ -440,112 +373,127 @@
 
   <script>
     // ────────────────────────────────────────────────
-    // LOGIN LOGIC
+    // ELEMENT REFERENCES
     // ────────────────────────────────────────────────
-    const loginForm = document.getElementById('login-form');
-    const loginPage = document.getElementById('login-page');
-    const app = document.getElementById('app');
-    const errorDiv = document.getElementById('login-error');
-    const userNameEl = document.getElementById('user-name');
-    const userRoleEl = document.getElementById('user-role');
+    const loginForm      = document.getElementById('login-form');
+    const loginPage      = document.getElementById('login-page');
+    const app            = document.getElementById('app');
+    const errorDiv       = document.getElementById('login-error');
+    const userNameEl     = document.getElementById('user-name');
+    const userRoleEl     = document.getElementById('user-role');
+    const navLinks       = document.querySelectorAll('#sidebar a[href^="#"]');
+    const pages          = document.querySelectorAll('section.page');
+    const pageTitle      = document.getElementById('page-title');
+    const calendarInput  = document.getElementById('calendar-input');
+    const selectedDateEl = document.getElementById('selected-date');
+    const calendarInfo   = document.getElementById('calendar-info');
+
     let currentUser = null;
 
     const validUsers = {
       admin:     { pass: 'admin123', role: 'admin',     name: 'Admin Mukasa' },
-      doctor01:  { pass: 'doc2025',  role: 'doctor',   name: 'Dr. Nakato' },
-      nurse01:   { pass: 'nurse2025',role: 'nurse',    name: 'Nurse Sarah' },
-      reception: { pass: 'rec2025',  role: 'reception',name: 'Reception Jane' }
+      doctor01:  { pass: 'doc2025',  role: 'doctor',   name: 'Dr. Nakato'   },
+      nurse01:   { pass: 'nurse2025',role: 'nurse',    name: 'Nurse Sarah'   },
+      reception: { pass: 'rec2025',  role: 'reception',name: 'Reception Jane'}
     };
 
-    loginForm.addEventListener('submit', function(e) {
+    // ────────────────────────────────────────────────
+    // PAGE SWITCHING
+    // ────────────────────────────────────────────────
+    function showPage(targetId) {
+      pages.forEach(p => p.classList.add('hidden'));
+
+      const target = document.getElementById(targetId.replace('#',''));
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      const titleText = targetId.replace('#','');
+      pageTitle.textContent = titleText.charAt(0).toUpperCase() + titleText.slice(1) || 'Dashboard';
+
+      navLinks.forEach(link => link.classList.remove('active'));
+      const active = document.querySelector(`#sidebar a[href="${targetId}"]`);
+      if (active) active.classList.add('active');
+    }
+
+    // ────────────────────────────────────────────────
+    // LOGIN
+    // ────────────────────────────────────────────────
+    loginForm.addEventListener('submit', e => {
       e.preventDefault();
-      const usernameInput = document.getElementById('username').value.trim().toLowerCase();
-      const passwordInput = document.getElementById('password').value;
-      const selectedRole = document.getElementById('role').value;
+
+      const username = document.getElementById('username').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const role     = document.getElementById('role').value;
 
       errorDiv.textContent = '';
-      if (!usernameInput || !passwordInput || !selectedRole) {
+
+      if (!username || !password || !role) {
         errorDiv.textContent = 'Please fill all fields';
         return;
       }
 
-      const user = validUsers[usernameInput];
-      if (user && user.pass === passwordInput && user.role === selectedRole) {
+      const user = validUsers[username];
+      if (user && user.pass === password && user.role === role) {
         currentUser = user;
         userNameEl.textContent = user.name;
         userRoleEl.textContent = user.role.toUpperCase();
 
         document.querySelectorAll('[class*="role-"]').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll(`.role-${selectedRole}`).forEach(el => el.classList.remove('hidden'));
+        document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
 
         loginPage.classList.add('hidden');
         app.classList.remove('hidden');
-        showPage('#dashboard'); // ensure dashboard shows after login
+
+        showPage('#dashboard');
       } else {
-        errorDiv.textContent = 'Invalid username, password, or role combination';
+        errorDiv.textContent = 'Invalid credentials or role';
       }
     });
 
     // Logout
-    document.getElementById('logout')?.addEventListener('click', function(e) {
+    document.getElementById('logout')?.addEventListener('click', e => {
       e.preventDefault();
       if (confirm('Logout?')) {
         currentUser = null;
         app.classList.add('hidden');
         loginPage.classList.remove('hidden');
         loginForm.reset();
-        errorDiv.textContent = '';
       }
     });
 
     // ────────────────────────────────────────────────
-    // NAVIGATION & PAGE SWITCHING
+    // SIDEBAR NAVIGATION
     // ────────────────────────────────────────────────
-    const navLinks = document.querySelectorAll('#sidebar a[href^="#"]');
-    const pages = document.querySelectorAll('.page');
-    const pageTitle = document.getElementById('page-title');
-
-    function showPage(targetId) {
-      pages.forEach(page => page.classList.add('hidden'));
-      const targetPage = document.getElementById(targetId.replace('#', ''));
-      if (targetPage) targetPage.classList.remove('hidden');
-
-      pageTitle.textContent = targetId.replace('#', '').charAt(0).toUpperCase() + targetId.slice(2) || 'Dashboard';
-
-      navLinks.forEach(link => link.classList.remove('active'));
-      const activeLink = document.querySelector(`#sidebar a[href="${targetId}"]`);
-      if (activeLink) activeLink.classList.add('active');
-    }
-
     navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
+      link.addEventListener('click', e => {
         e.preventDefault();
-        const target = this.getAttribute('href');
-        if (target !== '#') showPage(target);
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          showPage(href);
+        }
       });
     });
 
     // ────────────────────────────────────────────────
-    // ACTIVE CALENDAR LOGIC
+    // CALENDAR
     // ────────────────────────────────────────────────
-    const calendarInput = document.getElementById('calendar-input');
-    const selectedDateEl = document.getElementById('selected-date');
-    const calendarInfo = document.getElementById('calendar-info');
+    if (calendarInput) {
+      calendarInput.addEventListener('change', () => {
+        if (calendarInput.value) {
+          const d = new Date(calendarInput.value);
+          const formatted = d.toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+          selectedDateEl.textContent = formatted;
+          calendarInfo.textContent = `Showing records for ${formatted} (demo)`;
+        }
+      });
 
-    calendarInput.addEventListener('change', function() {
-      if (this.value) {
-        const date = new Date(this.value);
-        const formatted = date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        selectedDateEl.textContent = formatted;
-        calendarInfo.textContent = `Showing records / appointments for ${formatted}. (Demo mode)`;
-      }
-    });
+      // Default today
+      calendarInput.value = new Date().toISOString().split('T')[0];
+      calendarInput.dispatchEvent(new Event('change'));
+    }
 
-    // Set default to today
-    calendarInput.value = new Date().toISOString().split('T')[0];
-    calendarInput.dispatchEvent(new Event('change'));
-
-    // For testing: auto-focus username on load
+    // Auto-focus username
     document.getElementById('username')?.focus();
   </script>
 </body>
