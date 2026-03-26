@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>Elite National Hospital Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
         :root {
@@ -27,6 +25,7 @@
         }
         .hidden { display: none !important; }
 
+        /* Login Page */
         #login-page {
             display: flex;
             align-items: center;
@@ -68,6 +67,7 @@
         }
         button:hover { background: var(--primary-dark); }
 
+        /* Main Layout */
         #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
         #sidebar {
             background: var(--dark);
@@ -143,6 +143,45 @@
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
 
+        /* Diseases Section */
+        .disease-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .disease-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1.2rem 0;
+            border-radius: 10px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .disease-images {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .disease-images img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
         .toast {
             position: fixed;
             bottom: 24px;
@@ -201,7 +240,7 @@
     </div>
 </div>
 
-<!-- Main App -->
+<!-- Main Application -->
 <div id="app" class="hidden">
     <aside id="sidebar">
         <h3>ENHMS</h3>
@@ -211,7 +250,7 @@
             <li class="role-admin"><a href="#patients-overview"><i class="fas fa-users"></i> Patients Overview</a></li>
             <li class="role-admin"><a href="#admin-panel"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
             <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
-            <li class="role-admin role-nurse"><a href="#calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+            <li class="role-admin role-nurse"><a href="#diseases"><i class="fas fa-book-medical"></i> Diseases & Education</a></li>
             <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </aside>
@@ -222,6 +261,7 @@
             <button class="btn btn-primary" id="menu-toggle">☰ Menu</button>
         </header>
 
+        <!-- Dashboard -->
         <section id="dashboard" class="page">
             <div class="card">
                 <h2>Welcome, <span id="user-name"></span> 👋</h2>
@@ -234,23 +274,28 @@
             </div>
         </section>
 
+        <!-- Hospital Overview - Updated with realistic numbers -->
         <section id="hospital-overview" class="page hidden">
             <div class="card">
                 <h2>Hospital Overview</h2>
                 <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; margin-top:1.5rem;">
                     <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-                        <h4>Bed Occupancy</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">78%</p>
+                        <h4>Bed Occupancy</h4>
+                        <p style="font-size:2.8rem; color:var(--primary); font-weight:700;">82%</p>
                     </div>
                     <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-                        <h4>Active Patients</h4><p style="font-size:2.8rem; color:var(--success); font-weight:700;">142</p>
+                        <h4>Active Patients</h4>
+                        <p style="font-size:2.8rem; color:var(--success); font-weight:700;">156</p>
                     </div>
                     <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-                        <h4>Staff On Duty</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">38</p>
+                        <h4>Staff On Duty</h4>
+                        <p style="font-size:2.8rem; color:var(--primary); font-weight:700;">45</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Patients Overview -->
         <section id="patients-overview" class="page hidden">
             <div class="card">
                 <h2>Patients Overview & Analytics</h2>
@@ -262,6 +307,7 @@
             </div>
         </section>
 
+        <!-- Admin Panel -->
         <section id="admin-panel" class="page hidden">
             <div class="card">
                 <h2>Register New Patient</h2>
@@ -279,6 +325,7 @@
             </div>
         </section>
 
+        <!-- My Patients -->
         <section id="my-patients" class="page hidden">
             <div class="card">
                 <h2>My Assigned Patients</h2>
@@ -296,10 +343,48 @@
             </div>
         </section>
 
-        <section id="calendar" class="page hidden">
+        <!-- Diseases & Education Section -->
+        <section id="diseases" class="page hidden">
             <div class="card">
-                <h2>Hospital Calendar & Schedule</h2>
-                <div id="calendar-container"></div>
+                <h2>Diseases & Patient Education</h2>
+                <p style="color:#555; margin-bottom:1.5rem;">Common conditions managed at Elite National Hospital</p>
+
+                <!-- Malaria -->
+                <div class="disease-card">
+                    <h3>🦟 Malaria</h3>
+                    <p><strong>Description:</strong> A life-threatening disease caused by Plasmodium parasites, transmitted through the bite of infected Anopheles mosquitoes. Very common in Uganda.</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/5z7f1z3w2uI" title="Malaria Education" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="disease-images">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Malaria.jpg/800px-Malaria.jpg" alt="Malaria parasite">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Mosquito_bite.jpg/800px-Mosquito_bite.jpg" alt="Mosquito">
+                    </div>
+                </div>
+
+                <!-- Diabetes -->
+                <div class="disease-card">
+                    <h3>🩸 Diabetes Mellitus</h3>
+                    <p><strong>Description:</strong> A chronic condition where the body cannot properly regulate blood sugar levels. Type 2 is increasingly common in Uganda due to lifestyle changes.</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/4qZ5w4Z4Z4A" title="Diabetes Explained" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="disease-images">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Blood_glucose_meter.jpg/800px-Blood_glucose_meter.jpg" alt="Blood sugar test">
+                    </div>
+                </div>
+
+                <!-- Hypertension -->
+                <div class="disease-card">
+                    <h3>❤️ Hypertension (High Blood Pressure)</h3>
+                    <p><strong>Description:</strong> A condition where blood pressure remains consistently high, increasing risk of heart disease and stroke. Often called the "silent killer".</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/5z7f1z3w2uI" title="Hypertension" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="disease-images">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Blood_pressure_monitor.jpg/800px-Blood_pressure_monitor.jpg" alt="Blood pressure monitor">
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -322,54 +407,49 @@ function savePatients() {
 function showToast(msg, type = 'success') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    if (type === 'error') t.style.background = 'var(--danger)';
-    else if (type === 'warning') t.style.background = 'var(--warning)';
-    else t.style.background = 'var(--success)';
+    t.style.background = type==='error' ? 'var(--danger)' : type==='warning' ? 'var(--warning)' : 'var(--success)';
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3400);
 }
 
-// ==================== LOGIN ====================
+// Login
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-
+    
     const username = document.getElementById('username').value.trim().toLowerCase();
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
 
     const users = {
-        "admin":   { pass: "admin123", name: "Dr. Admin Mukasa" },
-        "nurse01": { pass: "nurse2025", name: "Nurse Sarah Nakitto" }
+        admin: { pass: 'admin123', name: 'Dr. Admin Mukasa' },
+        nurse01: { pass: 'nurse2025', name: 'Nurse Sarah Nakitto' }
     };
 
     const user = users[username];
 
-    if (user && user.pass === password && (role === "admin" || role === "nurse")) {
-        
+    if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
         document.getElementById('user-name').textContent = user.name;
         document.getElementById('user-role').textContent = role.toUpperCase();
 
-        // Live time in Kampala
+        // Live Kampala Time
         function updateTime() {
-            document.getElementById('current-time').textContent = 
-                new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour12: true });
+            document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', {
+                timeZone: 'Africa/Kampala',
+                hour12: true
+            });
         }
         updateTime();
         setInterval(updateTime, 10000);
 
-        // Show app and hide login
         document.getElementById('login-page').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
 
-        // Role-based menu
         document.querySelectorAll('.role-admin, .role-nurse').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('.role-' + role).forEach(el => el.classList.remove('hidden'));
 
         showPage('dashboard');
         renderPatients();
-        initCalendar();
         refreshCharts();
-
     } else {
         document.getElementById('login-error').textContent = 'Invalid username, password or role';
     }
@@ -381,7 +461,7 @@ document.getElementById('logout').addEventListener('click', function(e) {
     if (confirm('Are you sure you want to logout?')) location.reload();
 });
 
-let calendarInstance, bedChart, statusChart;
+let bedChart, statusChart;
 
 function showPage(id) {
     document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
@@ -392,16 +472,19 @@ function showPage(id) {
     if (active) active.classList.add('active');
 
     document.getElementById('page-title').textContent = id.replace(/-/g, ' ')
-        .split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-    if (id === 'calendar' && calendarInstance) calendarInstance.render();
     if (id === 'patients-overview') refreshCharts();
     if (id === 'dashboard') {
         document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
     }
+
+    if (window.innerWidth <= 992) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
 }
 
-// Sidebar navigation
+// Navigation
 document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -413,24 +496,6 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('active');
 });
 
-// Calendar
-function initCalendar() {
-    if (calendarInstance) return;
-    const el = document.getElementById('calendar-container');
-
-    calendarInstance = new FullCalendar.Calendar(el, {
-        initialView: 'dayGridMonth',
-        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek' },
-        height: 'auto',
-        events: patients.map(p => ({
-            title: p.name + " (" + p.status + ")",
-            start: p.admitted,
-            color: p.status === 'Critical' ? '#ef4444' : '#10b981'
-        }))
-    });
-    calendarInstance.render();
-}
-
 // Charts
 function refreshCharts() {
     if (bedChart) bedChart.destroy();
@@ -438,7 +503,10 @@ function refreshCharts() {
 
     bedChart = new Chart(document.getElementById('bedChart'), {
         type: 'doughnut',
-        data: { labels: ['Occupied','Available'], datasets: [{ data: [78,22], backgroundColor: ['#1e40af','#e5e7eb'] }] },
+        data: {
+            labels: ['Occupied', 'Available'],
+            datasets: [{ data: [82, 18], backgroundColor: ['#1e40af', '#e5e7eb'] }]
+        },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
     });
 
@@ -451,14 +519,22 @@ function refreshCharts() {
     statusChart = new Chart(document.getElementById('statusChart'), {
         type: 'bar',
         data: {
-            labels: ['Stable','Critical','Discharged'],
-            datasets: [{ label: 'Patients', data: [counts.Stable, counts.Critical, counts.Discharged], backgroundColor: ['#10b981','#ef4444','#6b7280'] }]
+            labels: ['Stable', 'Critical', 'Discharged'],
+            datasets: [{
+                label: 'Patients',
+                data: [counts.Stable, counts.Critical, counts.Discharged],
+                backgroundColor: ['#10b981', '#ef4444', '#6b7280']
+            }]
         },
-        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
     });
 }
 
-// Render Patients Table
+// Render Patients
 function renderPatients(filter = '') {
     const tbody = document.getElementById('patients-tbody');
     tbody.innerHTML = '';
@@ -487,23 +563,23 @@ function renderPatients(filter = '') {
 }
 
 function renderReports() {
-    const container = document.getElementById('reports-container');
-    container.innerHTML = '';
+    const cont = document.getElementById('reports-container');
+    cont.innerHTML = '';
     patients.forEach(p => {
         if (!p.reports || p.reports.length === 0) return;
-        const div = document.createElement('div');
-        div.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
+        const sec = document.createElement('div');
+        sec.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
         p.reports.forEach(r => {
-            div.innerHTML += `
-                <div style="background:#f8fafc; padding:0.9rem; border-radius:8px; margin-bottom:0.6rem;">
+            sec.innerHTML += `
+                <div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;">
                     <strong>${r.time}</strong><br>${r.text}
                 </div>`;
         });
-        container.appendChild(div);
+        cont.appendChild(sec);
     });
 }
 
-// Add New Patient
+// Add Patient
 document.getElementById('add-patient-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('p-name').value.trim();
@@ -517,11 +593,8 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
 
     patients.push({
         id: newId,
-        name: name,
-        age: age,
-        gender: gender,
-        room: room,
-        status: "Stable",
+        name, age, gender, room,
+        status: 'Stable',
         admitted: new Date().toISOString().split('T')[0],
         reports: [],
         discharged: null
@@ -530,32 +603,33 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
     savePatients();
     renderPatients();
     showToast('Patient added successfully');
-    this.reset();
+    e.target.reset();
 });
 
-// Handle Update, Report, Discharge buttons
+// Button Actions
 document.addEventListener('click', function(e) {
     if (!e.target.dataset.id) return;
     const id = parseInt(e.target.dataset.id);
-    const patient = patients.find(p => p.id === id);
-    if (!patient) return;
+    const p = patients.find(x => x.id === id);
+    if (!p) return;
 
     if (e.target.classList.contains('update-status')) {
-        const newStatus = prompt('New status (Stable / Critical / Discharged):', patient.status);
-        if (newStatus && ['Stable','Critical','Discharged'].includes(newStatus)) {
-            patient.status = newStatus;
-            if (newStatus === 'Discharged') patient.discharged = new Date().toISOString().split('T')[0];
+        const s = prompt('New status (Stable / Critical / Discharged):', p.status)?.trim();
+        if (s && ['Stable','Critical','Discharged'].includes(s)) {
+            p.status = s;
+            if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
             savePatients();
             renderPatients();
-            showToast('Status updated to ' + newStatus);
+            showToast('Status updated to ' + s);
         }
     }
 
     if (e.target.classList.contains('add-report')) {
-        const reportText = prompt('Enter nursing report for ' + patient.name + ':');
-        if (reportText && reportText.trim() !== '') {
+        const txt = prompt('Enter report for ' + p.name + ':')?.trim();
+        if (txt) {
             const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-            patient.reports.push({ time: time, text: reportText.trim() });
+            p.reports = p.reports || [];
+            p.reports.push({time, text: txt});
             savePatients();
             renderReports();
             showToast('Report saved');
@@ -563,22 +637,22 @@ document.addEventListener('click', function(e) {
     }
 
     if (e.target.classList.contains('discharge')) {
-        if (confirm('Discharge ' + patient.name + '?')) {
-            patient.status = 'Discharged';
-            patient.discharged = new Date().toISOString().split('T')[0];
+        if (confirm('Discharge ' + p.name + '?')) {
+            p.status = 'Discharged';
+            p.discharged = new Date().toISOString().split('T')[0];
             savePatients();
             renderPatients();
-            showToast(patient.name + ' has been discharged', 'warning');
+            showToast(p.name + ' discharged', 'warning');
         }
     }
 });
 
-// Search functionality
-document.getElementById('patient-search').addEventListener('input', function() {
-    renderPatients(this.value);
+// Search
+document.getElementById('patient-search').addEventListener('input', function(e) {
+    renderPatients(e.target.value);
 });
 
-// Initial render
+// Initial setup
 renderPatients();
 </script>
 </body>
