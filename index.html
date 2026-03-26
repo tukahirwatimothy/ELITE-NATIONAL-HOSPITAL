@@ -1,323 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Elite National Hospital Management System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  
-  <style>
-    :root {
-      --primary: #1e40af;
-      --primary-dark: #1e3a8a;
-      --success: #10b981;
-      --light: #f3f4f6;
-      --dark: #111827;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--light);
-      color: var(--dark);
-      min-height: 100vh;
-    }
-    .hidden { display: none !important; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Elite National Hospital Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --success: #10b981;
+            --light: #f3f4f6;
+            --dark: #111827;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        .hidden { display: none !important; }
 
-    /* Login Page */
-    #login-page {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(rgba(30,64,175,0.48), rgba(16,185,129,0.38)),
-                  url('https://img.freepik.com/free-vector/medical-background-blue-with-plus-signs_1017-26360.jpg') center/cover no-repeat;
-      background-blend-mode: overlay;
-    }
-    .login-box {
-      background: rgba(255,255,255,0.97);
-      padding: 2.5rem 2rem;
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-      width: 92%;
-      max-width: 420px;
-    }
-    .login-box h2 { text-align: center; margin-bottom: 1.5rem; color: var(--primary-dark); }
-    .form-group { margin-bottom: 1.4rem; }
-    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151; }
-    input, select {
-      width: 100%; padding: 0.9rem 1rem; border: 1px solid #d1d5db; 
-      border-radius: 8px; font-size: 1rem;
-    }
-    button {
-      padding: 1rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      font-size: 1.08rem;
-      min-height: 52px;
-    }
-    button:hover { background: var(--primary-dark); }
+        /* Login Page */
+        #login-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(rgba(30,64,175,0.48), rgba(16,185,129,0.38)), 
+                        url('https://img.freepik.com/free-vector/medical-background-blue-with-plus-signs_1017-26360.jpg') center/cover no-repeat;
+            background-blend-mode: overlay;
+        }
+        .login-box {
+            background: rgba(255,255,255,0.97);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            width: 92%;
+            max-width: 420px;
+        }
+        .login-box h2 { text-align: center; margin-bottom: 1.5rem; color: var(--primary-dark); }
+        .form-group { margin-bottom: 1.4rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151; }
+        input, select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            font-size: 1.08rem;
+            min-height: 52px;
+        }
+        button:hover { background: var(--primary-dark); }
 
-    /* Main Layout */
-    #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
-    #sidebar {
-      background: var(--dark);
-      color: white;
-      padding: 1.6rem 0;
-      z-index: 1000;
-    }
-    #sidebar h3 { 
-      padding: 0 1.8rem 1.2rem; 
-      font-size: 1.55rem; 
-      border-bottom: 1px solid #374151;
-    }
-    #sidebar ul { list-style: none; margin-top: 1rem; }
-    #sidebar li a {
-      display: flex;
-      align-items: center;
-      padding: 1rem 1.8rem;
-      color: #d1d5db;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    #sidebar li a:hover, #sidebar li a.active {
-      background: #374151;
-      color: white;
-      padding-left: 2.3rem;
-    }
-    #sidebar i { margin-right: 12px; width: 24px; }
+        /* Main Layout */
+        #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+        #sidebar {
+            background: var(--dark);
+            color: white;
+            padding: 1.6rem 0;
+            z-index: 1000;
+        }
+        #sidebar h3 {
+            padding: 0 1.8rem 1.2rem;
+            font-size: 1.55rem;
+            border-bottom: 1px solid #374151;
+        }
+        #sidebar ul { list-style: none; margin-top: 1rem; }
+        #sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.8rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        #sidebar li a:hover, #sidebar li a.active {
+            background: #374151;
+            color: white;
+            padding-left: 2.3rem;
+        }
+        #sidebar i { margin-right: 12px; width: 24px; }
 
-    #main-content { padding: 2rem; background: var(--light); }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    header h1 { font-size: 2rem; color: var(--primary-dark); }
+        #main-content { padding: 2rem; background: var(--light); }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        header h1 { font-size: 2rem; color: var(--primary-dark); }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      padding: 1.8rem;
-      margin-bottom: 1.8rem;
-    }
-    .chart-container {
-      position: relative;
-      height: 360px;
-      margin: 1.5rem 0;
-      padding: 1rem;
-      background: #fafafa;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-    }
-    #calendar-container {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      min-height: 520px;
-    }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+        .chart-container {
+            position: relative;
+            height: 360px;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #fafafa;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
-    th { background: #f8fafc; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th { background: #f8fafc; font-weight: 600; }
 
-    .btn {
-      padding: 0.75rem 1.3rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      border: none;
-      margin: 0.2rem;
-      min-height: 44px;
-    }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-success { background: var(--success); color: white; }
-    .btn-danger { background: var(--danger); color: white; }
+        .btn {
+            padding: 0.75rem 1.3rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border: none;
+            margin: 0.2rem;
+            min-height: 44px;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
 
-    .status-stable { color: var(--success); font-weight: bold; }
-    .status-critical { color: var(--danger); font-weight: bold; }
-    .status-discharged { color: #6b7280; font-style: italic; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 1.1rem 1.6rem;
+            background: #111827;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 92%;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(-8px);
+        }
 
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: 1.1rem 1.6rem;
-      background: #111827;
-      color: white;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      z-index: 3000;
-      opacity: 0;
-      transition: all 0.4s ease;
-      max-width: 92%;
-    }
-    .toast.show { opacity: 1; transform: translateY(-8px); }
-
-    @media (max-width: 992px) {
-      #app { grid-template-columns: 1fr; }
-      #sidebar {
-        position: fixed;
-        inset: 0 auto 0 0;
-        width: 280px;
-        transform: translateX(-100%);
-        height: 100vh;
-        box-shadow: 4px 0 25px rgba(0,0,0,0.35);
-      }
-      #sidebar.active { transform: translateX(0); }
-      #main-content { padding: 1.3rem; }
-    }
-  </style>
+        @media (max-width: 992px) {
+            #app { grid-template-columns: 1fr; }
+            #sidebar {
+                position: fixed;
+                inset: 0 auto 0 0;
+                width: 280px;
+                transform: translateX(-100%);
+                height: 100vh;
+                box-shadow: 4px 0 25px rgba(0,0,0,0.35);
+            }
+            #sidebar.active { transform: translateX(0); }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Login -->
+<!-- Login Page -->
 <div id="login-page">
-  <div class="login-box">
-    <h2>🏥 Elite National Hospital</h2>
-    <p style="text-align:center; color:#555; margin-bottom:1.6rem; font-size:0.95rem;">
-      Demo Login:<br>
-      <strong>Admin:</strong> admin / admin123<br>
-      <strong>Nurse:</strong> nurse01 / nurse2025
-    </p>
-    <form id="login-form">
-      <div class="form-group"><label>Username</label><input type="text" id="username" required placeholder="admin or nurse01"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
-      <div class="form-group">
-        <label>Role</label>
-        <select id="role" required>
-          <option value="">Select Role</option>
-          <option value="admin">Administrator</option>
-          <option value="nurse">Nurse</option>
-        </select>
-      </div>
-      <button type="submit">Login</button>
-      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem; min-height:1.4rem;"></div>
-    </form>
-  </div>
+    <div class="login-box">
+        <h2>🏥 Elite National Hospital</h2>
+        <p style="text-align:center; color:#555; margin-bottom:1.6rem; font-size:0.95rem;">
+            Demo Login:<br>
+            <strong>Admin:</strong> admin / admin123<br>
+            <strong>Nurse:</strong> nurse01 / nurse2025
+        </p>
+        <form id="login-form">
+            <div class="form-group"><label>Username</label><input type="text" id="username" required placeholder="admin or nurse01"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="role" required>
+                    <option value="">Select Role</option>
+                    <option value="admin">Administrator</option>
+                    <option value="nurse">Nurse</option>
+                </select>
+            </div>
+            <button type="submit">Login</button>
+            <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem; min-height:1.4rem;"></div>
+        </form>
+    </div>
 </div>
 
 <!-- Main Application -->
 <div id="app" class="hidden">
-  <aside id="sidebar">
-    <h3>ENHMS</h3>
-    <ul>
-      <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-      <li class="role-admin"><a href="#hospital-overview"><i class="fas fa-hospital"></i> Hospital Overview</a></li>
-      <li class="role-admin"><a href="#patients-overview"><i class="fas fa-users"></i> Patients Overview</a></li>
-      <li class="role-admin"><a href="#admin-panel"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
-      <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
-      <li class="role-admin role-nurse"><a href="#calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
-      <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-  </aside>
+    <aside id="sidebar">
+        <h3>ENHMS</h3>
+        <ul>
+            <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li class="role-admin"><a href="#hospital-overview"><i class="fas fa-hospital"></i> Hospital Overview</a></li>
+            <li class="role-admin"><a href="#patients-overview"><i class="fas fa-users"></i> Patients Overview</a></li>
+            <li class="role-admin"><a href="#admin-panel"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
+            <li class="role-nurse"><a href="#my-patients"><i class="fas fa-user-nurse"></i> My Patients</a></li>
+            <li class="role-admin role-nurse"><a href="#calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+            <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </aside>
 
-  <main id="main-content">
-    <header>
-      <h1 id="page-title">Dashboard</h1>
-      <button class="btn btn-primary" id="menu-toggle">☰ Menu</button>
-    </header>
+    <main id="main-content">
+        <header>
+            <h1 id="page-title">Dashboard</h1>
+            <button class="btn btn-primary" id="menu-toggle">☰ Menu</button>
+        </header>
 
-    <!-- Dashboard -->
-    <section id="dashboard" class="page">
-      <div class="card">
-        <h2>Welcome, <span id="user-name"></span> 👋</h2>
-        <p>Role: <strong id="user-role"></strong></p>
-        <p>Kampala Time: <strong id="current-time"></strong></p>
-      </div>
-      <div class="card">
-        <h3>Quick Stats</h3>
-        <p>Active Patients: <strong id="active-count">0</strong></p>
-      </div>
-    </section>
+        <!-- Dashboard -->
+        <section id="dashboard" class="page">
+            <div class="card">
+                <h2>Welcome, <span id="user-name"></span> 👋</h2>
+                <p>Role: <strong id="user-role"></strong></p>
+                <p>Kampala Time: <strong id="current-time"></strong></p>
+            </div>
+            <div class="card">
+                <h3>Quick Stats</h3>
+                <p>Active Patients: <strong id="active-count">0</strong></p>
+            </div>
+        </section>
 
-    <!-- Hospital Overview -->
-    <section id="hospital-overview" class="page hidden">
-      <div class="card">
-        <h2>Hospital Overview</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; margin-top:1.5rem;">
-          <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-            <h4>Bed Occupancy</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">78%</p>
-          </div>
-          <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-            <h4>Active Patients</h4><p style="font-size:2.8rem; color:var(--success); font-weight:700;">142</p>
-          </div>
-          <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
-            <h4>Staff On Duty</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">38</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        <!-- Hospital Overview -->
+        <section id="hospital-overview" class="page hidden">
+            <div class="card">
+                <h2>Hospital Overview</h2>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; margin-top:1.5rem;">
+                    <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
+                        <h4>Bed Occupancy</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">78%</p>
+                    </div>
+                    <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
+                        <h4>Active Patients</h4><p style="font-size:2.8rem; color:var(--success); font-weight:700;">142</p>
+                    </div>
+                    <div style="background:#f8fafc; padding:1.8rem; border-radius:12px; text-align:center;">
+                        <h4>Staff On Duty</h4><p style="font-size:2.8rem; color:var(--primary); font-weight:700;">38</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Patients Overview -->
-    <section id="patients-overview" class="page hidden">
-      <div class="card">
-        <h2>Patients Overview & Analytics</h2>
-        <button class="btn btn-primary" onclick="refreshCharts()" style="margin:1rem 0;">Refresh Charts</button>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.6rem;">
-          <div><h4>Bed Occupancy</h4><div class="chart-container"><canvas id="bedChart"></canvas></div></div>
-          <div><h4>Patients by Status</h4><div class="chart-container"><canvas id="statusChart"></canvas></div></div>
-        </div>
-      </div>
-    </section>
+        <!-- Patients Overview -->
+        <section id="patients-overview" class="page hidden">
+            <div class="card">
+                <h2>Patients Overview & Analytics</h2>
+                <button class="btn btn-primary" onclick="refreshCharts()" style="margin:1rem 0;">Refresh Charts</button>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.6rem;">
+                    <div><h4>Bed Occupancy</h4><div class="chart-container"><canvas id="bedChart"></canvas></div></div>
+                    <div><h4>Patients by Status</h4><div class="chart-container"><canvas id="statusChart"></canvas></div></div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Admin Panel -->
-    <section id="admin-panel" class="page hidden">
-      <div class="card">
-        <h2>Register New Patient</h2>
-        <form id="add-patient-form">
-          <div class="form-group"><label>Full Name</label><input id="p-name" required></div>
-          <div class="form-group"><label>Age</label><input id="p-age" type="number" min="0" required></div>
-          <div class="form-group"><label>Gender</label>
-            <select id="p-gender" required>
-              <option>Male</option><option>Female</option><option>Other</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Room / Bed</label><input id="p-room" required></div>
-          <button type="submit" class="btn btn-primary">Add Patient</button>
-        </form>
-      </div>
-    </section>
+        <!-- Admin Panel -->
+        <section id="admin-panel" class="page hidden">
+            <div class="card">
+                <h2>Register New Patient</h2>
+                <form id="add-patient-form">
+                    <div class="form-group"><label>Full Name</label><input id="p-name" required></div>
+                    <div class="form-group"><label>Age</label><input id="p-age" type="number" min="0" required></div>
+                    <div class="form-group"><label>Gender</label>
+                        <select id="p-gender" required>
+                            <option>Male</option><option>Female</option><option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Room / Bed</label><input id="p-room" required></div>
+                    <button type="submit" class="btn btn-primary">Add Patient</button>
+                </form>
+            </div>
+        </section>
 
-    <!-- My Patients (Nurse) -->
-    <section id="my-patients" class="page hidden">
-      <div class="card">
-        <h2>My Assigned Patients</h2>
-        <input type="text" id="patient-search" placeholder="Search by name or room..." 
-               style="width:100%; padding:0.9rem; margin-bottom:1.2rem; border:1px solid #d1d5db; border-radius:8px;">
-        <div style="overflow-x:auto;">
-          <table>
-            <thead><tr><th>Name</th><th>Age/Gender</th><th>Status</th><th>Room</th><th>Admitted</th><th>Actions</th></tr></thead>
-            <tbody id="patients-tbody"></tbody>
-          </table>
-        </div>
-        <div style="margin-top:2.5rem;">
-          <h3>Nursing Reports</h3>
-          <div id="reports-container" style="max-height:520px; overflow-y:auto;"></div>
-        </div>
-      </div>
-    </section>
+        <!-- My Patients (Nurse) -->
+        <section id="my-patients" class="page hidden">
+            <div class="card">
+                <h2>My Assigned Patients</h2>
+                <input type="text" id="patient-search" placeholder="Search by name or room..." style="width:100%; padding:0.9rem; margin-bottom:1.2rem; border:1px solid #d1d5db; border-radius:8px;">
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead><tr><th>Name</th><th>Age/Gender</th><th>Status</th><th>Room</th><th>Admitted</th><th>Actions</th></tr></thead>
+                        <tbody id="patients-tbody"></tbody>
+                    </table>
+                </div>
+                <div style="margin-top:2.5rem;">
+                    <h3>Nursing Reports</h3>
+                    <div id="reports-container" style="max-height:520px; overflow-y:auto;"></div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Calendar -->
-    <section id="calendar" class="page hidden">
-      <div class="card">
-        <h2>Hospital Calendar & Schedule</h2>
-        <div id="calendar-container"></div>
-      </div>
-    </section>
-  </main>
+        <!-- Calendar -->
+        <section id="calendar" class="page hidden">
+            <div class="card">
+                <h2>Hospital Calendar & Schedule</h2>
+                <div id="calendar-container"></div>
+            </div>
+        </section>
+    </main>
 </div>
 
 <div id="toast" class="toast"></div>
@@ -325,269 +321,308 @@
 <script>
 // Data
 let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
-  { id:1, name:"Aisha Nakato", age:34, gender:"Female", room:"Ward A – Bed 12", status:"Stable", admitted:"2025-03-10", reports:[], discharged:null },
-  { id:2, name:"Musa Ssekitto", age:52, gender:"Male", room:"ICU – Bed 4", status:"Critical", admitted:"2025-03-15", reports:[], discharged:null },
-  { id:3, name:"Patience Akello", age:28, gender:"Female", room:"Maternity – Bed 7", status:"Stable", admitted:"2025-03-18", reports:[], discharged:null }
+    { id:1, name:"Aisha Nakato", age:34, gender:"Female", room:"Ward A – Bed 12", status:"Stable", admitted:"2025-03-10", reports:[], discharged:null },
+    { id:2, name:"Musa Ssekitto", age:52, gender:"Male", room:"ICU – Bed 4", status:"Critical", admitted:"2025-03-15", reports:[], discharged:null },
+    { id:3, name:"Patience Akello", age:28, gender:"Female", room:"Maternity – Bed 7", status:"Stable", admitted:"2025-03-18", reports:[], discharged:null }
 ];
 
-function savePatients() { localStorage.setItem('enhms_patients', JSON.stringify(patients)); }
+function savePatients() {
+    localStorage.setItem('enhms_patients', JSON.stringify(patients));
+}
 
 function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = type==='error' ? 'var(--danger)' : type==='warning' ? 'var(--warning)' : 'var(--success)';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3400);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = type==='error' ? 'var(--danger)' : type==='warning' ? 'var(--warning)' : 'var(--success)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3400);
 }
 
 // Login
-document.getElementById('login-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim().toLowerCase();
-  const password = document.getElementById('password').value;
-  const role = document.getElementById('role').value;
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value.trim().toLowerCase();
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
 
-  const users = {
-    admin: { pass:'admin123', name:'Dr. Admin Mukasa' },
-    nurse01: { pass:'nurse2025', name:'Nurse Sarah Nakitto' }
-  };
+    const users = {
+        admin: { pass: 'admin123', name: 'Dr. Admin Mukasa' },
+        nurse01: { pass: 'nurse2025', name: 'Nurse Sarah Nakitto' }
+    };
 
-  const user = users[username];
-  if (user && user.pass === password && (role==='admin' || role==='nurse')) {
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-role').textContent = role.toUpperCase();
+    const user = users[username];
 
-    // Live Kampala Time
-    function updateTime() {
-      document.getElementById('current-time').textContent = 
-        new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour12: true });
+    if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-role').textContent = role.toUpperCase();
+
+        // Live Kampala Time
+        function updateTime() {
+            document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', {
+                timeZone: 'Africa/Kampala',
+                hour12: true
+            });
+        }
+        updateTime();
+        setInterval(updateTime, 10000);
+
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+
+        // Show role-based menu items
+        document.querySelectorAll('.role-admin, .role-nurse').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
+
+        showPage('dashboard');
+        renderPatients();
+        initCalendar();
+        refreshCharts();
+    } else {
+        document.getElementById('login-error').textContent = 'Invalid username, password or role';
     }
-    updateTime();
-    setInterval(updateTime, 10000);
-
-    document.getElementById('login-page').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-
-    document.querySelectorAll('.role-admin, .role-nurse').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll(.role-${role}).forEach(el => el.classList.remove('hidden'));
-
-    showPage('dashboard');
-    renderPatients();
-    initCalendar();
-  } else {
-    document.getElementById('login-error').textContent = 'Invalid username, password or role';
-  }
 });
 
 // Logout
-document.getElementById('logout').addEventListener('click', e => {
-  e.preventDefault();
-  if (confirm('Are you sure you want to logout?')) location.reload();
+document.getElementById('logout').addEventListener('click', function(e) {
+    e.preventDefault();
+    if (confirm('Are you sure you want to logout?')) {
+        location.reload();
+    }
 });
 
-// Navigation
 let calendar, bedChart, statusChart;
 
 function showPage(id) {
-  document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
+    document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 
-  document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
-  const active = document.querySelector(#sidebar a[href="#${id}"]);
-  if (active) active.classList.add('active');
+    document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
+    const activeLink = document.querySelector(`#sidebar a[href="#${id}"]`);
+    if (activeLink) activeLink.classList.add('active');
 
-  document.getElementById('page-title').textContent = 
-    id.replace(/-/g,' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    document.getElementById('page-title').textContent = id.replace(/-/g, ' ')
+        .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-  if (id === 'calendar' && calendar) calendar.render();
-  if (id === 'patients-overview') refreshCharts();
-  if (id === 'dashboard') {
-    document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
-  }
+    if (id === 'calendar' && calendar) calendar.render();
+    if (id === 'patients-overview') refreshCharts();
+    if (id === 'dashboard') {
+        document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
+    }
 
-  if (window.innerWidth <= 992) {
-    document.getElementById('sidebar').classList.remove('active');
-  }
+    if (window.innerWidth <= 992) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
 }
 
+// Navigation
 document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    showPage(link.getAttribute('href').substring(1));
-  });
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage(link.getAttribute('href').substring(1));
+    });
 });
 
 document.getElementById('menu-toggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('active');
-});
-
-// Close sidebar on mobile when clicking outside
-document.addEventListener('click', e => {
-  const sidebar = document.getElementById('sidebar');
-  const toggle = document.getElementById('menu-toggle');
-  if (window.innerWidth <= 992 && sidebar.classList.contains('active') &&
-      !sidebar.contains(e.target) && !toggle.contains(e.target)) {
-    sidebar.classList.remove('active');
-  }
+    document.getElementById('sidebar').classList.toggle('active');
 });
 
 // Calendar
 function initCalendar() {
-  const el = document.getElementById('calendar-container');
-  if (calendar) return;
+    const el = document.getElementById('calendar-container');
+    if (calendar) return;
 
-  calendar = new FullCalendar.Calendar(el, {
-    initialView: 'dayGridMonth',
-    headerToolbar: { left:'prev,next today', center:'title', right:'dayGridMonth,timeGridWeek' },
-    height: 'auto',
-    events: patients.map(p => ({
-      title: ${p.name} (${p.status}),
-      start: p.admitted,
-      color: p.status === 'Critical' ? '#ef4444' : '#10b981'
-    })),
-    dateClick: function(info) {
-      const dateStr = info.dateStr;
-      const events = calendar.getEvents().filter(ev => 
-        ev.start.toISOString().split('T')[0] === dateStr
-      );
-      let msg = 📅 ${dateStr}\n\n;
-      msg += events.length ? events.map(ev => • ${ev.title}).join('\n') : 'No events on this day.';
-      showToast(msg);
-    }
-  });
-  calendar.render();
+    calendar = new FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        },
+        height: 'auto',
+        events: patients.map(p => ({
+            title: `${p.name} (${p.status})`,
+            start: p.admitted,
+            color: p.status === 'Critical' ? '#ef4444' : '#10b981'
+        })),
+        dateClick: function(info) {
+            const dateStr = info.dateStr;
+            const events = calendar.getEvents().filter(ev => 
+                ev.start.toISOString().split('T')[0] === dateStr
+            );
+            let msg = `📅 ${dateStr}\n\n`;
+            msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events on this day.';
+            showToast(msg);
+        }
+    });
+    calendar.render();
 }
 
 // Charts
 function refreshCharts() {
-  if (bedChart) bedChart.destroy();
-  if (statusChart) statusChart.destroy();
+    if (bedChart) bedChart.destroy();
+    if (statusChart) statusChart.destroy();
 
-  bedChart = new Chart(document.getElementById('bedChart'), {
-    type: 'doughnut',
-    data: { labels:['Occupied','Available'], datasets:[{data:[78,22], backgroundColor:['#1e40af','#e5e7eb']}] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}} }
-  });
+    bedChart = new Chart(document.getElementById('bedChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Occupied', 'Available'],
+            datasets: [{ data: [78, 22], backgroundColor: ['#1e40af', '#e5e7eb'] }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
 
-  const counts = {
-    Stable: patients.filter(p=>p.status==='Stable' && !p.discharged).length,
-    Critical: patients.filter(p=>p.status==='Critical' && !p.discharged).length,
-    Discharged: patients.filter(p=>!!p.discharged).length
-  };
+    const counts = {
+        Stable: patients.filter(p => p.status === 'Stable' && !p.discharged).length,
+        Critical: patients.filter(p => p.status === 'Critical' && !p.discharged).length,
+        Discharged: patients.filter(p => !!p.discharged).length
+    };
 
-  statusChart = new Chart(document.getElementById('statusChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Stable','Critical','Discharged'],
-      datasets: [{label:'Patients', data:[counts.Stable, counts.Critical, counts.Discharged], backgroundColor:['#10b981','#ef4444','#6b7280']}]
-    },
-    options: { responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}} }
-  });
+    statusChart = new Chart(document.getElementById('statusChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Stable', 'Critical', 'Discharged'],
+            datasets: [{
+                label: 'Patients',
+                data: [counts.Stable, counts.Critical, counts.Discharged],
+                backgroundColor: ['#10b981', '#ef4444', '#6b7280']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
 }
 
 // Render Patients
 function renderPatients(filter = '') {
-  const tbody = document.getElementById('patients-tbody');
-  tbody.innerHTML = '';
-  const q = filter.toLowerCase();
+    const tbody = document.getElementById('patients-tbody');
+    tbody.innerHTML = '';
+    const q = filter.toLowerCase();
 
-  patients.filter(p => !p.discharged && (p.name.toLowerCase().includes(q) || p.room.toLowerCase().includes(q)))
-    .forEach(p => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = 
-        <td>${p.name}</td>
-        <td>${p.age} • ${p.gender}</td>
-        <td class="status-${p.status.toLowerCase()}">${p.status}</td>
-        <td>${p.room}</td>
-        <td>${p.admitted}</td>
-        <td>
-          <button class="btn btn-success update-status" data-id="${p.id}">Update</button>
-          <button class="btn btn-primary add-report" data-id="${p.id}">Report</button>
-          <button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>
-        </td>
-      ;
-      tbody.appendChild(tr);
+    patients.filter(p => !p.discharged && 
+        (p.name.toLowerCase().includes(q) || p.room.toLowerCase().includes(q))
+    ).forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${p.name}</td>
+            <td>${p.age} • ${p.gender}</td>
+            <td class="status-${p.status.toLowerCase()}">${p.status}</td>
+            <td>${p.room}</td>
+            <td>${p.admitted}</td>
+            <td>
+                <button class="btn btn-success update-status" data-id="${p.id}">Update</button>
+                <button class="btn btn-primary add-report" data-id="${p.id}">Report</button>
+                <button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
     });
 
-  renderReports();
-  document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
+    renderReports();
+    document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
 }
 
 function renderReports() {
-  const cont = document.getElementById('reports-container');
-  cont.innerHTML = '';
-  patients.forEach(p => {
-    if (!p.reports?.length) return;
-    const sec = document.createElement('div');
-    sec.innerHTML = <h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>;
-    p.reports.forEach(r => {
-      sec.innerHTML += <div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;">
-        <strong>${r.time}</strong><br>${r.text}</div>;
+    const cont = document.getElementById('reports-container');
+    cont.innerHTML = '';
+    patients.forEach(p => {
+        if (!p.reports?.length) return;
+        const sec = document.createElement('div');
+        sec.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
+        p.reports.forEach(r => {
+            sec.innerHTML += `
+                <div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;">
+                    <strong>${r.time}</strong><br>${r.text}
+                </div>`;
+        });
+        cont.appendChild(sec);
     });
-    cont.appendChild(sec);
-  });
 }
 
 // Add Patient
-document.getElementById('add-patient-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.getElementById('p-name').value.trim();
-  const age = parseInt(document.getElementById('p-age').value);
-  const gender = document.getElementById('p-gender').value;
-  const room = document.getElementById('p-room').value.trim();
+document.getElementById('add-patient-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('p-name').value.trim();
+    const age = parseInt(document.getElementById('p-age').value);
+    const gender = document.getElementById('p-gender').value;
+    const room = document.getElementById('p-room').value.trim();
 
-  if (!name || isNaN(age) || !room) return showToast('Please fill all fields', 'error');
+    if (!name || isNaN(age) || !room) {
+        return showToast('Please fill all fields', 'error');
+    }
 
-  const newId = patients.length ? Math.max(...patients.map(p=>p.id)) + 1 : 1;
-  patients.push({
-    id: newId, name, age, gender, room,
-    status: 'Stable', admitted: new Date().toISOString().split('T')[0],
-    reports: [], discharged: null
-  });
+    const newId = patients.length ? Math.max(...patients.map(p => p.id)) + 1 : 1;
 
-  savePatients();
-  renderPatients();
-  showToast('Patient added successfully');
-  e.target.reset();
+    patients.push({
+        id: newId,
+        name,
+        age,
+        gender,
+        room,
+        status: 'Stable',
+        admitted: new Date().toISOString().split('T')[0],
+        reports: [],
+        discharged: null
+    });
+
+    savePatients();
+    renderPatients();
+    showToast('Patient added successfully');
+    e.target.reset();
 });
 
-// Button Actions
-document.addEventListener('click', e => {
-  if (!e.target.dataset.id) return;
-  const id = parseInt(e.target.dataset.id);
-  const p = patients.find(x => x.id === id);
-  if (!p) return;
+// Button Actions (Update, Report, Discharge)
+document.addEventListener('click', function(e) {
+    if (!e.target.dataset.id) return;
+    const id = parseInt(e.target.dataset.id);
+    const p = patients.find(x => x.id === id);
+    if (!p) return;
 
-  if (e.target.classList.contains('update-status')) {
-    const s = prompt('New status (Stable / Critical / Discharged):', p.status)?.trim();
-    if (s && ['Stable','Critical','Discharged'].includes(s)) {
-      p.status = s;
-      if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
-      savePatients(); renderPatients(); showToast(Status updated to ${s});
+    if (e.target.classList.contains('update-status')) {
+        const s = prompt('New status (Stable / Critical / Discharged):', p.status)?.trim();
+        if (s && ['Stable','Critical','Discharged'].includes(s)) {
+            p.status = s;
+            if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
+            savePatients();
+            renderPatients();
+            showToast(`Status updated to ${s}`);
+        }
     }
-  }
 
-  if (e.target.classList.contains('add-report')) {
-    const txt = prompt(Enter report for ${p.name}:)?.trim();
-    if (txt) {
-      const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      p.reports = p.reports || [];
-      p.reports.push({time, text:txt});
-      savePatients(); renderReports(); showToast('Report saved');
+    if (e.target.classList.contains('add-report')) {
+        const txt = prompt(`Enter report for ${p.name}:`)?.trim();
+        if (txt) {
+            const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+            p.reports = p.reports || [];
+            p.reports.push({time, text: txt});
+            savePatients();
+            renderReports();
+            showToast('Report saved');
+        }
     }
-  }
 
-  if (e.target.classList.contains('discharge')) {
-    if (confirm(Discharge ${p.name}?)) {
-      p.status = 'Discharged';
-      p.discharged = new Date().toISOString().split('T')[0];
-      savePatients(); renderPatients(); showToast(${p.name} discharged, 'warning');
+    if (e.target.classList.contains('discharge')) {
+        if (confirm(`Discharge ${p.name}?`)) {
+            p.status = 'Discharged';
+            p.discharged = new Date().toISOString().split('T')[0];
+            savePatients();
+            renderPatients();
+            showToast(`${p.name} discharged`, 'warning');
+        }
     }
-  }
 });
 
 // Search
-document.getElementById('patient-search')?.addEventListener('input', e => renderPatients(e.target.value));
+document.getElementById('patient-search')?.addEventListener('input', function(e) {
+    renderPatients(e.target.value);
+});
 
 // Initial setup
 renderPatients();
