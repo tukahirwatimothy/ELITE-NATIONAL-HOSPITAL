@@ -25,7 +25,7 @@
         }
         .hidden { display: none !important; }
 
-        /* Login Page */
+        /* Login */
         #login-page {
             display: flex;
             align-items: center;
@@ -67,7 +67,7 @@
         }
         button:hover { background: var(--primary-dark); }
 
-        /* Main Layout */
+        /* Layout */
         #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
         #sidebar {
             background: var(--dark);
@@ -154,7 +154,6 @@
         .disease-card h3 {
             color: var(--primary-dark);
             margin-bottom: 1rem;
-            font-size: 1.4rem;
         }
         .video-container {
             position: relative;
@@ -240,7 +239,7 @@
     </div>
 </div>
 
-<!-- Main Application -->
+<!-- Main App -->
 <div id="app" class="hidden">
     <aside id="sidebar">
         <h3>ENHMS</h3>
@@ -274,7 +273,7 @@
             </div>
         </section>
 
-        <!-- Hospital Overview - Updated with realistic numbers -->
+        <!-- Hospital Overview (Updated) -->
         <section id="hospital-overview" class="page hidden">
             <div class="card">
                 <h2>Hospital Overview</h2>
@@ -343,46 +342,42 @@
             </div>
         </section>
 
-        <!-- Diseases & Education Section -->
+        <!-- Diseases & Education -->
         <section id="diseases" class="page hidden">
             <div class="card">
                 <h2>Diseases & Patient Education</h2>
-                <p style="color:#555; margin-bottom:1.5rem;">Common conditions managed at Elite National Hospital</p>
+                <p style="color:#555; margin-bottom:1.5rem;">Common conditions seen and managed at Elite National Hospital</p>
 
-                <!-- Malaria -->
                 <div class="disease-card">
                     <h3>🦟 Malaria</h3>
-                    <p><strong>Description:</strong> A life-threatening disease caused by Plasmodium parasites, transmitted through the bite of infected Anopheles mosquitoes. Very common in Uganda.</p>
+                    <p><strong>Description:</strong> Life-threatening disease caused by Plasmodium parasites and spread by mosquitoes. It remains one of the leading causes of illness in Uganda.</p>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/5z7f1z3w2uI" title="Malaria Education" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/Roi8UqATlnc" title="Malaria in Uganda" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="disease-images">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Malaria.jpg/800px-Malaria.jpg" alt="Malaria parasite">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Mosquito_bite.jpg/800px-Mosquito_bite.jpg" alt="Mosquito">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Malaria.jpg/800px-Malaria.jpg" alt="Malaria">
                     </div>
                 </div>
 
-                <!-- Diabetes -->
                 <div class="disease-card">
-                    <h3>🩸 Diabetes Mellitus</h3>
-                    <p><strong>Description:</strong> A chronic condition where the body cannot properly regulate blood sugar levels. Type 2 is increasingly common in Uganda due to lifestyle changes.</p>
+                    <h3>🩸 Diabetes</h3>
+                    <p><strong>Description:</strong> Chronic condition affecting blood sugar regulation. Type 2 diabetes is rising rapidly in Uganda due to lifestyle changes.</p>
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/4qZ5w4Z4Z4A" title="Diabetes Explained" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="disease-images">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Blood_glucose_meter.jpg/800px-Blood_glucose_meter.jpg" alt="Blood sugar test">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Blood_glucose_meter.jpg/800px-Blood_glucose_meter.jpg" alt="Diabetes">
                     </div>
                 </div>
 
-                <!-- Hypertension -->
                 <div class="disease-card">
-                    <h3>❤️ Hypertension (High Blood Pressure)</h3>
-                    <p><strong>Description:</strong> A condition where blood pressure remains consistently high, increasing risk of heart disease and stroke. Often called the "silent killer".</p>
+                    <h3>❤️ Hypertension</h3>
+                    <p><strong>Description:</strong> High blood pressure that increases risk of heart disease and stroke. Often called the silent killer.</p>
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/5z7f1z3w2uI" title="Hypertension" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="disease-images">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Blood_pressure_monitor.jpg/800px-Blood_pressure_monitor.jpg" alt="Blood pressure monitor">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Blood_pressure_monitor.jpg/800px-Blood_pressure_monitor.jpg" alt="Hypertension">
                     </div>
                 </div>
             </div>
@@ -393,16 +388,14 @@
 <div id="toast" class="toast"></div>
 
 <script>
-// Data
+// Data & Functions
 let patients = JSON.parse(localStorage.getItem('enhms_patients')) || [
     { id:1, name:"Aisha Nakato", age:34, gender:"Female", room:"Ward A – Bed 12", status:"Stable", admitted:"2025-03-10", reports:[], discharged:null },
     { id:2, name:"Musa Ssekitto", age:52, gender:"Male", room:"ICU – Bed 4", status:"Critical", admitted:"2025-03-15", reports:[], discharged:null },
     { id:3, name:"Patience Akello", age:28, gender:"Female", room:"Maternity – Bed 7", status:"Stable", admitted:"2025-03-18", reports:[], discharged:null }
 ];
 
-function savePatients() {
-    localStorage.setItem('enhms_patients', JSON.stringify(patients));
-}
+function savePatients() { localStorage.setItem('enhms_patients', JSON.stringify(patients)); }
 
 function showToast(msg, type = 'success') {
     const t = document.getElementById('toast');
@@ -415,7 +408,6 @@ function showToast(msg, type = 'success') {
 // Login
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const username = document.getElementById('username').value.trim().toLowerCase();
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
@@ -426,17 +418,12 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     };
 
     const user = users[username];
-
     if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
         document.getElementById('user-name').textContent = user.name;
         document.getElementById('user-role').textContent = role.toUpperCase();
 
-        // Live Kampala Time
         function updateTime() {
-            document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', {
-                timeZone: 'Africa/Kampala',
-                hour12: true
-            });
+            document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour12: true });
         }
         updateTime();
         setInterval(updateTime, 10000);
@@ -455,7 +442,6 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     }
 });
 
-// Logout
 document.getElementById('logout').addEventListener('click', function(e) {
     e.preventDefault();
     if (confirm('Are you sure you want to logout?')) location.reload();
@@ -471,17 +457,12 @@ function showPage(id) {
     const active = document.querySelector('#sidebar a[href="#' + id + '"]');
     if (active) active.classList.add('active');
 
-    document.getElementById('page-title').textContent = id.replace(/-/g, ' ')
-        .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    document.getElementById('page-title').textContent = id.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
     if (id === 'patients-overview') refreshCharts();
-    if (id === 'dashboard') {
-        document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
-    }
+    if (id === 'dashboard') document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
 
-    if (window.innerWidth <= 992) {
-        document.getElementById('sidebar').classList.remove('active');
-    }
+    if (window.innerWidth <= 992) document.getElementById('sidebar').classList.remove('active');
 }
 
 // Navigation
@@ -503,11 +484,8 @@ function refreshCharts() {
 
     bedChart = new Chart(document.getElementById('bedChart'), {
         type: 'doughnut',
-        data: {
-            labels: ['Occupied', 'Available'],
-            datasets: [{ data: [82, 18], backgroundColor: ['#1e40af', '#e5e7eb'] }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        data: { labels: ['Occupied','Available'], datasets: [{ data: [82,18], backgroundColor: ['#1e40af','#e5e7eb'] }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}} }
     });
 
     const counts = {
@@ -519,22 +497,14 @@ function refreshCharts() {
     statusChart = new Chart(document.getElementById('statusChart'), {
         type: 'bar',
         data: {
-            labels: ['Stable', 'Critical', 'Discharged'],
-            datasets: [{
-                label: 'Patients',
-                data: [counts.Stable, counts.Critical, counts.Discharged],
-                backgroundColor: ['#10b981', '#ef4444', '#6b7280']
-            }]
+            labels: ['Stable','Critical','Discharged'],
+            datasets: [{ label:'Patients', data:[counts.Stable, counts.Critical, counts.Discharged], backgroundColor:['#10b981','#ef4444','#6b7280'] }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
+        options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{stepSize:1} } } }
     });
 }
 
-// Render Patients
+// Patients Table & Reports
 function renderPatients(filter = '') {
     const tbody = document.getElementById('patients-tbody');
     tbody.innerHTML = '';
@@ -557,7 +527,6 @@ function renderPatients(filter = '') {
             `;
             tbody.appendChild(tr);
         });
-
     renderReports();
     document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
 }
@@ -570,10 +539,7 @@ function renderReports() {
         const sec = document.createElement('div');
         sec.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
         p.reports.forEach(r => {
-            sec.innerHTML += `
-                <div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;">
-                    <strong>${r.time}</strong><br>${r.text}
-                </div>`;
+            sec.innerHTML += `<div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;"><strong>${r.time}</strong><br>${r.text}</div>`;
         });
         cont.appendChild(sec);
     });
@@ -590,15 +556,7 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
     if (!name || isNaN(age) || !room) return showToast('Please fill all fields', 'error');
 
     const newId = patients.length ? Math.max(...patients.map(p => p.id)) + 1 : 1;
-
-    patients.push({
-        id: newId,
-        name, age, gender, room,
-        status: 'Stable',
-        admitted: new Date().toISOString().split('T')[0],
-        reports: [],
-        discharged: null
-    });
+    patients.push({ id: newId, name, age, gender, room, status: 'Stable', admitted: new Date().toISOString().split('T')[0], reports: [], discharged: null });
 
     savePatients();
     renderPatients();
@@ -606,7 +564,7 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
     e.target.reset();
 });
 
-// Button Actions
+// Actions
 document.addEventListener('click', function(e) {
     if (!e.target.dataset.id) return;
     const id = parseInt(e.target.dataset.id);
@@ -623,7 +581,6 @@ document.addEventListener('click', function(e) {
             showToast('Status updated to ' + s);
         }
     }
-
     if (e.target.classList.contains('add-report')) {
         const txt = prompt('Enter report for ' + p.name + ':')?.trim();
         if (txt) {
@@ -635,7 +592,6 @@ document.addEventListener('click', function(e) {
             showToast('Report saved');
         }
     }
-
     if (e.target.classList.contains('discharge')) {
         if (confirm('Discharge ' + p.name + '?')) {
             p.status = 'Discharged';
@@ -647,12 +603,11 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Search
 document.getElementById('patient-search').addEventListener('input', function(e) {
     renderPatients(e.target.value);
 });
 
-// Initial setup
+// Initial load
 renderPatients();
 </script>
 </body>
