@@ -27,7 +27,6 @@
         }
         .hidden { display: none !important; }
 
-        /* Login Page */
         #login-page {
             display: flex;
             align-items: center;
@@ -69,7 +68,6 @@
         }
         button:hover { background: var(--primary-dark); }
 
-        /* Main Layout */
         #app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
         #sidebar {
             background: var(--dark);
@@ -159,10 +157,7 @@
             transition: all 0.4s ease;
             max-width: 92%;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(-8px);
-        }
+        .toast.show { opacity: 1; transform: translateY(-8px); }
 
         @media (max-width: 992px) {
             #app { grid-template-columns: 1fr; }
@@ -180,7 +175,7 @@
 </head>
 <body>
 
-<!-- Login Page -->
+<!-- Login -->
 <div id="login-page">
     <div class="login-box">
         <h2>🏥 Elite National Hospital</h2>
@@ -201,12 +196,12 @@
                 </select>
             </div>
             <button type="submit">Login</button>
-            <div id="login-error" style="color:var(--danger); text-align:center; margin-top:1rem; min-height:1.4rem;"></div>
+            <div id="login-error" style="color:#ef4444; text-align:center; margin-top:1rem; min-height:1.4rem;"></div>
         </form>
     </div>
 </div>
 
-<!-- Main Application -->
+<!-- Main App -->
 <div id="app" class="hidden">
     <aside id="sidebar">
         <h3>ENHMS</h3>
@@ -227,7 +222,6 @@
             <button class="btn btn-primary" id="menu-toggle">☰ Menu</button>
         </header>
 
-        <!-- Dashboard -->
         <section id="dashboard" class="page">
             <div class="card">
                 <h2>Welcome, <span id="user-name"></span> 👋</h2>
@@ -240,7 +234,6 @@
             </div>
         </section>
 
-        <!-- Hospital Overview -->
         <section id="hospital-overview" class="page hidden">
             <div class="card">
                 <h2>Hospital Overview</h2>
@@ -258,7 +251,6 @@
             </div>
         </section>
 
-        <!-- Patients Overview -->
         <section id="patients-overview" class="page hidden">
             <div class="card">
                 <h2>Patients Overview & Analytics</h2>
@@ -270,7 +262,6 @@
             </div>
         </section>
 
-        <!-- Admin Panel -->
         <section id="admin-panel" class="page hidden">
             <div class="card">
                 <h2>Register New Patient</h2>
@@ -288,7 +279,6 @@
             </div>
         </section>
 
-        <!-- My Patients (Nurse) -->
         <section id="my-patients" class="page hidden">
             <div class="card">
                 <h2>My Assigned Patients</h2>
@@ -306,7 +296,6 @@
             </div>
         </section>
 
-        <!-- Calendar -->
         <section id="calendar" class="page hidden">
             <div class="card">
                 <h2>Hospital Calendar & Schedule</h2>
@@ -333,51 +322,54 @@ function savePatients() {
 function showToast(msg, type = 'success') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.style.background = type==='error' ? 'var(--danger)' : type==='warning' ? 'var(--warning)' : 'var(--success)';
+    if (type === 'error') t.style.background = 'var(--danger)';
+    else if (type === 'warning') t.style.background = 'var(--warning)';
+    else t.style.background = 'var(--success)';
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3400);
 }
 
-// Login
+// ==================== LOGIN ====================
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const username = document.getElementById('username').value.trim().toLowerCase();
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
 
     const users = {
-        admin: { pass: 'admin123', name: 'Dr. Admin Mukasa' },
-        nurse01: { pass: 'nurse2025', name: 'Nurse Sarah Nakitto' }
+        "admin":   { pass: "admin123", name: "Dr. Admin Mukasa" },
+        "nurse01": { pass: "nurse2025", name: "Nurse Sarah Nakitto" }
     };
 
     const user = users[username];
 
-    if (user && user.pass === password && (role === 'admin' || role === 'nurse')) {
+    if (user && user.pass === password && (role === "admin" || role === "nurse")) {
+        
         document.getElementById('user-name').textContent = user.name;
         document.getElementById('user-role').textContent = role.toUpperCase();
 
-        // Live Kampala Time
+        // Live time in Kampala
         function updateTime() {
-            document.getElementById('current-time').textContent = new Date().toLocaleString('en-GB', {
-                timeZone: 'Africa/Kampala',
-                hour12: true
-            });
+            document.getElementById('current-time').textContent = 
+                new Date().toLocaleString('en-GB', { timeZone: 'Africa/Kampala', hour12: true });
         }
         updateTime();
         setInterval(updateTime, 10000);
 
+        // Show app and hide login
         document.getElementById('login-page').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
 
-        // Show role-based menu items
+        // Role-based menu
         document.querySelectorAll('.role-admin, .role-nurse').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll(`.role-${role}`).forEach(el => el.classList.remove('hidden'));
+        document.querySelectorAll('.role-' + role).forEach(el => el.classList.remove('hidden'));
 
         showPage('dashboard');
         renderPatients();
         initCalendar();
         refreshCharts();
+
     } else {
         document.getElementById('login-error').textContent = 'Invalid username, password or role';
     }
@@ -386,36 +378,30 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 // Logout
 document.getElementById('logout').addEventListener('click', function(e) {
     e.preventDefault();
-    if (confirm('Are you sure you want to logout?')) {
-        location.reload();
-    }
+    if (confirm('Are you sure you want to logout?')) location.reload();
 });
 
-let calendar, bedChart, statusChart;
+let calendarInstance, bedChart, statusChart;
 
 function showPage(id) {
     document.querySelectorAll('section.page').forEach(s => s.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
 
     document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
-    const activeLink = document.querySelector(`#sidebar a[href="#${id}"]`);
-    if (activeLink) activeLink.classList.add('active');
+    const active = document.querySelector('#sidebar a[href="#' + id + '"]');
+    if (active) active.classList.add('active');
 
     document.getElementById('page-title').textContent = id.replace(/-/g, ' ')
-        .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        .split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
-    if (id === 'calendar' && calendar) calendar.render();
+    if (id === 'calendar' && calendarInstance) calendarInstance.render();
     if (id === 'patients-overview') refreshCharts();
     if (id === 'dashboard') {
         document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
     }
-
-    if (window.innerWidth <= 992) {
-        document.getElementById('sidebar').classList.remove('active');
-    }
 }
 
-// Navigation
+// Sidebar navigation
 document.querySelectorAll('#sidebar a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -429,33 +415,20 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
 
 // Calendar
 function initCalendar() {
+    if (calendarInstance) return;
     const el = document.getElementById('calendar-container');
-    if (calendar) return;
 
-    calendar = new FullCalendar.Calendar(el, {
+    calendarInstance = new FullCalendar.Calendar(el, {
         initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek'
-        },
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek' },
         height: 'auto',
         events: patients.map(p => ({
-            title: `${p.name} (${p.status})`,
+            title: p.name + " (" + p.status + ")",
             start: p.admitted,
             color: p.status === 'Critical' ? '#ef4444' : '#10b981'
-        })),
-        dateClick: function(info) {
-            const dateStr = info.dateStr;
-            const events = calendar.getEvents().filter(ev => 
-                ev.start.toISOString().split('T')[0] === dateStr
-            );
-            let msg = `📅 ${dateStr}\n\n`;
-            msg += events.length ? events.map(ev => `• ${ev.title}`).join('\n') : 'No events on this day.';
-            showToast(msg);
-        }
+        }))
     });
-    calendar.render();
+    calendarInstance.render();
 }
 
 // Charts
@@ -465,15 +438,8 @@ function refreshCharts() {
 
     bedChart = new Chart(document.getElementById('bedChart'), {
         type: 'doughnut',
-        data: {
-            labels: ['Occupied', 'Available'],
-            datasets: [{ data: [78, 22], backgroundColor: ['#1e40af', '#e5e7eb'] }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom' } }
-        }
+        data: { labels: ['Occupied','Available'], datasets: [{ data: [78,22], backgroundColor: ['#1e40af','#e5e7eb'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
     });
 
     const counts = {
@@ -485,68 +451,59 @@ function refreshCharts() {
     statusChart = new Chart(document.getElementById('statusChart'), {
         type: 'bar',
         data: {
-            labels: ['Stable', 'Critical', 'Discharged'],
-            datasets: [{
-                label: 'Patients',
-                data: [counts.Stable, counts.Critical, counts.Discharged],
-                backgroundColor: ['#10b981', '#ef4444', '#6b7280']
-            }]
+            labels: ['Stable','Critical','Discharged'],
+            datasets: [{ label: 'Patients', data: [counts.Stable, counts.Critical, counts.Discharged], backgroundColor: ['#10b981','#ef4444','#6b7280'] }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
     });
 }
 
-// Render Patients
+// Render Patients Table
 function renderPatients(filter = '') {
     const tbody = document.getElementById('patients-tbody');
     tbody.innerHTML = '';
     const q = filter.toLowerCase();
 
-    patients.filter(p => !p.discharged && 
-        (p.name.toLowerCase().includes(q) || p.room.toLowerCase().includes(q))
-    ).forEach(p => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${p.name}</td>
-            <td>${p.age} • ${p.gender}</td>
-            <td class="status-${p.status.toLowerCase()}">${p.status}</td>
-            <td>${p.room}</td>
-            <td>${p.admitted}</td>
-            <td>
-                <button class="btn btn-success update-status" data-id="${p.id}">Update</button>
-                <button class="btn btn-primary add-report" data-id="${p.id}">Report</button>
-                <button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
+    patients.filter(p => !p.discharged && (p.name.toLowerCase().includes(q) || p.room.toLowerCase().includes(q)))
+        .forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${p.name}</td>
+                <td>${p.age} • ${p.gender}</td>
+                <td>${p.status}</td>
+                <td>${p.room}</td>
+                <td>${p.admitted}</td>
+                <td>
+                    <button class="btn btn-success update-status" data-id="${p.id}">Update</button>
+                    <button class="btn btn-primary add-report" data-id="${p.id}">Report</button>
+                    <button class="btn btn-danger discharge" data-id="${p.id}">Discharge</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
 
     renderReports();
     document.getElementById('active-count').textContent = patients.filter(p => !p.discharged).length;
 }
 
 function renderReports() {
-    const cont = document.getElementById('reports-container');
-    cont.innerHTML = '';
+    const container = document.getElementById('reports-container');
+    container.innerHTML = '';
     patients.forEach(p => {
-        if (!p.reports?.length) return;
-        const sec = document.createElement('div');
-        sec.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
+        if (!p.reports || p.reports.length === 0) return;
+        const div = document.createElement('div');
+        div.innerHTML = `<h4 style="margin:1.2rem 0 0.6rem;">${p.name} (${p.room})</h4>`;
         p.reports.forEach(r => {
-            sec.innerHTML += `
-                <div style="background:#f8fafc;padding:0.9rem;border-radius:8px;margin-bottom:0.6rem;">
+            div.innerHTML += `
+                <div style="background:#f8fafc; padding:0.9rem; border-radius:8px; margin-bottom:0.6rem;">
                     <strong>${r.time}</strong><br>${r.text}
                 </div>`;
         });
-        cont.appendChild(sec);
+        container.appendChild(div);
     });
 }
 
-// Add Patient
+// Add New Patient
 document.getElementById('add-patient-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('p-name').value.trim();
@@ -554,19 +511,17 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
     const gender = document.getElementById('p-gender').value;
     const room = document.getElementById('p-room').value.trim();
 
-    if (!name || isNaN(age) || !room) {
-        return showToast('Please fill all fields', 'error');
-    }
+    if (!name || isNaN(age) || !room) return showToast('Please fill all fields', 'error');
 
     const newId = patients.length ? Math.max(...patients.map(p => p.id)) + 1 : 1;
 
     patients.push({
         id: newId,
-        name,
-        age,
-        gender,
-        room,
-        status: 'Stable',
+        name: name,
+        age: age,
+        gender: gender,
+        room: room,
+        status: "Stable",
         admitted: new Date().toISOString().split('T')[0],
         reports: [],
         discharged: null
@@ -575,33 +530,32 @@ document.getElementById('add-patient-form').addEventListener('submit', function(
     savePatients();
     renderPatients();
     showToast('Patient added successfully');
-    e.target.reset();
+    this.reset();
 });
 
-// Button Actions (Update, Report, Discharge)
+// Handle Update, Report, Discharge buttons
 document.addEventListener('click', function(e) {
     if (!e.target.dataset.id) return;
     const id = parseInt(e.target.dataset.id);
-    const p = patients.find(x => x.id === id);
-    if (!p) return;
+    const patient = patients.find(p => p.id === id);
+    if (!patient) return;
 
     if (e.target.classList.contains('update-status')) {
-        const s = prompt('New status (Stable / Critical / Discharged):', p.status)?.trim();
-        if (s && ['Stable','Critical','Discharged'].includes(s)) {
-            p.status = s;
-            if (s === 'Discharged') p.discharged = new Date().toISOString().split('T')[0];
+        const newStatus = prompt('New status (Stable / Critical / Discharged):', patient.status);
+        if (newStatus && ['Stable','Critical','Discharged'].includes(newStatus)) {
+            patient.status = newStatus;
+            if (newStatus === 'Discharged') patient.discharged = new Date().toISOString().split('T')[0];
             savePatients();
             renderPatients();
-            showToast(`Status updated to ${s}`);
+            showToast('Status updated to ' + newStatus);
         }
     }
 
     if (e.target.classList.contains('add-report')) {
-        const txt = prompt(`Enter report for ${p.name}:`)?.trim();
-        if (txt) {
+        const reportText = prompt('Enter nursing report for ' + patient.name + ':');
+        if (reportText && reportText.trim() !== '') {
             const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-            p.reports = p.reports || [];
-            p.reports.push({time, text: txt});
+            patient.reports.push({ time: time, text: reportText.trim() });
             savePatients();
             renderReports();
             showToast('Report saved');
@@ -609,22 +563,22 @@ document.addEventListener('click', function(e) {
     }
 
     if (e.target.classList.contains('discharge')) {
-        if (confirm(`Discharge ${p.name}?`)) {
-            p.status = 'Discharged';
-            p.discharged = new Date().toISOString().split('T')[0];
+        if (confirm('Discharge ' + patient.name + '?')) {
+            patient.status = 'Discharged';
+            patient.discharged = new Date().toISOString().split('T')[0];
             savePatients();
             renderPatients();
-            showToast(`${p.name} discharged`, 'warning');
+            showToast(patient.name + ' has been discharged', 'warning');
         }
     }
 });
 
-// Search
-document.getElementById('patient-search')?.addEventListener('input', function(e) {
-    renderPatients(e.target.value);
+// Search functionality
+document.getElementById('patient-search').addEventListener('input', function() {
+    renderPatients(this.value);
 });
 
-// Initial setup
+// Initial render
 renderPatients();
 </script>
 </body>
